@@ -8,3 +8,4 @@ py-sqlite3-localpatch
 tinycdb-macosx
 ncursesw-ext-colors
 py-curses-ncursesw
+vim-share-nostrip
