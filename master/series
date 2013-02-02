@@ -9,3 +9,4 @@ tinycdb-macosx
 ncursesw-ext-colors
 py-curses-ncursesw
 vim-share-nostrip
+py-sphinx-blockdiag-1.2.0
