@@ -1,0 +1,53 @@
+# HG changeset patch
+# Parent cb1b65c5ec4014cffccf92cb9d9e78b0c0662bf2
+diff -r cb1b65c5ec40 -r dc014609c5f3 devel/py-vim_bridge/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/py-vim_bridge/DESCR	Sun Feb 03 00:09:08 2013 +0900
+@@ -0,0 +1,2 @@
++vim_bridge is a Python-to-Vim bridge decorator that allows transparent calls
++to Python functions in native Vim scripts.
+diff -r cb1b65c5ec40 -r dc014609c5f3 devel/py-vim_bridge/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/py-vim_bridge/Makefile	Sun Feb 03 00:09:08 2013 +0900
+@@ -0,0 +1,16 @@
++# $NetBSD$
++#
++
++DISTNAME=		vim_bridge-0.5
++EGG_NAME=		vim_bridge-0.5
++CATEGORIES=		devel python
++MASTER_SITES=		http://pypi.python.org/packages/source/v/vim_bridge/
++
++MAINTAINER=		pkgsrc-users@NetBSD.org
++HOMEPAGE=		http://github.com/nvie/vim_bridge
++COMMENT=		Python-to-Vim bridge decorator
++
++PKG_DESTDIR_SUPPORT=	user-destdir
++
++.include "../../lang/python/egg.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r cb1b65c5ec40 -r dc014609c5f3 devel/py-vim_bridge/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/py-vim_bridge/PLIST	Sun Feb 03 00:09:08 2013 +0900
+@@ -0,0 +1,12 @@
++@comment $NetBSD$
++${PYSITELIB}/${EGG_INFODIR}/PKG-INFO
++${PYSITELIB}/${EGG_INFODIR}/SOURCES.txt
++${PYSITELIB}/${EGG_INFODIR}/dependency_links.txt
++${PYSITELIB}/${EGG_INFODIR}/not-zip-safe
++${PYSITELIB}/${EGG_INFODIR}/top_level.txt
++${PYSITELIB}/vim_bridge/__init__.py
++${PYSITELIB}/vim_bridge/__init__.pyc
++${PYSITELIB}/vim_bridge/__init__.pyo
++${PYSITELIB}/vim_bridge/registry.py
++${PYSITELIB}/vim_bridge/registry.pyc
++${PYSITELIB}/vim_bridge/registry.pyo
+diff -r cb1b65c5ec40 -r dc014609c5f3 devel/py-vim_bridge/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/py-vim_bridge/distinfo	Sun Feb 03 00:09:08 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (vim_bridge-0.5.tar.gz) = 871d4d3c140edbfc1250d6cdb0938fd751d223f0
++RMD160 (vim_bridge-0.5.tar.gz) = 07ffe423ba3d267b23c457b9fdf2e907191bc900
++Size (vim_bridge-0.5.tar.gz) = 3662 bytes
