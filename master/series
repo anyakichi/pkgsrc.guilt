@@ -16,3 +16,4 @@ screen-256color
 tmux-use-acs
 tmux-utf8
 mercurial-cvsps
+py-docutils-ambi

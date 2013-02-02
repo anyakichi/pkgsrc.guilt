@@ -1,0 +1,30 @@
+# HG changeset patch
+# Parent a5231f6fabf73c0e5f6157c65187f90c633ba74c
+diff -r a5231f6fabf7 -r bc6c1445d0a9 patches/textproc/py-docutils/ambiguous-width.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/textproc/py-docutils/ambiguous-width.patch	Sun Feb 03 01:43:25 2013 +0900
+@@ -0,0 +1,24 @@
++diff -r 97a9daa5c6c0 docutils/statemachine.py
++--- docutils/statemachine.py	Sat Feb 25 14:52:54 2012 +0900
+++++ docutils/statemachine.py	Sat Feb 25 14:54:17 2012 +0900
++@@ -1453,7 +1453,7 @@
++                 new = []
++                 for char in line:
++                     new.append(char)
++-                    if east_asian_width(char) in 'WF': # 'W'ide & 'F'ull-width
+++                    if east_asian_width(char) in 'WFA': # 'W'ide & 'F'ull-width
++                         new.append(pad_char)
++                 self.data[i] = ''.join(new)
++ 
++diff -r 97a9daa5c6c0 docutils/utils.py
++--- docutils/utils.py	Sat Feb 25 14:52:54 2012 +0900
+++++ docutils/utils.py	Sat Feb 25 14:54:17 2012 +0900
++@@ -571,7 +571,7 @@
++                      'Na': 1,  # Narrow
++                      'H': 1,   # Half-width (narrow)
++                      'N': 1,   # Neutral (not East Asian, treated as narrow)
++-                     'A': 1}   # Ambiguous (s/b wide in East Asian context,
+++                     'A': 2}   # Ambiguous (s/b wide in East Asian context,
++                                # narrow otherwise, but that doesn't work)
++ """Mapping of result codes from `unicodedata.east_asian_widt()` to character
++ column widths."""
