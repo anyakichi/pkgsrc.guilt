@@ -1,0 +1,112 @@
+# HG changeset patch
+# Parent 908dd433da6e63bf824993367d8f9284cb28f987
+diff -r 908dd433da6e -r fc09ccbc6aae devel/hgsubversion/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/hgsubversion/DESCR	Sun Feb 03 00:01:45 2013 +0900
+@@ -0,0 +1,2 @@
++hgsubversion is an extension for Mercurial that allows using Mercurial
++as a Subversion client.
+diff -r 908dd433da6e -r fc09ccbc6aae devel/hgsubversion/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/hgsubversion/Makefile	Sun Feb 03 00:01:45 2013 +0900
+@@ -0,0 +1,21 @@
++# $NetBSD$
++#
++
++DISTNAME=		hgsubversion-1.5
++EGG_NAME=		hgsubversion-1.5
++CATEGORIES=		devel python
++MASTER_SITES=		http://pypi.python.org/packages/source/h/hgsubversion/
++EXTRACT_SUFX=		.tar.gz
++
++MAINTAINER=		pkgsrc-users@NetBSD.org
++HOMEPAGE=		https://bitbucket.org/durin42/hgsubversion/overview/
++COMMENT=		Subversion plugin for Mercurial
++
++PKG_DESTDIR_SUPPORT=	user-destdir
++
++DEPENDS+=	mercurial>=1.3.1:../../devel/mercurial
++DEPENDS+=	${PYPKGPREFIX}-subvertpy>=0.7.4:../../devel/py-subvertpy
++DEPENDS+=	subversion-base>=1.5:../../devel/subversion-base
++
++.include "../../lang/python/egg.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 908dd433da6e -r fc09ccbc6aae devel/hgsubversion/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/hgsubversion/PLIST	Sun Feb 03 00:01:45 2013 +0900
+@@ -0,0 +1,66 @@
++@comment $NetBSD$
++${PYSITELIB}/${EGG_INFODIR}/PKG-INFO
++${PYSITELIB}/${EGG_INFODIR}/SOURCES.txt
++${PYSITELIB}/${EGG_INFODIR}/dependency_links.txt
++${PYSITELIB}/${EGG_INFODIR}/top_level.txt
++${PYSITELIB}/hgsubversion/__init__.py
++${PYSITELIB}/hgsubversion/__init__.pyc
++${PYSITELIB}/hgsubversion/__init__.pyo
++${PYSITELIB}/hgsubversion/__version__.py
++${PYSITELIB}/hgsubversion/__version__.pyc
++${PYSITELIB}/hgsubversion/__version__.pyo
++${PYSITELIB}/hgsubversion/editor.py
++${PYSITELIB}/hgsubversion/editor.pyc
++${PYSITELIB}/hgsubversion/editor.pyo
++${PYSITELIB}/hgsubversion/help/subversion.rst
++${PYSITELIB}/hgsubversion/hooks/__init__.py
++${PYSITELIB}/hgsubversion/hooks/__init__.pyc
++${PYSITELIB}/hgsubversion/hooks/__init__.pyo
++${PYSITELIB}/hgsubversion/hooks/updatemeta.py
++${PYSITELIB}/hgsubversion/hooks/updatemeta.pyc
++${PYSITELIB}/hgsubversion/hooks/updatemeta.pyo
++${PYSITELIB}/hgsubversion/maps.py
++${PYSITELIB}/hgsubversion/maps.pyc
++${PYSITELIB}/hgsubversion/maps.pyo
++${PYSITELIB}/hgsubversion/pushmod.py
++${PYSITELIB}/hgsubversion/pushmod.pyc
++${PYSITELIB}/hgsubversion/pushmod.pyo
++${PYSITELIB}/hgsubversion/replay.py
++${PYSITELIB}/hgsubversion/replay.pyc
++${PYSITELIB}/hgsubversion/replay.pyo
++${PYSITELIB}/hgsubversion/stupid.py
++${PYSITELIB}/hgsubversion/stupid.pyc
++${PYSITELIB}/hgsubversion/stupid.pyo
++${PYSITELIB}/hgsubversion/svncommands.py
++${PYSITELIB}/hgsubversion/svncommands.pyc
++${PYSITELIB}/hgsubversion/svncommands.pyo
++${PYSITELIB}/hgsubversion/svnexternals.py
++${PYSITELIB}/hgsubversion/svnexternals.pyc
++${PYSITELIB}/hgsubversion/svnexternals.pyo
++${PYSITELIB}/hgsubversion/svnmeta.py
++${PYSITELIB}/hgsubversion/svnmeta.pyc
++${PYSITELIB}/hgsubversion/svnmeta.pyo
++${PYSITELIB}/hgsubversion/svnrepo.py
++${PYSITELIB}/hgsubversion/svnrepo.pyc
++${PYSITELIB}/hgsubversion/svnrepo.pyo
++${PYSITELIB}/hgsubversion/svnwrap/__init__.py
++${PYSITELIB}/hgsubversion/svnwrap/__init__.pyc
++${PYSITELIB}/hgsubversion/svnwrap/__init__.pyo
++${PYSITELIB}/hgsubversion/svnwrap/common.py
++${PYSITELIB}/hgsubversion/svnwrap/common.pyc
++${PYSITELIB}/hgsubversion/svnwrap/common.pyo
++${PYSITELIB}/hgsubversion/svnwrap/subvertpy_wrapper.py
++${PYSITELIB}/hgsubversion/svnwrap/subvertpy_wrapper.pyc
++${PYSITELIB}/hgsubversion/svnwrap/subvertpy_wrapper.pyo
++${PYSITELIB}/hgsubversion/svnwrap/svn_swig_wrapper.py
++${PYSITELIB}/hgsubversion/svnwrap/svn_swig_wrapper.pyc
++${PYSITELIB}/hgsubversion/svnwrap/svn_swig_wrapper.pyo
++${PYSITELIB}/hgsubversion/util.py
++${PYSITELIB}/hgsubversion/util.pyc
++${PYSITELIB}/hgsubversion/util.pyo
++${PYSITELIB}/hgsubversion/verify.py
++${PYSITELIB}/hgsubversion/verify.pyc
++${PYSITELIB}/hgsubversion/verify.pyo
++${PYSITELIB}/hgsubversion/wrappers.py
++${PYSITELIB}/hgsubversion/wrappers.pyc
++${PYSITELIB}/hgsubversion/wrappers.pyo
+diff -r 908dd433da6e -r fc09ccbc6aae devel/hgsubversion/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/hgsubversion/distinfo	Sun Feb 03 00:01:45 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (hgsubversion-1.5.tar.gz) = 3106884dd90891c96edaee2605610b547bc0e5fd
++RMD160 (hgsubversion-1.5.tar.gz) = b3eeec4899b4dafbadb08685293e48d4f725d6ac
++Size (hgsubversion-1.5.tar.gz) = 153100 bytes
