@@ -1,0 +1,25 @@
+# HG changeset patch
+# Parent efbd4ce4988d70c733e96c83a141259bfcbd3274
+diff -r efbd4ce4988d -r a5231f6fabf7 patches/devel/mercurial/cvsps.py.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/devel/mercurial/cvsps.py.patch	Sun Feb 03 01:41:35 2013 +0900
+@@ -0,0 +1,19 @@
++--- hgext/convert/cvsps.py.orig	2011-06-02 06:32:42.000000000 +0900
+++++ hgext/convert/cvsps.py	2011-08-20 23:05:43.000000000 +0900
++@@ -276,14 +276,14 @@
++                 tags[rev].append(match.group(1))
++                 branchmap[match.group(1)] = match.group(2)
++ 
++-            elif re_31.match(line):
+++            elif re_31.match(line) and re_50.match(peek):
++                 state = 5
++             elif re_32.match(line):
++                 state = 0
++ 
++         elif state == 4:
++             # expecting '------' separator before first revision
++-            if re_31.match(line):
+++            if re_31.match(line) and re_50.match(peek):
++                 state = 5
++             else:
++                 assert not re_32.match(line), _('must have at least '
