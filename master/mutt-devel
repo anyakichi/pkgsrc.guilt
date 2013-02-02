@@ -1,0 +1,83 @@
+# HG changeset patch
+# Parent e8dcb274e3930472bf62aa60f35f94da85ae60c8
+diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/Makefile
+--- a/mail/mutt-devel/Makefile	Sun Jan 27 19:54:52 2013 +0900
++++ b/mail/mutt-devel/Makefile	Tue Jan 29 21:40:37 2013 +0900
+@@ -48,6 +48,10 @@
+ CONFIGURE_ARGS+=	--with-exec-shell=/bin/ksh
+ .endif
+ 
++PATCH_SITES+=		http://dev.mutt.org/trac/attachment/ticket/3300/
++PATCHFILES+=		mutt-1.5.21-gpgme-init.patch
++PATCH_DIST_STRIP=	-p1
++
+ .include "options.mk"
+ 
+ LDFLAGS+=		${_STRIPFLAG_CC}
+diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/distinfo
+--- a/mail/mutt-devel/distinfo	Sun Jan 27 19:54:52 2013 +0900
++++ b/mail/mutt-devel/distinfo	Tue Jan 29 21:40:37 2013 +0900
+@@ -1,11 +1,17 @@
+ $NetBSD: distinfo,v 1.72 2012/03/12 14:35:58 wiz Exp $
+ 
++SHA1 (mutt-1.5.21-gpgme-init.patch) = 8cf0d4278aab1d162ab7f847f1b917327d630d98
++RMD160 (mutt-1.5.21-gpgme-init.patch) = 9e430e6ac5155005c67c5e94c47537ebbbfbc451
++Size (mutt-1.5.21-gpgme-init.patch) = 1012 bytes
+ SHA1 (mutt-1.5.21.tar.gz) = a8475f2618ce5d5d33bff85c0affdf21ab1d76b9
+ RMD160 (mutt-1.5.21.tar.gz) = b235a42972ae410592253cdc117a90baf279f47a
+ Size (mutt-1.5.21.tar.gz) = 3716886 bytes
+ SHA1 (patch-1.5.21.rr.compressed.gz) = 5c0ce1e75f2360bb81316e970df75b2bab472bf8
+ RMD160 (patch-1.5.21.rr.compressed.gz) = 137a1a9fa042401c078be0de177ecfed60939fbe
+ Size (patch-1.5.21.rr.compressed.gz) = 10133 bytes
++SHA1 (patch-1.5.21.tt.wcwidth.1.gz) = fd115bf6adc86307d50d7d911a5a4a2dfdb15b89
++RMD160 (patch-1.5.21.tt.wcwidth.1.gz) = fd20312ff4d087058bd31df4a65a352afba8aa5d
++Size (patch-1.5.21.tt.wcwidth.1.gz) = 8145 bytes
+ SHA1 (sidebar-5302767aa6aa.gz) = 3f87da8e209213a23f228f48ac554beee15adc0a
+ RMD160 (sidebar-5302767aa6aa.gz) = c4fd8186cbca3dad30de253b673b9c45cb9abf26
+ Size (sidebar-5302767aa6aa.gz) = 11762 bytes
+diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/options.mk
+--- a/mail/mutt-devel/options.mk	Sun Jan 27 19:54:52 2013 +0900
++++ b/mail/mutt-devel/options.mk	Tue Jan 29 21:40:37 2013 +0900
+@@ -11,6 +11,7 @@
+ PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
+ PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
+ #PKG_SUPPORTED_OPTIONS+=	mutt-xlabel
++PKG_SUPPORTED_OPTIONS+=	mutt-wcwidth
+ PKG_SUGGESTED_OPTIONS=	ssl smime curses
+ 
+ .include "../../mk/bsd.options.mk"
+@@ -50,6 +51,7 @@
+ ### ncursesw
+ ###
+ .if !empty(PKG_OPTIONS:Mncursesw)
++USE_NCURSES=		yes
+ .  include "../../devel/ncursesw/buildlink3.mk"
+ .else
+ SUBST_CLASSES+=		curse
+@@ -101,9 +103,9 @@
+ CONFIGURE_ARGS+=	--without-gdbm
+ # BDB_INCLUDE_DIR_ and BDB_LIB_DIR don't have to be particularly accurate
+ # since the real -I and -L flags are added by buildlink already.
+-CONFIGURE_ENV+=		BDB_INCLUDE_DIR=${BDBBASE}/include
+-CONFIGURE_ENV+=		BDB_LIB_DIR=${BDBBASE}/lib
+-CONFIGURE_ENV+=		BDB_LIB=${BDB_LIBS:S/^-l//:M*:Q}
++#CONFIGURE_ENV+=		BDB_INCLUDE_DIR=${BDBBASE}/include
++#CONFIGURE_ENV+=		BDB_LIB_DIR=${BDBBASE}/lib
++#CONFIGURE_ENV+=		BDB_LIB=${BDB_LIBS:S/^-l//:M*:Q}
+ .  endif
+ .else
+ CONFIGURE_ARGS+=	--disable-hcache
+@@ -188,3 +190,13 @@
+ .else
+ CONFIGURE_ARGS+=	--disable-gpgme
+ .endif
++
++###
++### Wide character support
++###
++.if !empty(PKG_OPTIONS:Mmutt-wcwidth)
++PATCH_SITES+=		http://www.emaillab.org/mutt/1.5.21/
++PATCHFILES+=		patch-1.5.21.tt.wcwidth.1.gz
++PATCH_DIST_STRIP=	-p1
++CONFIGURE_ARGS+=	--enable-cjk-ambiguous-width
++.endif
