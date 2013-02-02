@@ -13,3 +13,4 @@ py-sphinx-blockdiag-1.2.0
 python27-sqlite3
 screen-cjkwidth
 screen-256color
+tmux-use-acs

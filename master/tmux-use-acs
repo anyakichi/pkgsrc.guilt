@@ -1,0 +1,28 @@
+# HG changeset patch
+# Parent c28c7777afea3d17827d0512421051528d4e8865
+diff -r c28c7777afea -r a318874d1463 patches/misc/tmux/tmux-use-acs.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/misc/tmux/tmux-use-acs.patch	Sun Feb 03 01:38:18 2013 +0900
+@@ -0,0 +1,22 @@
++--- tty-acs.c.orig	2012-06-20 14:52:17.000000000 +0900
+++++ tty-acs.c	2012-06-20 14:52:28.000000000 +0900
++@@ -81,7 +81,7 @@
++ 	struct tty_acs_entry *entry;
++ 
++ 	/* If not a UTF-8 terminal, use the ACS set. */
++-	if (!(tty->flags & TTY_UTF8)) {
+++	if (1) {
++ 		if (tty->term->acs[ch][0] == '\0')
++ 			return (NULL);
++ 		return (&tty->term->acs[ch][0]);
++--- tty.c.orig	2012-06-20 14:52:17.000000000 +0900
+++++ tty.c	2012-06-20 14:52:44.000000000 +0900
++@@ -50,7 +50,7 @@
++ 	    const struct grid_cell *, const struct grid_utf8 *);
++ 
++ #define tty_use_acs(tty) \
++-	(tty_term_has(tty->term, TTYC_ACSC) && !((tty)->flags & TTY_UTF8))
+++	(tty_term_has(tty->term, TTYC_ACSC))
++ 
++ void
++ tty_init(struct tty *tty, int fd, char *term)
