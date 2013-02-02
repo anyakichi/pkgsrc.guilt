@@ -14,3 +14,4 @@ python27-sqlite3
 screen-cjkwidth
 screen-256color
 tmux-use-acs
+tmux-utf8
