@@ -1,0 +1,29 @@
+# HG changeset patch
+# Parent dc014609c5f378d58c94bfd5724c05eb87c7d7b5
+diff -r dc014609c5f3 -r 27cb11ff6956 pkgtools/x11-links/xorg-version.mk
+--- a/pkgtools/x11-links/xorg-version.mk	Sun Feb 03 00:09:08 2013 +0900
++++ b/pkgtools/x11-links/xorg-version.mk	Sun Feb 03 00:50:23 2013 +0900
+@@ -14,10 +14,11 @@
+ 
+ BUILTIN_X11_TYPE.xorg=	xorg
+ 
+-BUILTIN_FIND_FILES_VAR:=		CF_XORG CF_XORG_VERSION CF_VERSION_OLD XQUARTZ
++BUILTIN_FIND_FILES_VAR:=		CF_XORG CF_XORG_VERSION CF_VERSION_OLD SGML_DEFS
+ BUILTIN_FIND_FILES.CF_XORG=		${X11BASE}/lib/X11/config/xorg.cf
+ BUILTIN_FIND_FILES.CF_XORG_VERSION=	${X11BASE}/lib/X11/config/xorgversion.def
+ BUILTIN_FIND_FILES.CF_VERSION_OLD=	${X11BASE}/lib/X11/config/version.def
++BUILTIN_FIND_FILES.SGML_DEFS=		${X11BASE}/share/sgml/X11/defs.ent
+ .include "../../mk/buildlink3/find-files.mk"
+ 
+ .if !defined(BUILTIN_XORG_VERSION_FILE)
+@@ -41,6 +42,10 @@
+ 		      if (p == ".0" && s == "") p = "";			\
+ 		      printf "%s%s%s%s\n", M, m, p, s }'		\
+ 		${BUILTIN_XORG_VERSION_FILE}
++.  elif exists(${SGML_DEFS})
++BUILTIN_X11_VERSION.xorg!=						\
++	${AWK} '/^<!ENTITY relvers/ {match($$0, /".*"/);		\
++	       print substr($$0, RSTART+1, RLENGTH-2)}' ${SGML_DEFS}
+ .  endif
+ .endif
+ MAKEVARS+=	BUILTIN_X11_VERSION.xorg
