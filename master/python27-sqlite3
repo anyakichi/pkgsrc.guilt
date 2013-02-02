@@ -1,0 +1,69 @@
+# HG changeset patch
+# Parent d73fbf7c63681076f80c934ea110d371c80293b7
+diff -r d73fbf7c6368 -r bb50b501eeff patches/lang/python27/py-sqlite3.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/lang/python27/py-sqlite3.patch	Sun Feb 03 01:35:13 2013 +0900
+@@ -0,0 +1,63 @@
++diff -ur Modules/_sqlite/connection.c.orig Modules/_sqlite/connection.c
++--- Modules/_sqlite/connection.c.orig	2012-07-10 12:54:11.000000000 +0900
+++++ Modules/_sqlite/connection.c	2012-07-10 12:55:19.000000000 +0900
++@@ -414,7 +414,7 @@
++     sqlite3_stmt* statement;
++ 
++     Py_BEGIN_ALLOW_THREADS
++-    rc = sqlite3_prepare(self->db, self->begin_statement, -1, &statement, &tail);
+++    rc = sqlite3_prepare_v2(self->db, self->begin_statement, -1, &statement, &tail);
++     Py_END_ALLOW_THREADS
++ 
++     if (rc != SQLITE_OK) {
++@@ -460,7 +460,7 @@
++         pysqlite_do_all_statements(self, ACTION_RESET, 0);
++ 
++         Py_BEGIN_ALLOW_THREADS
++-        rc = sqlite3_prepare(self->db, "COMMIT", -1, &statement, &tail);
+++        rc = sqlite3_prepare_v2(self->db, "COMMIT", -1, &statement, &tail);
++         Py_END_ALLOW_THREADS
++         if (rc != SQLITE_OK) {
++             _pysqlite_seterror(self->db, NULL);
++@@ -506,7 +506,7 @@
++         pysqlite_do_all_statements(self, ACTION_RESET, 1);
++ 
++         Py_BEGIN_ALLOW_THREADS
++-        rc = sqlite3_prepare(self->db, "ROLLBACK", -1, &statement, &tail);
+++        rc = sqlite3_prepare_v2(self->db, "ROLLBACK", -1, &statement, &tail);
++         Py_END_ALLOW_THREADS
++         if (rc != SQLITE_OK) {
++             _pysqlite_seterror(self->db, NULL);
++diff -ur Modules/_sqlite/cursor.c.orig Modules/_sqlite/cursor.c
++--- Modules/_sqlite/cursor.c.orig	2012-07-10 12:54:11.000000000 +0900
+++++ Modules/_sqlite/cursor.c	2012-07-10 12:54:31.000000000 +0900
++@@ -840,7 +840,7 @@
++ 
++     while (1) {
++         Py_BEGIN_ALLOW_THREADS
++-        rc = sqlite3_prepare(self->connection->db,
+++        rc = sqlite3_prepare_v2(self->connection->db,
++                              script_cstr,
++                              -1,
++                              &statement,
++diff -ur Modules/_sqlite/statement.c.orig Modules/_sqlite/statement.c
++--- Modules/_sqlite/statement.c.orig	2012-07-10 12:54:11.000000000 +0900
+++++ Modules/_sqlite/statement.c	2012-07-10 12:55:16.000000000 +0900
++@@ -80,7 +80,7 @@
++     sql_cstr = PyString_AsString(sql_str);
++ 
++     Py_BEGIN_ALLOW_THREADS
++-    rc = sqlite3_prepare(connection->db,
+++    rc = sqlite3_prepare_v2(connection->db,
++                          sql_cstr,
++                          -1,
++                          &self->st,
++@@ -331,7 +331,7 @@
++     sql_cstr = PyString_AsString(self->sql);
++ 
++     Py_BEGIN_ALLOW_THREADS
++-    rc = sqlite3_prepare(self->db,
+++    rc = sqlite3_prepare_v2(self->db,
++                          sql_cstr,
++                          -1,
++                          &new_st,
