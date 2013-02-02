@@ -1,0 +1,25 @@
+# HG changeset patch
+# Parent 23de7d8a2cdb0c3d4a578668902254194ab2c03e
+diff -r 23de7d8a2cdb -r 0b15628c40c6 databases/tinycdb/Makefile
+--- a/databases/tinycdb/Makefile	Sun Feb 03 00:52:19 2013 +0900
++++ b/databases/tinycdb/Makefile	Sun Feb 03 00:55:47 2013 +0900
+@@ -11,12 +11,19 @@
+ HOMEPAGE=		http://www.corpit.ru/mjt/tinycdb.html
+ COMMENT=		Create and read constant databases
+ 
++.include "../../mk/bsd.prefs.mk"
++
+ CONFLICTS+=		cdb-[0-9]*
+ 
+ WRKSRC=			${WRKDIR}/${PKGNAME_NOREV}
+ 
++.if ${OPSYS} == "Darwin"
++BUILD_TARGET=		all piclib
++INSTALL_TARGET=		install install-piclib
++.else
+ BUILD_TARGET=		all sharedlib piclib
+ INSTALL_TARGET=		install install-piclib install-sharedlib
++.endif
+ 
+ SUBST_CLASSES+=		paths
+ SUBST_STAGE.paths=	do-configure
