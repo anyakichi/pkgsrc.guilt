@@ -4,3 +4,4 @@ hgsubversion-1.5
 serendipity-1.5.4
 py-vim_bridge-0.5
 x11-links-xquarts
+py-sqlite3-localpatch
