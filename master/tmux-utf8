@@ -1,24 +1,15 @@
 # HG changeset patch
-# Parent a318874d1463ab5f24cadc9e3d51f82a4df6f7a7
-diff -r a318874d1463 -r efbd4ce4988d patches/misc/tmux/utf8.c.patch
+# Parent 99a0314dc880dd30e7c6cffa66e7f3bd865a06cd
+
+diff -r 99a0314dc880 patches/misc/tmux/utf8.c.patch
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/misc/tmux/utf8.c.patch	Sun Feb 03 01:39:47 2013 +0900
-@@ -0,0 +1,706 @@
-+--- utf8.c.orig	2011-07-09 18:42:38.000000000 +0900
-++++ utf8.c	2011-08-21 12:01:05.000000000 +0900
-+@@ -18,6 +18,7 @@
-+ 
-+ #include <sys/types.h>
-+ 
-++#include <stdlib.h>
-+ #include <string.h>
-+ 
-+ #include "tmux.h"
-+@@ -25,177 +26,434 @@
-+ struct utf8_width_entry {
-+ 	u_int	first;
++++ b/patches/misc/tmux/utf8.c.patch	Sun Feb 03 19:32:47 2013 +0900
+@@ -0,0 +1,698 @@
++--- utf8.c.orig	2012-11-01 12:07:49.000000000 +0900
+++++ utf8.c	2012-11-01 12:09:31.000000000 +0900
++@@ -27,177 +27,433 @@
 + 	u_int	last;
-+-
++ 
 + 	int	width;
 +-
 +-	struct utf8_width_entry	*left;
@@ -135,7 +126,9 @@ diff -r a318874d1463 -r efbd4ce4988d patches/misc/tmux/utf8.c.patch
 +-	{ 0x0135f, 0x0135f, 0, NULL, NULL },
 +-	{ 0x01a17, 0x01a18, 0, NULL, NULL },
 +-	{ 0x006e7, 0x006e8, 0, NULL, NULL },
++-#ifndef __APPLE__
 +-	{ 0x03099, 0x0309a, 0, NULL, NULL },
++-#endif
 +-	{ 0x00b4d, 0x00b4d, 0, NULL, NULL },
 +-	{ 0x00ce2, 0x00ce3, 0, NULL, NULL },
 +-	{ 0x00bcd, 0x00bcd, 0, NULL, NULL },
@@ -613,7 +606,7 @@ diff -r a318874d1463 -r efbd4ce4988d patches/misc/tmux/utf8.c.patch
 + u_int	utf8_combine(const struct utf8_data *);
 + u_int	utf8_width(const struct utf8_data *);
 + 
-+@@ -245,47 +503,11 @@
++@@ -247,47 +503,11 @@
 + 	return (0);
 + }
 + 
@@ -662,7 +655,7 @@ diff -r a318874d1463 -r efbd4ce4988d patches/misc/tmux/utf8.c.patch
 + }
 + 
 + /* Combine UTF-8 into 32-bit Unicode. */
-+@@ -331,6 +553,20 @@
++@@ -333,6 +553,20 @@
 + 	return (1);
 + }
 + 
@@ -683,7 +676,7 @@ diff -r a318874d1463 -r efbd4ce4988d patches/misc/tmux/utf8.c.patch
 + /* Lookup width of UTF-8 data in tree. */
 + u_int
 + utf8_width(const struct utf8_data *utf8data)
-+@@ -340,14 +576,17 @@
++@@ -342,14 +576,17 @@
 + 
 + 	value = utf8_combine(utf8data);
 + 
