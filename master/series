@@ -5,7 +5,6 @@ serendipity-1.6.2
 py-vim_bridge-0.5
 x11-links-xquarts
 py-sqlite3-localpatch
-tinycdb-macosx
 ncursesw-ext-colors
 py-curses-ncursesw
 vim-share-nostrip
