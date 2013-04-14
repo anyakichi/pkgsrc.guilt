@@ -1,17 +1,18 @@
 # HG changeset patch
-# Parent fc09ccbc6aae65e131c8e245e5d88e3de9d1ea06
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/DESCR
+# Parent a6ea2ec7cd6f830df87a42d9b7334590466db642
+
+diff -r a6ea2ec7cd6f www/serendipity/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/DESCR	Sun Feb 03 00:02:59 2013 +0900
++++ b/www/serendipity/DESCR	Sun Apr 14 21:44:03 2013 +0900
 @@ -0,0 +1,5 @@
 +MediaWiki is free server-based software which is licensed under the GNU
 +General Public License (GPL). It's designed to be run on a large server
 +farm for a website that gets millions of hits per day. MediaWiki is an
 +extremely powerful, scalable software and a feature-rich wiki implementation,
 +that uses PHP to process and display data stored in its MySQL database.
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/MESSAGE
+diff -r a6ea2ec7cd6f www/serendipity/MESSAGE
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/MESSAGE	Sun Feb 03 00:02:59 2013 +0900
++++ b/www/serendipity/MESSAGE	Sun Apr 14 21:44:03 2013 +0900
 @@ -0,0 +1,13 @@
 +===========================================================================
 +$NetBSD$
@@ -26,14 +27,14 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/MESSAGE
 +	http://www.example.com/serendipity/
 +
 +===========================================================================
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/Makefile
+diff -r a6ea2ec7cd6f www/serendipity/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/Makefile	Sun Feb 03 00:02:59 2013 +0900
-@@ -0,0 +1,67 @@
++++ b/www/serendipity/Makefile	Sun Apr 14 21:44:03 2013 +0900
+@@ -0,0 +1,66 @@
 +# $NetBSD$
 +
 +DISTNAME=		serendipity-${VERSION}
-+VERSION=		1.5.4
++VERSION=		1.6.2
 +
 +CATEGORIES=		www
 +MASTER_SITES=		http://prdownloads.sourceforge.net/php-blog/
@@ -42,8 +43,6 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/Makefile
 +HOMEPAGE=		http://www.s9y.org/
 +COMMENT=		Serendipity Weblog System
 +
-+
-+PKG_DESTDIR_SUPPORT=	user-destdir
 +
 +USE_TOOLS+=		pax
 +
@@ -85,24 +84,26 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/Makefile
 +	${CP} ${FILESDIR}/serendipity.conf ${WRKDIR}/serendipity.conf
 +
 +do-install:
-+	${INSTALL_DATA_DIR} ${SERENDIPITY}
-+	${INSTALL_DATA_DIR} ${EGDIR}
-+	cd ${WRKSRC} && ${FIND} . -type d -exec ${INSTALL_DATA_DIR} \
-+	  ${SERENDIPITY}/{} \; -exec ${CHOWN} ${APACHE_USER}:${APACHE_GROUP} \
-+	  ${SERENDIPITY}/{} \;
-+	cd ${WRKSRC} && ${FIND} . \! -type d -exec ${INSTALL_DATA} {} \
-+	  ${SERENDIPITY}/{} \; -exec ${CHOWN} ${APACHE_USER}:${APACHE_GROUP} \
-+	  ${SERENDIPITY}/{} \;
-+	${INSTALL_DATA} ${WRKDIR}/serendipity.conf ${EGDIR}/serendipity.conf
++	${INSTALL_DATA_DIR} ${DESTDIR}${SERENDIPITY}
++	${INSTALL_DATA_DIR} ${DESTDIR}${EGDIR}
++	cd ${WRKSRC} && pax -rw -pmp . ${DESTDIR}${SERENDIPITY}
++	#cd ${WRKSRC} && ${FIND} . -type d -exec ${INSTALL_DATA_DIR} \
++	#  ${DESTDIR}${SERENDIPITY}/{} \; -exec ${CHOWN} ${APACHE_USER}:${APACHE_GROUP} \
++	#  ${DESTDIR}${SERENDIPITY}/{} \;
++	#cd ${WRKSRC} && ${FIND} . \! -type d -exec ${INSTALL_DATA} {} \
++	#  ${DESTDIR}${SERENDIPITY}/{} \; -exec ${CHOWN} ${APACHE_USER}:${APACHE_GROUP} \
++	#  ${DESTDIR}${SERENDIPITY}/{} \;
++	${INSTALL_DATA} ${WRKDIR}/serendipity.conf ${DESTDIR}${EGDIR}/serendipity.conf
 +
 +.include "../../mk/apache.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
+diff -r a6ea2ec7cd6f www/serendipity/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/PLIST	Sun Feb 03 00:02:59 2013 +0900
-@@ -0,0 +1,2897 @@
++++ b/www/serendipity/PLIST	Sun Apr 14 21:44:03 2013 +0900
+@@ -0,0 +1,2916 @@
 +@comment $NetBSD$
 +share/examples/serendipity/serendipity.conf
++share/serendipity/README.markdown
 +share/serendipity/bundled-libs/.current_version
 +share/serendipity/bundled-libs/Cache/BUNDLE_NOTICE
 +share/serendipity/bundled-libs/Cache/Lite.php
@@ -444,7 +445,6 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/htmlarea/examples/files/custom.css
 +share/serendipity/htmlarea/examples/files/dynamic.css
 +share/serendipity/htmlarea/examples/files/ext_example-body.html
-+share/serendipity/htmlarea/examples/files/ext_example-dest.php
 +share/serendipity/htmlarea/examples/files/ext_example-menu.php
 +share/serendipity/htmlarea/examples/files/full_example.css
 +share/serendipity/htmlarea/examples/files/stylist.css
@@ -1435,9 +1435,11 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/include/tpl/htaccess_cgi_errordocs.tpl
 +share/serendipity/include/tpl/htaccess_cgi_normal.tpl
 +share/serendipity/include/tpl/htaccess_cgi_rewrite.tpl
++share/serendipity/include/tpl/htaccess_cgi_rewrite2.tpl
 +share/serendipity/include/tpl/htaccess_errordocs.tpl
 +share/serendipity/include/tpl/htaccess_normal.tpl
 +share/serendipity/include/tpl/htaccess_rewrite.tpl
++share/serendipity/include/tpl/htaccess_rewrite2.tpl
 +share/serendipity/index.php
 +share/serendipity/lang/UTF-8/plugin_lang.php
 +share/serendipity/lang/UTF-8/recode.php
@@ -1535,35 +1537,6 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_bbcode/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_bbcode/lang_zh.inc.php
 +share/serendipity/plugins/serendipity_event_bbcode/serendipity_event_bbcode.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_bg.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_cn.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_cs.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_cz.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_de.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_es.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_fr.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_ja.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_ko.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_pl.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_pt_PT.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_tn.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/UTF-8/lang_zh.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_bg.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_cn.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_cs.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_cz.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_de.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_en.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_es.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_fr.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_ja.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_ko.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_pl.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_pt_PT.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_tn.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/lang_zh.inc.php
-+share/serendipity/plugins/serendipity_event_browsercompatibility/pngbehavior.htc
-+share/serendipity/plugins/serendipity_event_browsercompatibility/serendipity_event_browsercompatibility.php
 +share/serendipity/plugins/serendipity_event_contentrewrite/UTF-8/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_contentrewrite/UTF-8/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_contentrewrite/UTF-8/lang_cs.inc.php
@@ -1591,6 +1564,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_contentrewrite/lang_zh.inc.php
 +share/serendipity/plugins/serendipity_event_contentrewrite/serendipity_event_contentrewrite.php
 +share/serendipity/plugins/serendipity_event_creativecommons/ChangeLog
++share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/documentation_cs.html
++share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_cs.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_cz.inc.php
@@ -1603,6 +1578,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_pt_PT.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/UTF-8/lang_zh.inc.php
++share/serendipity/plugins/serendipity_event_creativecommons/documentation_cs.html
++share/serendipity/plugins/serendipity_event_creativecommons/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_creativecommons/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/lang_cs.inc.php
 +share/serendipity/plugins/serendipity_event_creativecommons/lang_cz.inc.php
@@ -1682,6 +1659,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_entryproperties/lang_zh.inc.php
 +share/serendipity/plugins/serendipity_event_entryproperties/serendipity_event_entryproperties.php
 +share/serendipity/plugins/serendipity_event_karma/ChangeLog
++share/serendipity/plugins/serendipity_event_karma/UTF-8/documentation_cs.html
++share/serendipity/plugins/serendipity_event_karma/UTF-8/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_cs.inc.php
@@ -1696,6 +1675,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_ru.inc.php
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_karma/UTF-8/lang_zh.inc.php
++share/serendipity/plugins/serendipity_event_karma/documentation_cs.html
++share/serendipity/plugins/serendipity_event_karma/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_karma/img/diamonds-yellow-green-lg.png
 +share/serendipity/plugins/serendipity_event_karma/img/diamonds-yellow-green-md.png
 +share/serendipity/plugins/serendipity_event_karma/img/diamonds-yellow-green-sm.png
@@ -1849,6 +1830,9 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_s9ymarkup/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_s9ymarkup/lang_zh.inc.php
 +share/serendipity/plugins/serendipity_event_s9ymarkup/serendipity_event_s9ymarkup.php
++share/serendipity/plugins/serendipity_event_searchhighlight/ChangeLog
++share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/documentation_cs.html
++share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_cs.inc.php
@@ -1861,6 +1845,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_pl.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/UTF-8/lang_zh.inc.php
++share/serendipity/plugins/serendipity_event_searchhighlight/documentation_cs.html
++share/serendipity/plugins/serendipity_event_searchhighlight/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_searchhighlight/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_searchhighlight/lang_cs.inc.php
@@ -1970,6 +1956,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_spartacus/lang_zh.inc.php
 +share/serendipity/plugins/serendipity_event_spartacus/serendipity_event_spartacus.php
 +share/serendipity/plugins/serendipity_event_statistics/ChangeLog
++share/serendipity/plugins/serendipity_event_statistics/UTF-8/documentation_cs.html
++share/serendipity/plugins/serendipity_event_statistics/UTF-8/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_cn.inc.php
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_cs.inc.php
@@ -1985,6 +1973,8 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_pt_PT.inc.php
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_tn.inc.php
 +share/serendipity/plugins/serendipity_event_statistics/UTF-8/lang_zh.inc.php
++share/serendipity/plugins/serendipity_event_statistics/documentation_cs.html
++share/serendipity/plugins/serendipity_event_statistics/documentation_cz.html
 +share/serendipity/plugins/serendipity_event_statistics/green.png
 +share/serendipity/plugins/serendipity_event_statistics/lang_bg.inc.php
 +share/serendipity/plugins/serendipity_event_statistics/lang_cn.inc.php
@@ -2527,6 +2517,42 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/sql/db_update_1.5-alpha1_1.5-alpha2_mysql.sql
 +share/serendipity/sql/db_update_1.5-alpha1_1.5-alpha2_postgres.sql
 +share/serendipity/sql/db_update_1.5-alpha1_1.5-alpha2_sqlite.sql
++share/serendipity/templates/2k11/UTF-8/lang_cs.inc.php
++share/serendipity/templates/2k11/UTF-8/lang_cz.inc.php
++share/serendipity/templates/2k11/UTF-8/lang_de.inc.php
++share/serendipity/templates/2k11/UTF-8/lang_en.inc.php
++share/serendipity/templates/2k11/commentform.tpl
++share/serendipity/templates/2k11/comments.tpl
++share/serendipity/templates/2k11/config.inc.php
++share/serendipity/templates/2k11/content.tpl
++share/serendipity/templates/2k11/entries.tpl
++share/serendipity/templates/2k11/entries_archives.tpl
++share/serendipity/templates/2k11/entries_summary.tpl
++share/serendipity/templates/2k11/img/gradient-dblue.png
++share/serendipity/templates/2k11/img/gradient-lblue.png
++share/serendipity/templates/2k11/img/xml.gif
++share/serendipity/templates/2k11/index.tpl
++share/serendipity/templates/2k11/info.txt
++share/serendipity/templates/2k11/js/2k11.min.js
++share/serendipity/templates/2k11/js/modernizr-2.5.3.min.js
++share/serendipity/templates/2k11/lang_cs.inc.php
++share/serendipity/templates/2k11/lang_cz.inc.php
++share/serendipity/templates/2k11/lang_de.inc.php
++share/serendipity/templates/2k11/lang_en.inc.php
++share/serendipity/templates/2k11/plugin_calendar.tpl
++share/serendipity/templates/2k11/plugin_categories.tpl
++share/serendipity/templates/2k11/plugin_commentsearch_searchresults.tpl
++share/serendipity/templates/2k11/plugin_contactform.tpl
++share/serendipity/templates/2k11/plugin_findmore.tpl
++share/serendipity/templates/2k11/plugin_staticpage.tpl
++share/serendipity/templates/2k11/plugin_staticpage_searchresults.tpl
++share/serendipity/templates/2k11/plugin_staticpage_sidebar.tpl
++share/serendipity/templates/2k11/preview.png
++share/serendipity/templates/2k11/preview_fullsize.jpg
++share/serendipity/templates/2k11/preview_iframe.tpl
++share/serendipity/templates/2k11/sidebar.tpl
++share/serendipity/templates/2k11/style.css
++share/serendipity/templates/2k11/trackbacks.tpl
 +share/serendipity/templates/HOWTO
 +share/serendipity/templates/blue/htmlarea.css
 +share/serendipity/templates/blue/info.txt
@@ -2886,6 +2912,7 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/templates/idea/preview.png
 +share/serendipity/templates/idea/preview_fullsize.jpg
 +share/serendipity/templates/idea/style.css
++share/serendipity/templates/jquery.js
 +share/serendipity/templates/kubrick/UTF-8/lang_cs.inc.php
 +share/serendipity/templates/kubrick/UTF-8/lang_cz.inc.php
 +share/serendipity/templates/kubrick/comments.tpl
@@ -2990,26 +3017,18 @@ diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/PLIST
 +share/serendipity/templates_c/.empty
 +share/serendipity/uploads/.empty
 +share/serendipity/wfwcomment.php
-+@pkgdir share/serendipity/templates/mt3-chalkboard/img
-+@pkgdir share/serendipity/templates/mt-rusty/img
-+@pkgdir share/serendipity/templates/mt-gettysburg/img
-+@pkgdir share/serendipity/templates/kubrick/img
-+@pkgdir share/serendipity/templates/blue/img
-+@pkgdir share/serendipity/htmlarea/plugins/SpellChecker/personal_dicts
-+@pkgdir share/serendipity/htmlarea/plugins/InsertSmiley/smileys
-+@pkgdir share/serendipity/htmlarea/plugins/HorizontalRule/img
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/distinfo
+diff -r a6ea2ec7cd6f www/serendipity/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/distinfo	Sun Feb 03 00:02:59 2013 +0900
++++ b/www/serendipity/distinfo	Sun Apr 14 21:44:03 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD: distinfo,v 1.2 2008/12/15 11:54:34 martti Exp $
 +
-+SHA1 (serendipity-1.6.tar.gz) = 7d7fba385d379559bae724907fdb20d6d0426b9e
-+RMD160 (serendipity-1.6.tar.gz) = 486bee0ab9bfc7b215a0cbfa5d9298316c75994e
-+Size (serendipity-1.6.tar.gz) = 5357394 bytes
-diff -r fc09ccbc6aae -r cb1b65c5ec40 www/serendipity/files/serendipity.conf
++SHA1 (serendipity-1.6.2.tar.gz) = 31011aa1818781c5628550cb9f853f247b2820c2
++RMD160 (serendipity-1.6.2.tar.gz) = 46a9577928582113784788d00c450959cdec03e6
++Size (serendipity-1.6.2.tar.gz) = 5453050 bytes
+diff -r a6ea2ec7cd6f www/serendipity/files/serendipity.conf
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/www/serendipity/files/serendipity.conf	Sun Feb 03 00:02:59 2013 +0900
++++ b/www/serendipity/files/serendipity.conf	Sun Apr 14 21:44:03 2013 +0900
 @@ -0,0 +1,33 @@
 +# Serendipity configuration file fragment for Apache
 +
