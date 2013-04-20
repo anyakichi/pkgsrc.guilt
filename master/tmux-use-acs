@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent c28c7777afea3d17827d0512421051528d4e8865
+# Parent 48c68ebfe610d69f9629458944e7808565026b5c
 
-diff -r c28c7777afea patches/misc/tmux/tmux-use-acs.patch
+diff -r 48c68ebfe610 patches/misc/tmux/tmux-use-acs.patch
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/misc/tmux/tmux-use-acs.patch	Sun Feb 03 19:26:44 2013 +0900
++++ b/patches/misc/tmux/tmux-use-acs.patch	Sat Apr 20 12:59:36 2013 +0900
 @@ -0,0 +1,22 @@
 +--- tty-acs.c.orig	2012-06-20 14:52:17.000000000 +0900
 ++++ tty-acs.c	2012-06-20 14:52:28.000000000 +0900
@@ -16,14 +16,14 @@ diff -r c28c7777afea patches/misc/tmux/tmux-use-acs.patch
 + 		if (tty->term->acs[ch][0] == '\0')
 + 			return (NULL);
 + 		return (&tty->term->acs[ch][0]);
-+--- tty.c.orig	2012-10-12 01:51:06.000000000 +0900
-++++ tty.c	2012-11-01 12:00:12.000000000 +0900
-+@@ -52,7 +52,7 @@
-+ 	    const struct grid_cell *, const struct grid_utf8 *);
++--- tty.c.orig	2013-02-24 21:42:49.000000000 +0900
+++++ tty.c	2013-04-20 12:54:54.000000000 +0900
++@@ -51,7 +51,7 @@
++ void	tty_cell(struct tty *, const struct grid_cell *);
 + 
 + #define tty_use_acs(tty) \
 +-	(tty_term_has((tty)->term, TTYC_ACSC) && !((tty)->flags & TTY_UTF8))
-++	(tty_term_has((tty)->term, TTYC_ACSC))
+++	tty_term_has((tty)->term, TTYC_ACSC)
 + 
 + #define tty_pane_full_width(tty, ctx) \
 + 	((ctx)->xoff == 0 && screen_size_x((ctx)->wp->screen) >= (tty)->sx)
