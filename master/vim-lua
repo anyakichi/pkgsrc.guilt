@@ -1,0 +1,23 @@
+# HG changeset patch
+# Parent c048ee9d9dbd703091e33698ec914ff79255ddfb
+diff -r c048ee9d9dbd -r bb95b828ee52 editors/vim-share/options.mk
+--- a/editors/vim-share/options.mk	Wed Apr 24 14:32:23 2013 +0900
++++ b/editors/vim-share/options.mk	Wed Apr 24 14:33:47 2013 +0900
+@@ -1,10 +1,16 @@
+ # $NetBSD: options.mk,v 1.2 2012/08/27 22:10:34 morr Exp $
+ 
+-PKG_SUPPORTED_OPTIONS+=	ruby python
++PKG_SUPPORTED_OPTIONS+=	lua ruby python
+ PKG_OPTIONS_VAR=	PKG_OPTIONS.vim
+ 
+ .include "../../mk/bsd.options.mk"
+ 
++.if !empty(PKG_OPTIONS:Mlua)
++.include "../../lang/lua/buildlink3.mk"
++CONFIGURE_ARGS+=	--enable-luainterp
++CONFIGURE_ARGS+=	--with-lua-prefix=${BUILDLINK_PREFIX.lua:Q}
++.endif
++
+ .if !empty(PKG_OPTIONS:Mruby)
+ .include "../../lang/ruby/buildlink3.mk"
+ CONFIGURE_ARGS+=	--enable-rubyinterp
