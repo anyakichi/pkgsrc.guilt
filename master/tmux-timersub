@@ -1,0 +1,17 @@
+# HG changeset patch
+# Parent 853981e7b6163ddefb1713979d4fc8500e677d7b
+diff -r 853981e7b616 -r 248dd8be21e5 patches/misc/tmux/timersub.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/misc/tmux/timersub.patch	Wed Apr 24 14:30:59 2013 +0900
+@@ -0,0 +1,11 @@
++--- server-client.c.orig	2013-04-24 14:22:53.669980700 +0900
+++++ server-client.c	2013-04-24 14:23:00.220342600 +0900
++@@ -348,7 +348,7 @@
++ 	if ((t = options_get_number(&s->options, "assume-paste-time")) == 0)
++ 		return (0);
++ 
++-	timersub(&s->activity_time, &s->last_activity_time, &tv);
+++	evutil_timersub(&s->activity_time, &s->last_activity_time, &tv);
++ 	if (tv.tv_sec == 0 && tv.tv_usec < t * 1000)
++ 		return (1);
++ 	return (0);
