@@ -1,9 +1,10 @@
 # HG changeset patch
-# Parent bc6c1445d0a95fffa98d3983d343f0ab45d865bf
-diff -r bc6c1445d0a9 -r b5b058e88f48 patches/textproc/py-sphinx/sphinx-platex.patch
+# Parent 44b9642629b873e1fa09df23319e1efc43316aad
+
+diff -r 44b9642629b8 patches/textproc/py-sphinx/sphinx-platex.patch
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/textproc/py-sphinx/sphinx-platex.patch	Sun Feb 03 01:44:03 2013 +0900
-@@ -0,0 +1,94 @@
++++ b/patches/textproc/py-sphinx/sphinx-platex.patch	Wed Apr 24 15:36:01 2013 +0900
+@@ -0,0 +1,82 @@
 +diff -ur Sphinx-1.1.2.orig/sphinx/builders/latex.py Sphinx-1.1.2/sphinx/builders/latex.py
 +--- sphinx/builders/latex.py	2012-03-31 18:29:07.000000000 +0900
 ++++ sphinx/builders/latex.py	2012-03-31 18:30:32.000000000 +0900
@@ -86,15 +87,3 @@ diff -r bc6c1445d0a9 -r b5b058e88f48 patches/textproc/py-sphinx/sphinx-platex.pa
 + % Fix anchor placement for figures with captions.
 + % (Note: we don't use a package option here; instead, we give an explicit
 + % \capstart for figures that actually have a caption.)
-+diff -ur Sphinx-1.1.2.orig/sphinx/writers/latex.py Sphinx-1.1.2/sphinx/writers/latex.py
-+--- sphinx/writers/latex.py	2012-03-31 18:29:07.000000000 +0900
-++++ sphinx/writers/latex.py	2012-03-31 18:30:28.000000000 +0900
-+@@ -818,7 +818,7 @@
-+         pass
-+ 
-+     def visit_term(self, node):
-+-        ctx = '}] \\leavevmode'
-++        ctx = '}] \\leavevmode \\mbox{}\\\\'
-+         if node.get('ids'):
-+             ctx += self.hypertarget(node['ids'][0])
-+         self.body.append('\\item[{')
