@@ -1,0 +1,49 @@
+# HG changeset patch
+# Parent 7b481dd5fa73573b36460f3c2e8cc6924b8267b9
+diff -r 7b481dd5fa73 -r 9b26f2266eb8 converters/cocot/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/converters/cocot/DESCR	Wed Apr 24 10:41:05 2013 +0900
+@@ -0,0 +1,1 @@
++COde COnverter on Tty
+diff -r 7b481dd5fa73 -r 9b26f2266eb8 converters/cocot/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/converters/cocot/Makefile	Wed Apr 24 10:41:05 2013 +0900
+@@ -0,0 +1,23 @@
++# $NetBSD$
++#
++
++DISTNAME=	cocot-cocot-1.1-20120313
++PKGNAME=	cocot-1.1
++CATEGORIES=	converters
++MASTER_SITES=	-https://github.com/vmi/cocot/archive/cocot-1.1-20120313.tar.gz
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	https://github.com/vmi/cocot
++COMMENT=	COde COnverter on Tty
++
++# Force using "curl" for fetching the distribution file. It is only available
++# over HTTPS and "curl" is the only fetch program which always supports HTTPS.
++FETCH_USING=	curl
++
++GNU_CONFIGURE=	yes
++
++PKG_DESTDIR_SUPPORT=	user-destdir
++
++.include "../../converters/libiconv/buildlink3.mk"
++
++.include "../../mk/bsd.pkg.mk"
+diff -r 7b481dd5fa73 -r 9b26f2266eb8 converters/cocot/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/converters/cocot/PLIST	Wed Apr 24 10:41:05 2013 +0900
+@@ -0,0 +1,2 @@
++@comment $NetBSD$
++bin/cocot
+diff -r 7b481dd5fa73 -r 9b26f2266eb8 converters/cocot/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/converters/cocot/distinfo	Wed Apr 24 10:41:05 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (cocot-cocot-1.1-20120313.tar.gz) = ffc36f56e47c22a963ef48cb67e60b0337b58bc6
++RMD160 (cocot-cocot-1.1-20120313.tar.gz) = ee3d5e127462d101b893bf09b3e8e47b3996bd0d
++Size (cocot-cocot-1.1-20120313.tar.gz) = 214205 bytes
