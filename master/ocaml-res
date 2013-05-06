@@ -1,0 +1,68 @@
+# HG changeset patch
+# Parent 70ea208cae028133ba55500b08c095e6705e56ed
+diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-res/DESCR	Mon May 06 17:12:04 2013 +0900
+@@ -0,0 +1,9 @@
++This OCaml-library consists of a set of modules which implement
++automatically resizing (= reallocating) datastructures that consume
++a contiguous part of memory. This allows appending and removing of
++elements to/from arrays (both boxed and unboxed), strings (-> buffers),
++bit strings and weak arrays while still maintaining fast constant-time
++access to elements.
++
++There are also functors that allow the generation of similar modules
++which use different reallocation strategies.
+diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-res/Makefile	Mon May 06 17:12:04 2013 +0900
+@@ -0,0 +1,20 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	res-3.2.0
++CATEGORIES=	devel
++MASTER_SITES=	https://bitbucket.org/mmottl/res/downloads/
++FETCH_USING=	curl
++
++USE_TOOLS+=	gmake
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Automatically Resizing Contiguous Memory for OCaml
++LICENSE=	apache-2.0
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/buildlink3.mk"
++.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-res/PLIST	Mon May 06 17:12:04 2013 +0900
+@@ -0,0 +1,16 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/res
++lib/ocaml/site-lib/res/META
++lib/ocaml/site-lib/res/nopres_intf.cmi
++lib/ocaml/site-lib/res/nopres_intf.mli
++lib/ocaml/site-lib/res/pres_intf.cmi
++lib/ocaml/site-lib/res/pres_intf.mli
++${PLIST.opt}lib/ocaml/site-lib/res/res.a
++lib/ocaml/site-lib/res/res.cma
++lib/ocaml/site-lib/res/res.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/res.cmxa
++lib/ocaml/site-lib/res/res.mli
++lib/ocaml/site-lib/res/strat.cmi
++lib/ocaml/site-lib/res/strat.mli
++lib/ocaml/site-lib/res/weak_intf.cmi
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/res
+diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-res/distinfo	Mon May 06 17:12:04 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (res-3.2.0.tar.gz) = 93a8ba27d3ca50554b42f71c0c5a275a446583a6
++RMD160 (res-3.2.0.tar.gz) = b579199069a9aa7533b9f75f1428f4c0ecaf5fa4
++Size (res-3.2.0.tar.gz) = 40349 bytes
