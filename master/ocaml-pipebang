@@ -1,0 +1,53 @@
+# HG changeset patch
+# Parent cbb156bb38b7ea0262eceb9694ba68a0898f06bc
+diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pipebang/DESCR	Mon May 06 16:57:29 2013 +0900
+@@ -0,0 +1,1 @@
++Syntax extension to transform x |! f into f x.
+diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pipebang/Makefile	Mon May 06 16:57:29 2013 +0900
+@@ -0,0 +1,18 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	pipebang-${VERSION}
++VERSION=	109.15.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Syntax extension to transform x |! f into f x
++LICENSE=	apache-2.0
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pipebang/PLIST	Mon May 06 16:57:29 2013 +0900
+@@ -0,0 +1,11 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/pa_pipebang
++lib/ocaml/site-lib/pa_pipebang/META
++${PLIST.opt}lib/ocaml/site-lib/pa_pipebang/pa_pipebang.a
++lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cma
++lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cmi
++${PLIST.opt}lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cmx
++${PLIST.opt}lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cmxa
++${PLIST.opt}lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cmxs
++lib/ocaml/site-lib/pa_pipebang/pa_pipebang.ml
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/pa_pipebang
+diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pipebang/distinfo	Mon May 06 16:57:29 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (pipebang-109.15.00.tar.gz) = 800f0b7e2a527d40e3121b74f8d8e53dd7004e58
++RMD160 (pipebang-109.15.00.tar.gz) = f41abd1508aef934e3f23d7525b57ef1cea7ba7e
++Size (pipebang-109.15.00.tar.gz) = 43929 bytes

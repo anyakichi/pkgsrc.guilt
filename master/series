@@ -43,3 +43,4 @@ ocaml-sexplib
 ocaml-fieldslib
 ocaml-pa_ounit
 ocaml-bin_prot
+ocaml-pipebang
