@@ -1,0 +1,60 @@
+# HG changeset patch
+# Parent d001769079e274a3497136607550bb57a3fd1a65
+diff -r d001769079e2 -r e9509a9f882b devel/ocaml-herelib/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-herelib/DESCR	Mon May 06 17:08:10 2013 +0900
+@@ -0,0 +1,1 @@
++Syntax extension for inserting the current location.
+diff -r d001769079e2 -r e9509a9f882b devel/ocaml-herelib/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-herelib/Makefile	Mon May 06 17:08:10 2013 +0900
+@@ -0,0 +1,18 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	herelib-${VERSION}
++VERSION=	109.15.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Syntax extension for inserting the current location
++LICENSE=	apache-2.0
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r d001769079e2 -r e9509a9f882b devel/ocaml-herelib/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-herelib/PLIST	Mon May 06 17:08:10 2013 +0900
+@@ -0,0 +1,18 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/herelib
++lib/ocaml/site-lib/herelib/here.cmi
++${PLIST.opt}lib/ocaml/site-lib/herelib/here.cmx
++lib/ocaml/site-lib/herelib/here.ml
++${PLIST.opt}lib/ocaml/site-lib/herelib/herelib.a
++lib/ocaml/site-lib/herelib/herelib.cma
++${PLIST.opt}lib/ocaml/site-lib/herelib/herelib.cmxa
++${PLIST.opt}lib/ocaml/site-lib/herelib/herelib.cmxs
++lib/ocaml/site-lib/herelib/META
++lib/ocaml/site-lib/herelib/pa_here.cmi
++${PLIST.opt}lib/ocaml/site-lib/herelib/pa_here.cmx
++lib/ocaml/site-lib/herelib/pa_here.ml
++${PLIST.opt}lib/ocaml/site-lib/herelib/pa_herelib.a
++lib/ocaml/site-lib/herelib/pa_herelib.cma
++${PLIST.opt}lib/ocaml/site-lib/herelib/pa_herelib.cmxa
++${PLIST.opt}lib/ocaml/site-lib/herelib/pa_herelib.cmxs
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/herelib
+diff -r d001769079e2 -r e9509a9f882b devel/ocaml-herelib/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-herelib/distinfo	Mon May 06 17:08:10 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (herelib-109.15.00.tar.gz) = 17ea74c27cace36c9e61d872577278093a58f542
++RMD160 (herelib-109.15.00.tar.gz) = 7c5e3a3fa267c56e81f0b792a07a4f5cd62523b0
++Size (herelib-109.15.00.tar.gz) = 44608 bytes

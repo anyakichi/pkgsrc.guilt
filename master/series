@@ -46,3 +46,4 @@ ocaml-bin_prot
 ocaml-pipebang
 ocaml-variantslib
 ocaml-comparelib
+ocaml-herelib
