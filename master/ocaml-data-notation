@@ -1,0 +1,60 @@
+# HG changeset patch
+# Parent bbc465684860aadd6b861ea2ce2b73f03ac218b2
+diff -r bbc465684860 -r b8a98d9e1434 devel/ocaml-data-notation/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-data-notation/DESCR	Mon May 06 14:26:58 2013 +0900
+@@ -0,0 +1,3 @@
++This project uses type-conv to dump OCaml data structure using OCaml
++data notation. This kind of data dumping helps to write OCaml code
++generator, like OASIS.
+diff -r bbc465684860 -r b8a98d9e1434 devel/ocaml-data-notation/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-data-notation/Makefile	Mon May 06 14:26:58 2013 +0900
+@@ -0,0 +1,17 @@
++# $NetBSD$
++#
++
++DISTNAME=	ocaml-data-notation-0.0.10
++CATEGORIES=	devel
++MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1029/
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://forge.ocamlcore.org/projects/odn/
++COMMENT=	Store data using OCaml notation
++LICENSE=	gnu-lgpl-v2.1
++
++DEPENDS+=	ocaml-type_conv>=108.07.01:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/oasis.mk"
++.include "../../lang/ocaml/opt.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r bbc465684860 -r b8a98d9e1434 devel/ocaml-data-notation/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-data-notation/PLIST	Mon May 06 14:26:58 2013 +0900
+@@ -0,0 +1,17 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/odn
++lib/ocaml/site-lib/odn/META
++lib/ocaml/site-lib/odn/ODN.cmi
++${PLIST.opt}lib/ocaml/site-lib/odn/ODN.cmx
++lib/ocaml/site-lib/odn/ODN.ml
++${PLIST.opt}lib/ocaml/site-lib/odn/odn.a
++lib/ocaml/site-lib/odn/odn.cma
++${PLIST.opt}lib/ocaml/site-lib/odn/odn.cmxa
++${PLIST.opt}lib/ocaml/site-lib/odn/odn.cmxs
++lib/ocaml/site-lib/odn/pa_noodn.cma
++lib/ocaml/site-lib/odn/pa_noodn.cmi
++lib/ocaml/site-lib/odn/pa_noodn.ml
++lib/ocaml/site-lib/odn/pa_odn.cma
++lib/ocaml/site-lib/odn/pa_odn.cmi
++lib/ocaml/site-lib/odn/pa_odn.ml
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/odn
+diff -r bbc465684860 -r b8a98d9e1434 devel/ocaml-data-notation/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-data-notation/distinfo	Mon May 06 14:26:58 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (ocaml-data-notation-0.0.10.tar.gz) = a711a5bcbed646ea5b9a910d2928069101013b61
++RMD160 (ocaml-data-notation-0.0.10.tar.gz) = 0f7cbb9c3ecc6056ff4b8f5443a3888c18fbfd42
++Size (ocaml-data-notation-0.0.10.tar.gz) = 63163 bytes

@@ -34,3 +34,4 @@ ocamlify
 ocamlmod
 ocaml-ounit
 ocaml-type_conv
+ocaml-data-notation
