@@ -33,3 +33,4 @@ ocaml-oasis-mk
 ocamlify
 ocamlmod
 ocaml-ounit
+ocaml-type_conv
