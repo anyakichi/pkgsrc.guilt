@@ -30,3 +30,4 @@ ocaml-opam
 ocaml-findlib-buildlink3
 ocaml-opt-mk
 ocaml-oasis-mk
+ocamlify
