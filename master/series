@@ -44,3 +44,4 @@ ocaml-fieldslib
 ocaml-pa_ounit
 ocaml-bin_prot
 ocaml-pipebang
+ocaml-variantslib

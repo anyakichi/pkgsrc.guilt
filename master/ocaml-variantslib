@@ -1,0 +1,61 @@
+# HG changeset patch
+# Parent 1bb9f89b0809f02936f305568a32a0c685a92c90
+diff -r 1bb9f89b0809 -r 99ac09da106a devel/ocaml-variantslib/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-variantslib/DESCR	Mon May 06 16:59:03 2013 +0900
+@@ -0,0 +1,1 @@
++OCaml variants as first class values.
+diff -r 1bb9f89b0809 -r 99ac09da106a devel/ocaml-variantslib/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-variantslib/Makefile	Mon May 06 16:59:03 2013 +0900
+@@ -0,0 +1,20 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	variantslib-${VERSION}
++VERSION=	109.15.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	OCaml variants as first class values
++LICENSE=	apache-2.0
++
++DEPENDS+=	ocaml-type_conv>=109.15.00:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 1bb9f89b0809 -r 99ac09da106a devel/ocaml-variantslib/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-variantslib/PLIST	Mon May 06 16:59:03 2013 +0900
+@@ -0,0 +1,17 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/variantslib
++lib/ocaml/site-lib/variantslib/META
++${PLIST.opt}lib/ocaml/site-lib/variantslib/pa_variants_conv.a
++lib/ocaml/site-lib/variantslib/pa_variants_conv.cma
++lib/ocaml/site-lib/variantslib/pa_variants_conv.cmi
++${PLIST.opt}lib/ocaml/site-lib/variantslib/pa_variants_conv.cmx
++${PLIST.opt}lib/ocaml/site-lib/variantslib/pa_variants_conv.cmxa
++${PLIST.opt}lib/ocaml/site-lib/variantslib/pa_variants_conv.cmxs
++lib/ocaml/site-lib/variantslib/pa_variants_conv.mli
++lib/ocaml/site-lib/variantslib/variant.mli
++${PLIST.opt}lib/ocaml/site-lib/variantslib/variantslib.a
++lib/ocaml/site-lib/variantslib/variantslib.cma
++lib/ocaml/site-lib/variantslib/variantslib.cmi
++${PLIST.opt}lib/ocaml/site-lib/variantslib/variantslib.cmxa
++${PLIST.opt}lib/ocaml/site-lib/variantslib/variantslib.cmxs
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/variantslib
+diff -r 1bb9f89b0809 -r 99ac09da106a devel/ocaml-variantslib/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-variantslib/distinfo	Mon May 06 16:59:03 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (variantslib-109.15.00.tar.gz) = fcf6148260121e092c875be73d391225848d3d53
++RMD160 (variantslib-109.15.00.tar.gz) = 08dc45eb6e07adb4aff9624f4f1de59c19bf5d3f
++Size (variantslib-109.15.00.tar.gz) = 57154 bytes
