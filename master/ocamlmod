@@ -1,0 +1,41 @@
+# HG changeset patch
+# Parent b50b406da0f16687173286763917663774ec8291
+diff -r b50b406da0f1 -r 5861dd13aaf5 devel/ocamlmod/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocamlmod/DESCR	Mon May 06 13:14:45 2013 +0900
+@@ -0,0 +1,1 @@
++Generate OCaml modules from source files
+diff -r b50b406da0f1 -r 5861dd13aaf5 devel/ocamlmod/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocamlmod/Makefile	Mon May 06 13:14:45 2013 +0900
+@@ -0,0 +1,15 @@
++# $NetBSD$
++#
++
++DISTNAME=	ocamlmod-0.0.3
++CATEGORIES=	devel
++MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/856/
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://forge.ocamlcore.org/projects/ocamlmod/
++COMMENT=	Generate OCaml modules from source files
++LICENSE=	gnu-lgpl-v2.1
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r b50b406da0f1 -r 5861dd13aaf5 devel/ocamlmod/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocamlmod/PLIST	Mon May 06 13:14:45 2013 +0900
+@@ -0,0 +1,2 @@
++@comment $NetBSD$
++bin/ocamlmod
+diff -r b50b406da0f1 -r 5861dd13aaf5 devel/ocamlmod/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocamlmod/distinfo	Mon May 06 13:14:45 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (ocamlmod-0.0.3.tar.gz) = a6f9c62266cf570b18a9ee5f0a69cd0bce5affe8
++RMD160 (ocamlmod-0.0.3.tar.gz) = a0a6c80cdc3b0c204ee02879d5c4d13accee611d
++Size (ocamlmod-0.0.3.tar.gz) = 43107 bytes
