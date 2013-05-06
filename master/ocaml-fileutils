@@ -1,13 +1,14 @@
 # HG changeset patch
-# Parent af4071cafada24349d5b6c41067d2c5fd28ef6f9
-diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/DESCR
+# Parent b5281a9755dffdd667c2aa3a0c2ecc486c1c6c4c
+
+diff -r b5281a9755df devel/ocaml-fileutils/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-fileutils/DESCR	Mon May 06 16:26:28 2013 +0900
++++ b/devel/ocaml-fileutils/DESCR	Mon May 06 23:10:14 2013 +0900
 @@ -0,0 +1,1 @@
 +Functions to manipulate real file (POSIX like) and filename.
-diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/Makefile
+diff -r b5281a9755df devel/ocaml-fileutils/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-fileutils/Makefile	Mon May 06 16:26:28 2013 +0900
++++ b/devel/ocaml-fileutils/Makefile	Mon May 06 23:10:14 2013 +0900
 @@ -0,0 +1,15 @@
 +# $NetBSD$
 +#
@@ -19,14 +20,14 @@ diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/Makefile
 +MAINTAINER=	pkgsrc-users@NetBSD.org
 +HOMEPAGE=	http://ounit.forge.ocamlcore.org/
 +COMMENT=	Functions to manipulate real file (POSIX like) and filename
-+LICENSE=	mit
++LICENSE=	gnu-lgpl-v2.1
 +
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/PLIST
+diff -r b5281a9755df devel/ocaml-fileutils/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-fileutils/PLIST	Mon May 06 16:26:28 2013 +0900
++++ b/devel/ocaml-fileutils/PLIST	Mon May 06 23:10:14 2013 +0900
 @@ -0,0 +1,29 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/fileutils
@@ -57,9 +58,9 @@ diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/fileutils/fileutils.cmxs
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/fileutils
 +
-diff -r af4071cafada -r fa721a241d31 devel/ocaml-fileutils/distinfo
+diff -r b5281a9755df devel/ocaml-fileutils/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-fileutils/distinfo	Mon May 06 16:26:28 2013 +0900
++++ b/devel/ocaml-fileutils/distinfo	Mon May 06 23:10:14 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +

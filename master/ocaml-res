@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent 70ea208cae028133ba55500b08c095e6705e56ed
-diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/DESCR
+# Parent 9cb805d6911c8f214e24ba12b86ca7b27849bd81
+
+diff -r 9cb805d6911c devel/ocaml-res/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/DESCR	Mon May 06 17:12:04 2013 +0900
++++ b/devel/ocaml-res/DESCR	Mon May 06 23:08:43 2013 +0900
 @@ -0,0 +1,9 @@
 +This OCaml-library consists of a set of modules which implement
 +automatically resizing (= reallocating) datastructures that consume
@@ -13,9 +14,9 @@ diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/DESCR
 +
 +There are also functors that allow the generation of similar modules
 +which use different reallocation strategies.
-diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/Makefile
+diff -r 9cb805d6911c devel/ocaml-res/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/Makefile	Mon May 06 17:12:04 2013 +0900
++++ b/devel/ocaml-res/Makefile	Mon May 06 23:08:43 2013 +0900
 @@ -0,0 +1,20 @@
 +# $NetBSD$
 +#
@@ -31,15 +32,15 @@ diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/Makefile
 +MAINTAINER=	pkgsrc-users@NetBSD.org
 +HOMEPAGE=	http://janestreet.github.io/
 +COMMENT=	Automatically Resizing Contiguous Memory for OCaml
-+LICENSE=	apache-2.0
++LICENSE=	gnu-lgpl-v2.1
 +
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/PLIST
+diff -r 9cb805d6911c devel/ocaml-res/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/PLIST	Mon May 06 17:12:04 2013 +0900
++++ b/devel/ocaml-res/PLIST	Mon May 06 23:08:43 2013 +0900
 @@ -0,0 +1,16 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/res
@@ -57,9 +58,9 @@ diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/PLIST
 +lib/ocaml/site-lib/res/strat.mli
 +lib/ocaml/site-lib/res/weak_intf.cmi
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/res
-diff -r 70ea208cae02 -r f0619b11b399 devel/ocaml-res/distinfo
+diff -r 9cb805d6911c devel/ocaml-res/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/distinfo	Mon May 06 17:12:04 2013 +0900
++++ b/devel/ocaml-res/distinfo	Mon May 06 23:08:43 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
