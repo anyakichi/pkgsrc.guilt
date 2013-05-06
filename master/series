@@ -27,3 +27,4 @@ tmux-timersub
 tmux-solaris
 vim-lua
 ocaml-opam
+ocaml-findlib-buildlink3
