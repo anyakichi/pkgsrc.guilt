@@ -39,3 +39,4 @@ ocaml-oasis
 ocaml-batteries
 ocaml-fileutils
 ocaml-pcre
+ocaml-sexplib

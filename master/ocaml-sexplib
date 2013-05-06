@@ -1,0 +1,93 @@
+# HG changeset patch
+# Parent 0e8fdf7b56a111ab43010a15c1d96afb1c909054
+diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-sexplib/DESCR	Mon May 06 16:41:26 2013 +0900
+@@ -0,0 +1,14 @@
++This [OCaml](http://www.ocaml.org) library contains functionality for
++parsing and pretty-printing S-expressions.  In addition to that it contains a
++preprocessing module for Camlp4 which can be used to automatically generate
++code from type definitions for efficiently converting OCaml-values to
++S-expressions and vice versa.
++
++In combination with the parsing and pretty-printing functionality this
++frees users from having to write their own I/O-routines for data structures
++they define.  The tight integration with the OCaml type system also allows
++for automatically verifying complex semantic properties when converting from
++S-expressions to OCaml values.  Possible errors during automatic conversions
++from S-expressions to OCaml-values are reported in human-readable ways
++with exact location information.  The library also offers functionality for
++extracting and replacing sub-expressions in S-expressions.
+diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-sexplib/Makefile	Mon May 06 16:41:26 2013 +0900
+@@ -0,0 +1,20 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	sexplib-${VERSION}
++VERSION=	109.20.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	automated S-expression conversion
++LICENSE=	apache-2.0
++
++DEPENDS+=	ocaml-type_conv>=109.20.00:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-sexplib/PLIST	Mon May 06 16:41:26 2013 +0900
+@@ -0,0 +1,36 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/sexplib
++lib/ocaml/site-lib/sexplib/META
++lib/ocaml/site-lib/sexplib/conv.mli
++lib/ocaml/site-lib/sexplib/conv_error.ml
++lib/ocaml/site-lib/sexplib/exn_magic.mli
++lib/ocaml/site-lib/sexplib/lexer.mli
++${PLIST.opt}lib/ocaml/site-lib/sexplib/pa_sexp_conv.a
++lib/ocaml/site-lib/sexplib/pa_sexp_conv.cma
++lib/ocaml/site-lib/sexplib/pa_sexp_conv.cmi
++${PLIST.opt}lib/ocaml/site-lib/sexplib/pa_sexp_conv.cmx
++${PLIST.opt}lib/ocaml/site-lib/sexplib/pa_sexp_conv.cmxa
++${PLIST.opt}lib/ocaml/site-lib/sexplib/pa_sexp_conv.cmxs
++lib/ocaml/site-lib/sexplib/pa_sexp_conv.mli
++lib/ocaml/site-lib/sexplib/path.mli
++lib/ocaml/site-lib/sexplib/pre_sexp.ml
++lib/ocaml/site-lib/sexplib/sexp.mli
++lib/ocaml/site-lib/sexplib/sexp_intf.ml
++lib/ocaml/site-lib/sexplib/sexp_with_layout.ml
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib.a
++lib/ocaml/site-lib/sexplib/sexplib.cma
++lib/ocaml/site-lib/sexplib/sexplib.cmi
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib.cmxa
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib.cmxs
++lib/ocaml/site-lib/sexplib/sexplib_install_printers.cmi
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib_install_printers.cmx
++lib/ocaml/site-lib/sexplib/sexplib_install_printers.ml
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib_top.a
++lib/ocaml/site-lib/sexplib/sexplib_top.cma
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib_top.cmxa
++${PLIST.opt}lib/ocaml/site-lib/sexplib/sexplib_top.cmxs
++lib/ocaml/site-lib/sexplib/src_pos.mli
++lib/ocaml/site-lib/sexplib/std.ml
++lib/ocaml/site-lib/sexplib/type.ml
++lib/ocaml/site-lib/sexplib/type_with_layout.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/sexplib
+diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-sexplib/distinfo	Mon May 06 16:41:26 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (sexplib-109.20.00.tar.gz) = 3ca86a57d17cdaaffa61232ecb65065b9d8ac66c
++RMD160 (sexplib-109.20.00.tar.gz) = a4b9188dacbbabfac90ebc930f32dddb2b41b13b
++Size (sexplib-109.20.00.tar.gz) = 115211 bytes
