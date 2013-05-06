@@ -1,15 +1,16 @@
 # HG changeset patch
-# Parent c72086dc4557277e0fd3a0feb65573413c0939e9
-diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/DESCR
+# Parent 637f0f4182b162c7d66c04168e8ff04bc9336cf9
+
+diff -r 637f0f4182b1 devel/ocaml-batteries/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-batteries/DESCR	Mon May 06 16:17:39 2013 +0900
++++ b/devel/ocaml-batteries/DESCR	Mon May 06 17:53:50 2013 +0900
 @@ -0,0 +1,2 @@
 +OUnit is a unit testing framework for OCaml, inspired by the JUnit tool for
 +Java, and the HUnit tool for Haskell.
-diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/Makefile
+diff -r 637f0f4182b1 devel/ocaml-batteries/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-batteries/Makefile	Mon May 06 16:17:39 2013 +0900
-@@ -0,0 +1,19 @@
++++ b/devel/ocaml-batteries/Makefile	Mon May 06 17:53:50 2013 +0900
+@@ -0,0 +1,26 @@
 +# $NetBSD$
 +#
 +
@@ -25,14 +26,21 @@ diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/Makefile
 +
 +USE_TOOLS+=	gmake
 +
++.include "../../mk/bsd.prefs.mk"
++
++PLIST_VARS+=	cmxs
++.if ${OPSYS} != "Darwin"
++PLIST.cmxs=	yes
++.endif
++
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/PLIST
+diff -r 637f0f4182b1 devel/ocaml-batteries/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-batteries/PLIST	Mon May 06 16:17:39 2013 +0900
-@@ -0,0 +1,282 @@
++++ b/devel/ocaml-batteries/PLIST	Mon May 06 17:53:50 2013 +0900
+@@ -0,0 +1,284 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/batteries
 +lib/ocaml/site-lib/batteries/META
@@ -295,6 +303,7 @@ diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/PLIST
 +lib/ocaml/site-lib/batteries/batteries.cmi
 +${PLIST.opt}lib/ocaml/site-lib/batteries/batteries.cmx
 +${PLIST.opt}lib/ocaml/site-lib/batteries/batteries.cmxa
++${PLIST.cmxs}${PLIST.opt}lib/ocaml/site-lib/batteries/batteries.cmxs
 +lib/ocaml/site-lib/batteries/batteriesConfig.cmi
 +lib/ocaml/site-lib/batteries/batteriesConfig.cmo
 +${PLIST.opt}lib/ocaml/site-lib/batteries/batteriesConfig.cmx
@@ -309,15 +318,16 @@ diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/PLIST
 +lib/ocaml/site-lib/batteries/batteriesThread.cmi
 +${PLIST.opt}lib/ocaml/site-lib/batteries/batteriesThread.cmx
 +${PLIST.opt}lib/ocaml/site-lib/batteries/batteriesThread.cmxa
++${PLIST.cmxs}${PLIST.opt}lib/ocaml/site-lib/batteries/batteriesThread.cmxs
 +lib/ocaml/site-lib/batteries/battop.ml
 +lib/ocaml/site-lib/batteries/extlib.cmi
 +${PLIST.opt}lib/ocaml/site-lib/batteries/extlib.cmx
 +lib/ocaml/site-lib/batteries/ocaml
 +lib/ocaml/site-lib/batteries/ocamlinit
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/batteries
-diff -r c72086dc4557 -r af4071cafada devel/ocaml-batteries/distinfo
+diff -r 637f0f4182b1 devel/ocaml-batteries/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-batteries/distinfo	Mon May 06 16:17:39 2013 +0900
++++ b/devel/ocaml-batteries/distinfo	Mon May 06 17:53:50 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
