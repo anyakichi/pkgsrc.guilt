@@ -40,3 +40,4 @@ ocaml-batteries
 ocaml-fileutils
 ocaml-pcre
 ocaml-sexplib
+ocaml-fieldslib
