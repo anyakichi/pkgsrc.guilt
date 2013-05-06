@@ -1,0 +1,23 @@
+# HG changeset patch
+# Parent 6da91ec354235efe61984974ea05e576511d2b48
+diff -r 6da91ec35423 -r 1d1e26b255d4 lang/ocaml/oasis.mk
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/lang/ocaml/oasis.mk	Mon May 06 11:18:53 2013 +0900
+@@ -0,0 +1,17 @@
++# $NetBSD$
++
++HAS_CONFIGURE=		yes
++CONFIGURE_ARGS+=	--prefix "${PREFIX}"
++
++do-configure:
++	cd ${WRKSRC} && \
++	    ${CONFIGURE_ENV} ocaml setup.ml -configure ${CONFIGURE_ARGS}
++
++do-build:
++	cd ${WRKSRC} && ${MAKE_ENV} ocaml setup.ml -build
++
++do-install:
++	cd ${WRKSRC} && ${MAKE_ENV} ocaml setup.ml -install
++
++.include "../../lang/ocaml/buildlink3.mk"
++.include "../../devel/ocaml-findlib/buildlink3.mk"
