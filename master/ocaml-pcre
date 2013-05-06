@@ -1,0 +1,58 @@
+# HG changeset patch
+# Parent fa721a241d318da680432e7931d25d39541e22fd
+diff -r fa721a241d31 -r 0e8fdf7b56a1 devel/ocaml-pcre/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pcre/DESCR	Mon May 06 16:31:52 2013 +0900
+@@ -0,0 +1,3 @@
++This OCaml-library interfaces the C-library PCRE (Perl-compatibility
++Regular Expressions). It can be used for matching regular expressions
++which are written in "PERL"-style.
+diff -r fa721a241d31 -r 0e8fdf7b56a1 devel/ocaml-pcre/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pcre/Makefile	Mon May 06 16:31:52 2013 +0900
+@@ -0,0 +1,19 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-pcre-${VERSION}
++DISTNAME=	pcre-ocaml-${VERSION}
++VERSION=	7.0.2
++CATEGORIES=	devel
++MASTER_SITES=	https://bitbucket.org/mmottl/pcre-ocaml/downloads/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Interface to the PCRE library
++LICENSE=	gnu-lgpl-v2.1
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../devel/pcre/buildlink3.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r fa721a241d31 -r 0e8fdf7b56a1 devel/ocaml-pcre/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pcre/PLIST	Mon May 06 16:31:52 2013 +0900
+@@ -0,0 +1,13 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/pcre
++lib/ocaml/site-lib/pcre/META
++lib/ocaml/site-lib/pcre/dllpcre_stubs.so
++${PLIST.opt}lib/ocaml/site-lib/pcre/libpcre_stubs.a
++${PLIST.opt}lib/ocaml/site-lib/pcre/pcre.a
++lib/ocaml/site-lib/pcre/pcre.cma
++lib/ocaml/site-lib/pcre/pcre.cmi
++${PLIST.opt}lib/ocaml/site-lib/pcre/pcre.cmx
++${PLIST.opt}lib/ocaml/site-lib/pcre/pcre.cmxa
++${PLIST.opt}lib/ocaml/site-lib/pcre/pcre.cmxs
++lib/ocaml/site-lib/pcre/pcre.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/pcre
+diff -r fa721a241d31 -r 0e8fdf7b56a1 devel/ocaml-pcre/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pcre/distinfo	Mon May 06 16:31:52 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (pcre-ocaml-7.0.2.tar.gz) = 823b1db87c4414645168cd245a0145193d0a71a2
++RMD160 (pcre-ocaml-7.0.2.tar.gz) = cd0f6c62b2c6d42597fdd02bda39e976d77bda0e
++Size (pcre-ocaml-7.0.2.tar.gz) = 81910 bytes
