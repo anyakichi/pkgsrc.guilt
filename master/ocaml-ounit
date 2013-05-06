@@ -1,0 +1,56 @@
+# HG changeset patch
+# Parent 5861dd13aaf5143d01b6863da816837382efcea0
+diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ounit/DESCR	Mon May 06 14:23:00 2013 +0900
+@@ -0,0 +1,2 @@
++OUnit is a unit testing framework for OCaml, inspired by the JUnit tool for
++Java, and the HUnit tool for Haskell.
+diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ounit/Makefile	Mon May 06 14:23:00 2013 +0900
+@@ -0,0 +1,16 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	ounit-1.1.2
++CATEGORIES=	devel
++MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/886/
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://ounit.forge.ocamlcore.org/
++COMMENT=	Unit testing framework for OCaml
++LICENSE=	mit
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ounit/PLIST	Mon May 06 14:23:00 2013 +0900
+@@ -0,0 +1,15 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/oUnit
++lib/ocaml/site-lib/oUnit/META
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.a
++lib/ocaml/site-lib/oUnit/oUnit.cma
++lib/ocaml/site-lib/oUnit/oUnit.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.cmx
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.cmxa
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.cmxs
++lib/ocaml/site-lib/oUnit/oUnit.mli
++lib/ocaml/site-lib/oUnit/oUnitDiff.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitDiff.cmx
++lib/ocaml/site-lib/oUnit/oUnitDiff.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/oUnit
++
+diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ounit/distinfo	Mon May 06 14:23:00 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (ounit-1.1.2.tar.gz) = c7311ac200138958eec9b49274083989a0b097f1
++RMD160 (ounit-1.1.2.tar.gz) = 77793a4478a1ddc1f8775e7d51eed56b89545052
++Size (ounit-1.1.2.tar.gz) = 58055 bytes

@@ -32,3 +32,4 @@ ocaml-opt-mk
 ocaml-oasis-mk
 ocamlify
 ocamlmod
+ocaml-ounit
