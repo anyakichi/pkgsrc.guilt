@@ -1,0 +1,82 @@
+# HG changeset patch
+# Parent 756f116120704279d114d92a88de10ebc8567f9a
+diff -r 756f11612070 -r cbb156bb38b7 devel/ocaml-bin_prot/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-bin_prot/DESCR	Mon May 06 16:54:53 2013 +0900
+@@ -0,0 +1,6 @@
++This library contains functionality for reading and writing OCaml-values
++in a type-safe binary protocol.  It is extremely efficient, typically
++supporting type-safe marshalling and unmarshalling of even highly
++structured values at speeds sufficient to saturate a gigabit connection.
++The protocol is also heavily optimized for size, making it ideal for
++long-term storage of large amounts of data.
+diff -r 756f11612070 -r cbb156bb38b7 devel/ocaml-bin_prot/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-bin_prot/Makefile	Mon May 06 16:54:53 2013 +0900
+@@ -0,0 +1,20 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	bin_prot-${VERSION}
++VERSION=	109.15.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	binary protocol generator
++LICENSE=	apache-2.0
++
++DEPENDS+=	ocaml-type_conv>=109.15.00:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 756f11612070 -r cbb156bb38b7 devel/ocaml-bin_prot/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-bin_prot/PLIST	Mon May 06 16:54:53 2013 +0900
+@@ -0,0 +1,33 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/bin_prot
++lib/ocaml/site-lib/bin_prot/META
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/bin_prot.a
++lib/ocaml/site-lib/bin_prot/bin_prot.cma
++lib/ocaml/site-lib/bin_prot/bin_prot.cmi
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/bin_prot.cmxa
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/bin_prot.cmxs
++lib/ocaml/site-lib/bin_prot/binable.ml
++lib/ocaml/site-lib/bin_prot/common.mli
++lib/ocaml/site-lib/bin_prot/dllbin_prot_stubs.so
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/libbin_prot_stubs.a
++lib/ocaml/site-lib/bin_prot/map_to_safe.ml
++lib/ocaml/site-lib/bin_prot/nat0.mli
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/pa_bin_prot.a
++lib/ocaml/site-lib/bin_prot/pa_bin_prot.cma
++lib/ocaml/site-lib/bin_prot/pa_bin_prot.cmi
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/pa_bin_prot.cmx
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/pa_bin_prot.cmxa
++${PLIST.opt}lib/ocaml/site-lib/bin_prot/pa_bin_prot.cmxs
++lib/ocaml/site-lib/bin_prot/pa_bin_prot.mli
++lib/ocaml/site-lib/bin_prot/read_c.mli
++lib/ocaml/site-lib/bin_prot/read_ml.mli
++lib/ocaml/site-lib/bin_prot/size.mli
++lib/ocaml/site-lib/bin_prot/std.ml
++lib/ocaml/site-lib/bin_prot/type_class.mli
++lib/ocaml/site-lib/bin_prot/unsafe_common.mli
++lib/ocaml/site-lib/bin_prot/unsafe_read_c.mli
++lib/ocaml/site-lib/bin_prot/unsafe_write_c.mli
++lib/ocaml/site-lib/bin_prot/utils.mli
++lib/ocaml/site-lib/bin_prot/write_c.mli
++lib/ocaml/site-lib/bin_prot/write_ml.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/bin_prot
+diff -r 756f11612070 -r cbb156bb38b7 devel/ocaml-bin_prot/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-bin_prot/distinfo	Mon May 06 16:54:53 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (bin_prot-109.15.00.tar.gz) = d073937f8b43278d2c9f7a9c9ad2fa9f1809f491
++RMD160 (bin_prot-109.15.00.tar.gz) = d15a868eb006b40abf49d472968afa8eca832048
++Size (bin_prot-109.15.00.tar.gz) = 103697 bytes
