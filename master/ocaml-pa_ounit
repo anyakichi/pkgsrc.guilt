@@ -1,0 +1,68 @@
+# HG changeset patch
+# Parent 4dd95455b6c28dad62b96fe0d85bcc427be4372c
+diff -r 4dd95455b6c2 -r 756f11612070 devel/ocaml-pa_ounit/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pa_ounit/DESCR	Mon May 06 16:51:28 2013 +0900
+@@ -0,0 +1,7 @@
++Pa_ounit is a syntax extension that helps writing in-line oUnit. It
++takes care of automatically registering the tests and generates
++helpfull failure messages with the file and line number.
++
++It allows user to register tests with a new TEST top-level expressions
++and automatically collects all the tests in a module (in a function
++ounit_tests of type unit -> OUnit.test).
+diff -r 4dd95455b6c2 -r 756f11612070 devel/ocaml-pa_ounit/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pa_ounit/Makefile	Mon May 06 16:51:28 2013 +0900
+@@ -0,0 +1,21 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	pa_ounit-${VERSION}
++VERSION=	109.18.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Syntax extension for oUnit
++LICENSE=	apache-2.0
++
++DEPENDS+=	ocaml-ounit-[0-9]*:../../devel/ocaml-ounit
++DEPENDS+=	ocaml-type_conv>=109.15.00:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 4dd95455b6c2 -r 756f11612070 devel/ocaml-pa_ounit/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pa_ounit/PLIST	Mon May 06 16:51:28 2013 +0900
+@@ -0,0 +1,17 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/pa_ounit
++lib/ocaml/site-lib/pa_ounit/META
++lib/ocaml/site-lib/pa_ounit/pa_ounit.cmi
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit.cmx
++lib/ocaml/site-lib/pa_ounit/pa_ounit.ml
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_lib.a
++lib/ocaml/site-lib/pa_ounit/pa_ounit_lib.cma
++lib/ocaml/site-lib/pa_ounit/pa_ounit_lib.cmi
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_lib.cmxa
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_lib.cmxs
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_syntax.a
++lib/ocaml/site-lib/pa_ounit/pa_ounit_syntax.cma
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_syntax.cmxa
++${PLIST.opt}lib/ocaml/site-lib/pa_ounit/pa_ounit_syntax.cmxs
++lib/ocaml/site-lib/pa_ounit/runtime.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/pa_ounit
+diff -r 4dd95455b6c2 -r 756f11612070 devel/ocaml-pa_ounit/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-pa_ounit/distinfo	Mon May 06 16:51:28 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (pa_ounit-109.18.00.tar.gz) = 6e8ec5f984a85ec9a44dacfed0f095ccaebb9fca
++RMD160 (pa_ounit-109.18.00.tar.gz) = e4c12c160855434c289fc6139a0cbd9c75c80b3e
++Size (pa_ounit-109.18.00.tar.gz) = 51492 bytes
