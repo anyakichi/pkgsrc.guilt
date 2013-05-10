@@ -1,0 +1,14 @@
+# HG changeset patch
+# Parent 7f0eee54b13d5b3b6448b84e5e754c47dbc25f52
+diff -r 7f0eee54b13d -r c94e504f2af3 mk/wrapper/buildcmd
+--- a/mk/wrapper/buildcmd	Mon May 06 23:10:34 2013 +0900
++++ b/mk/wrapper/buildcmd	Fri May 10 23:28:45 2013 +0900
+@@ -70,7 +70,7 @@
+ # thay are libraries so that they still surround the given library.
+ # WARNING: this may not work if the wrapper reorders libraries.
+ ######################################################################
+--l*|--as-needed|--no-as-needed)
++-l*|--as-needed|--no-as-needed|*.a)
+ 	case $libs in
+ 	*" "$arg)
+ 		;;
