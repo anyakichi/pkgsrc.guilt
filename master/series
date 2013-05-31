@@ -50,3 +50,4 @@ ocaml-herelib
 ocaml-core
 ocaml-res
 ocaml-camomile
+ocaml-sqlite3-buildlink3
