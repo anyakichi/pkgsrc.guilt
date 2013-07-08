@@ -1,0 +1,66 @@
+# HG changeset patch
+# Parent 0ea7a0396268891294b637e5002324f8f013f944
+diff -r 0ea7a0396268 -r 60225ed65e59 devel/ocaml-custom_printf/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-custom_printf/DESCR	Mon Jul 08 12:53:14 2013 +0900
+@@ -0,0 +1,3 @@
++It rewrites calls to printf-like functions when the format is prefixed
++with '!' to wrap special arguments with 'Module.to_string' conversion
++functions.
+diff -r 0ea7a0396268 -r 60225ed65e59 devel/ocaml-custom_printf/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-custom_printf/Makefile	Mon Jul 08 12:53:14 2013 +0900
+@@ -0,0 +1,22 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	custom_printf-${VERSION}
++VERSION=	109.15.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Extension for printf format strings
++LICENSE=	apache-2.0
++
++DEPENDS+=       ocaml-pa_ounit>=109.18.00:../../devel/ocaml-pa_ounit
++DEPENDS+=       ocaml-sexplib>=109.20.00:../../devel/ocaml-sexplib
++DEPENDS+=	ocaml-type_conv>=109.15.00:../../devel/ocaml-type_conv
++
++.include "../../lang/ocaml/oasis.mk"
++.include "../../lang/ocaml/opt.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 0ea7a0396268 -r 60225ed65e59 devel/ocaml-custom_printf/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-custom_printf/PLIST	Mon Jul 08 12:53:14 2013 +0900
+@@ -0,0 +1,18 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/custom_printf
++lib/ocaml/site-lib/custom_printf/META
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/custom_printf.a
++lib/ocaml/site-lib/custom_printf/custom_printf.cma
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/custom_printf.cmxa
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/custom_printf.cmxs
++lib/ocaml/site-lib/custom_printf/custom_printf_dummy.cmi
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/custom_printf_dummy.cmx
++lib/ocaml/site-lib/custom_printf/custom_printf_dummy.ml
++lib/ocaml/site-lib/custom_printf/pa_custom_printf.a
++lib/ocaml/site-lib/custom_printf/pa_custom_printf.cma
++lib/ocaml/site-lib/custom_printf/pa_custom_printf.cmi
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/pa_custom_printf.cmx
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/pa_custom_printf.cmxa
++${PLIST.opt}lib/ocaml/site-lib/custom_printf/pa_custom_printf.cmxs
++lib/ocaml/site-lib/custom_printf/pa_custom_printf.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/custom_printf
+diff -r 0ea7a0396268 -r 60225ed65e59 devel/ocaml-custom_printf/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-custom_printf/distinfo	Mon Jul 08 12:53:14 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (custom_printf-109.15.00.tar.gz) = 1aeceddd516bb646ece1a79b92d3e31f990002d7
++RMD160 (custom_printf-109.15.00.tar.gz) = 7426971dea7e984c6ac239c26915211cbd9147c7
++Size (custom_printf-109.15.00.tar.gz) = 47869 bytes
