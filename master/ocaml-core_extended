@@ -1,0 +1,237 @@
+# HG changeset patch
+# Parent 60225ed65e59d430f62bbeb389570b749b02bd55
+diff -r 60225ed65e59 -r a82a0970be53 devel/ocaml-core_extended/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-core_extended/DESCR	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,3 @@
++The Core suite of libraries is an industrial strength alternative to
++OCaml's standard library that was developed by Jane Street, the largest
++industrial user of OCaml.
+diff -r 60225ed65e59 -r a82a0970be53 devel/ocaml-core_extended/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-core_extended/Makefile	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,29 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	core_extended-${VERSION}
++VERSION=	109.21.00
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	Extra components that are not as closely vetted or as stable as Core
++LICENSE=	apache-2.0
++
++DEPENDS+=	ocaml-bin_prot>=109.15.00:../../devel/ocaml-bin_prot
++DEPENDS+=	ocaml-comparelib>=109.15.00:../../devel/ocaml-comparelib
++DEPENDS+=	ocaml-core>=109.21.00:../../devel/ocaml-core
++DEPENDS+=	ocaml-custom_printf>=109.15.00:../../devel/ocaml-custom_printf
++DEPENDS+=	ocaml-fieldslib>=109.20.00:../../devel/ocaml-fieldslib
++DEPENDS+=	ocaml-pa_ounit>=109.18.00:../../devel/ocaml-pa_ounit
++DEPENDS+=	ocaml-pipebang>=109.15.00:../../devel/ocaml-pipebang
++DEPENDS+=	ocaml-pcre-[0-9]*:../../devel/ocaml-pcre
++DEPENDS+=	ocaml-res-[0-9]*:../../devel/ocaml-res
++DEPENDS+=	ocaml-sexplib>=109.20.00:../../devel/ocaml-sexplib
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 60225ed65e59 -r a82a0970be53 devel/ocaml-core_extended/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-core_extended/PLIST	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,114 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/core_extended
++lib/ocaml/site-lib/core_extended/META
++lib/ocaml/site-lib/core_extended/alternating_primary_backup_assignment.mli
++lib/ocaml/site-lib/core_extended/ascii_table.mli
++lib/ocaml/site-lib/core_extended/atomic_edit.mli
++lib/ocaml/site-lib/core_extended/bench.mli
++lib/ocaml/site-lib/core_extended/bin_io_utils.mli
++lib/ocaml/site-lib/core_extended/bitarray.mli
++lib/ocaml/site-lib/core_extended/cache.mli
++lib/ocaml/site-lib/core_extended/cbuffer.mli
++lib/ocaml/site-lib/core_extended/color_print.mli
++lib/ocaml/site-lib/core_extended/console.mli
++${PLIST.opt}lib/ocaml/site-lib/core_extended/core_extended.a
++lib/ocaml/site-lib/core_extended/core_extended.cma
++lib/ocaml/site-lib/core_extended/core_extended.cmi
++${PLIST.opt}lib/ocaml/site-lib/core_extended/core_extended.cmxa
++${PLIST.opt}lib/ocaml/site-lib/core_extended/core_extended.cmxs
++lib/ocaml/site-lib/core_extended/crit_bit.mli
++lib/ocaml/site-lib/core_extended/csv_writer.mli
++lib/ocaml/site-lib/core_extended/deprecated_command.mli
++lib/ocaml/site-lib/core_extended/deprecated_fcommand.mli
++lib/ocaml/site-lib/core_extended/deprecated_service_command.mli
++lib/ocaml/site-lib/core_extended/dllcore_extended_stubs.so
++lib/ocaml/site-lib/core_extended/documented_match_statement.mli
++lib/ocaml/site-lib/core_extended/english.mli
++lib/ocaml/site-lib/core_extended/environment.mli
++lib/ocaml/site-lib/core_extended/exception_check.mli
++lib/ocaml/site-lib/core_extended/extended_array.mli
++lib/ocaml/site-lib/core_extended/extended_common.mli
++lib/ocaml/site-lib/core_extended/extended_exn.mli
++lib/ocaml/site-lib/core_extended/extended_filename.mli
++lib/ocaml/site-lib/core_extended/extended_float.mli
++lib/ocaml/site-lib/core_extended/extended_gc.mli
++lib/ocaml/site-lib/core_extended/extended_hashtbl.mli
++lib/ocaml/site-lib/core_extended/extended_int.mli
++lib/ocaml/site-lib/core_extended/extended_int32.mli
++lib/ocaml/site-lib/core_extended/extended_int63.mli
++lib/ocaml/site-lib/core_extended/extended_int64.mli
++lib/ocaml/site-lib/core_extended/extended_linux.mli
++lib/ocaml/site-lib/core_extended/extended_list.mli
++lib/ocaml/site-lib/core_extended/extended_list__LCS.mli
++lib/ocaml/site-lib/core_extended/extended_list__multimerge.mli
++lib/ocaml/site-lib/core_extended/extended_memo.mli
++lib/ocaml/site-lib/core_extended/extended_monad.ml
++lib/ocaml/site-lib/core_extended/extended_nativeint.mli
++lib/ocaml/site-lib/core_extended/extended_option.ml
++lib/ocaml/site-lib/core_extended/extended_result.mli
++lib/ocaml/site-lib/core_extended/extended_sexp.mli
++lib/ocaml/site-lib/core_extended/extended_string.mli
++lib/ocaml/site-lib/core_extended/extended_sys.mli
++lib/ocaml/site-lib/core_extended/extended_thread.mli
++lib/ocaml/site-lib/core_extended/extended_time.mli
++lib/ocaml/site-lib/core_extended/extended_unix.mli
++lib/ocaml/site-lib/core_extended/extra_fields.mli
++lib/ocaml/site-lib/core_extended/fd_leak_check.mli
++lib/ocaml/site-lib/core_extended/find.mli
++lib/ocaml/site-lib/core_extended/fold_map.mli
++lib/ocaml/site-lib/core_extended/generic.mli
++lib/ocaml/site-lib/core_extended/invariant.ml
++lib/ocaml/site-lib/core_extended/invocation.mli
++lib/ocaml/site-lib/core_extended/iter.mli
++lib/ocaml/site-lib/core_extended/lazy_list.mli
++lib/ocaml/site-lib/core_extended/lazy_m.mli
++lib/ocaml/site-lib/core_extended/lazy_sequence.mli
++${PLIST.opt}lib/ocaml/site-lib/core_extended/libcore_extended_stubs.a
++lib/ocaml/site-lib/core_extended/linebuf.mli
++lib/ocaml/site-lib/core_extended/list_zipper.mli
++lib/ocaml/site-lib/core_extended/logger.mli
++lib/ocaml/site-lib/core_extended/loggers.mli
++lib/ocaml/site-lib/core_extended/low_level_debug.mli
++lib/ocaml/site-lib/core_extended/malloc.mli
++lib/ocaml/site-lib/core_extended/multi_map.mli
++lib/ocaml/site-lib/core_extended/net_utils.mli
++lib/ocaml/site-lib/core_extended/number.mli
++lib/ocaml/site-lib/core_extended/packed_array.mli
++lib/ocaml/site-lib/core_extended/packed_map.mli
++lib/ocaml/site-lib/core_extended/patience_diff.mli
++lib/ocaml/site-lib/core_extended/posix_clock.mli
++lib/ocaml/site-lib/core_extended/pp.mli
++lib/ocaml/site-lib/core_extended/printc.mli
++lib/ocaml/site-lib/core_extended/process.mli
++lib/ocaml/site-lib/core_extended/procfs.mli
++lib/ocaml/site-lib/core_extended/prod_or_test.mli
++lib/ocaml/site-lib/core_extended/random_selection.mli
++lib/ocaml/site-lib/core_extended/readline.mli
++lib/ocaml/site-lib/core_extended/readline__input_char.mli
++lib/ocaml/site-lib/core_extended/readline__input_loop.mli
++lib/ocaml/site-lib/core_extended/runtime_blockout_detector.mli
++lib/ocaml/site-lib/core_extended/rw_mutex.mli
++lib/ocaml/site-lib/core_extended/sampler.mli
++lib/ocaml/site-lib/core_extended/search_foo.mli
++lib/ocaml/site-lib/core_extended/selector.mli
++lib/ocaml/site-lib/core_extended/semaphore.mli
++lib/ocaml/site-lib/core_extended/sendmail.mli
++lib/ocaml/site-lib/core_extended/service_command.mli
++lib/ocaml/site-lib/core_extended/shell.mli
++lib/ocaml/site-lib/core_extended/shell__core.mli
++lib/ocaml/site-lib/core_extended/shell__line_buffer.mli
++lib/ocaml/site-lib/core_extended/sntp.mli
++lib/ocaml/site-lib/core_extended/splay_tree.mli
++lib/ocaml/site-lib/core_extended/stats_reporting.mli
++lib/ocaml/site-lib/core_extended/std.ml
++lib/ocaml/site-lib/core_extended/string_zipper.mli
++lib/ocaml/site-lib/core_extended/sys_utils.mli
++lib/ocaml/site-lib/core_extended/syslog.mli
++lib/ocaml/site-lib/core_extended/tcp.mli
++lib/ocaml/site-lib/core_extended/text_block.mli
++lib/ocaml/site-lib/core_extended/time_stamp_counter.mli
++lib/ocaml/site-lib/core_extended/timed_function.mli
++lib/ocaml/site-lib/core_extended/trie.mli
++lib/ocaml/site-lib/core_extended/unix_utils.mli
++lib/ocaml/site-lib/core_extended/update_queue.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/core_extended
+diff -r 60225ed65e59 -r a82a0970be53 devel/ocaml-core_extended/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-core_extended/distinfo	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (core_extended-109.21.00.tar.gz) = f4a1fbb5452951464e05fd237b7bc466cd11afaf
++RMD160 (core_extended-109.21.00.tar.gz) = f120cd71cbe203d1657e2e937af43ad293a1830e
++Size (core_extended-109.21.00.tar.gz) = 283997 bytes
+diff -r 60225ed65e59 -r a82a0970be53 patches/devel/ocaml-core_extended/extended_unix_stubs.c.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/devel/ocaml-core_extended/extended_unix_stubs.c.patch	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,44 @@
++diff -u lib/extended_unix_stubs.c.orig lib/extended_unix_stubs.c
++--- lib/extended_unix_stubs.c.orig	2013-05-01 19:06:50.000000000 +0900
+++++ lib/extended_unix_stubs.c	2013-07-02 19:08:45.000000000 +0900
++@@ -21,6 +21,12 @@
++ #include <math.h>
++ #include <arpa/inet.h>
++ 
+++#ifdef __NetBSD__
+++#include <sys/quotactl.h>
+++#include <ufs/ufs/quota1.h>
+++#include <lwp.h>
+++#endif
+++
++ #include "config.h"
++ #include "ocaml_utils.h"
++ 
++@@ -75,7 +81,11 @@
++ /* copy of the ocaml's stdlib wrapper for getpid */
++ CAMLprim value extended_ml_gettid(value v_unit __unused)
++ {
+++#ifdef __NetBSD__
+++  return _lwp_self();
+++#else
++   return Val_int(syscall(SYS_gettid));
+++#endif
++ }
++ 
++ CAMLprim value getloadavg_stub (value v_unit __unused)
++@@ -96,8 +106,13 @@
++ 
++ #  define quota_control(device, cmd, id, parg)  \
++      quotactl((device), (cmd), (id), (parg))
++-#  define QUOTA_BYTES_PER_SPACE_UNIT 1
++-#  define QUOTA_SPACE_USED(quota) ((quota).dqb_curbytes)
+++#  ifdef __NetBSD__
+++#    define QUOTA_BYTES_PER_SPACE_UNIT 1024
+++#    define QUOTA_SPACE_USED(quota) ((quota).dqb_curblocks)
+++#  else
+++#    define QUOTA_BYTES_PER_SPACE_UNIT 1
+++#    define QUOTA_SPACE_USED(quota) ((quota).dqb_curbytes)
+++#  endif
++ #  define QUOTA_MODIFY_COMMAND Q_SETQUOTA
++ #  define QUOTA_SET_VALID_FIELDS(quota) ((void)quota)
++ 
+diff -r 60225ed65e59 -r a82a0970be53 patches/devel/ocaml-core_extended/posix_clock_stubs.c.patch
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/devel/ocaml-core_extended/posix_clock_stubs.c.patch	Mon Jul 08 16:52:12 2013 +0900
+@@ -0,0 +1,16 @@
++diff -u lib/posix_clock_stubs.c.orig lib/posix_clock_stubs.c
++--- lib/posix_clock_stubs.c.orig	2013-05-01 19:06:50.000000000 +0900
+++++ lib/posix_clock_stubs.c	2013-07-02 19:10:43.000000000 +0900
++@@ -26,8 +26,12 @@
++   switch (Int_val(clock_type)) {
++     case 0: return CLOCK_REALTIME;
++     case 1: return CLOCK_MONOTONIC;
+++#ifdef CLOCK_PROCESS_CPUTIME_ID
++     case 2: return CLOCK_PROCESS_CPUTIME_ID;
+++#endif
+++#ifdef CLOCK_THREAD_CPUTIME_ID
++     case 3: return CLOCK_THREAD_CPUTIME_ID;
+++#endif
++   };
++ 
++   caml_failwith ("invalid Clock.t");

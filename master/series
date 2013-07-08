@@ -53,3 +53,4 @@ ocaml-camomile
 ocaml-sqlite3-buildlink3
 skkserv-lite2
 ocaml-custom_printf
+ocaml-core_extended
