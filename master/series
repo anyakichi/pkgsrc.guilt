@@ -36,7 +36,6 @@ ocaml-ounit
 ocaml-type_conv
 ocaml-data-notation
 ocaml-oasis
-ocaml-batteries
 ocaml-fileutils
 ocaml-pcre
 ocaml-sexplib
