@@ -1,20 +1,21 @@
 # HG changeset patch
-# Parent cbb156bb38b7ea0262eceb9694ba68a0898f06bc
-diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/DESCR
+# Parent 24150fbaac528e4fceb523dbc431d591c0a5a797
+
+diff -r 24150fbaac52 devel/ocaml-pipebang/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-pipebang/DESCR	Mon May 06 16:57:29 2013 +0900
++++ b/devel/ocaml-pipebang/DESCR	Mon Nov 18 00:14:09 2013 +0900
 @@ -0,0 +1,1 @@
 +Syntax extension to transform x |! f into f x.
-diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/Makefile
+diff -r 24150fbaac52 devel/ocaml-pipebang/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-pipebang/Makefile	Mon May 06 16:57:29 2013 +0900
++++ b/devel/ocaml-pipebang/Makefile	Mon Nov 18 00:14:09 2013 +0900
 @@ -0,0 +1,18 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
 +DISTNAME=	pipebang-${VERSION}
-+VERSION=	109.15.00
++VERSION=	109.28.00
 +CATEGORIES=	devel
 +MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
 +FETCH_USING=	curl
@@ -27,9 +28,9 @@ diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/Makefile
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/PLIST
+diff -r 24150fbaac52 devel/ocaml-pipebang/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-pipebang/PLIST	Mon May 06 16:57:29 2013 +0900
++++ b/devel/ocaml-pipebang/PLIST	Mon Nov 18 00:14:09 2013 +0900
 @@ -0,0 +1,11 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/pa_pipebang
@@ -42,12 +43,12 @@ diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/pa_pipebang/pa_pipebang.cmxs
 +lib/ocaml/site-lib/pa_pipebang/pa_pipebang.ml
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/pa_pipebang
-diff -r cbb156bb38b7 -r 1bb9f89b0809 devel/ocaml-pipebang/distinfo
+diff -r 24150fbaac52 devel/ocaml-pipebang/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-pipebang/distinfo	Mon May 06 16:57:29 2013 +0900
++++ b/devel/ocaml-pipebang/distinfo	Mon Nov 18 00:14:09 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (pipebang-109.15.00.tar.gz) = 800f0b7e2a527d40e3121b74f8d8e53dd7004e58
-+RMD160 (pipebang-109.15.00.tar.gz) = f41abd1508aef934e3f23d7525b57ef1cea7ba7e
-+Size (pipebang-109.15.00.tar.gz) = 43929 bytes
++SHA1 (pipebang-109.28.00.tar.gz) = 985de8d5e37bec0875f9afa9b697fcc7455ce0eb
++RMD160 (pipebang-109.28.00.tar.gz) = 1c35601841066997ac1a6095145c69dee2e6f5c2
++Size (pipebang-109.28.00.tar.gz) = 43937 bytes
