@@ -1,22 +1,23 @@
 # HG changeset patch
-# Parent 5861dd13aaf5143d01b6863da816837382efcea0
-diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/DESCR
+# Parent 2714baea959ae2156fac3ad2adaba6b4d7adae39
+
+diff -r 2714baea959a devel/ocaml-ounit/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ounit/DESCR	Mon May 06 14:23:00 2013 +0900
++++ b/devel/ocaml-ounit/DESCR	Mon Nov 18 00:10:42 2013 +0900
 @@ -0,0 +1,2 @@
 +OUnit is a unit testing framework for OCaml, inspired by the JUnit tool for
 +Java, and the HUnit tool for Haskell.
-diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/Makefile
+diff -r 2714baea959a devel/ocaml-ounit/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ounit/Makefile	Mon May 06 14:23:00 2013 +0900
++++ b/devel/ocaml-ounit/Makefile	Mon Nov 18 00:10:42 2013 +0900
 @@ -0,0 +1,16 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
-+DISTNAME=	ounit-1.1.2
++DISTNAME=	ounit-2.0.0
 +CATEGORIES=	devel
-+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/886/
++MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1258/
 +
 +MAINTAINER=	pkgsrc-users@NetBSD.org
 +HOMEPAGE=	http://ounit.forge.ocamlcore.org/
@@ -26,10 +27,10 @@ diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/Makefile
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/PLIST
+diff -r 2714baea959a devel/ocaml-ounit/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ounit/PLIST	Mon May 06 14:23:00 2013 +0900
-@@ -0,0 +1,15 @@
++++ b/devel/ocaml-ounit/PLIST	Mon Nov 18 00:10:42 2013 +0900
+@@ -0,0 +1,95 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/oUnit
 +lib/ocaml/site-lib/oUnit/META
@@ -40,17 +41,97 @@ diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.cmxa
 +${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit.cmxs
 +lib/ocaml/site-lib/oUnit/oUnit.mli
++lib/ocaml/site-lib/oUnit/oUnit2.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnit2.cmx
++lib/ocaml/site-lib/oUnit/oUnit2.mli
++lib/ocaml/site-lib/oUnit/oUnitAdvanced.a
++lib/ocaml/site-lib/oUnit/oUnitAdvanced.cma
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitAdvanced.cmxa
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitAdvanced.cmxs
++lib/ocaml/site-lib/oUnit/oUnitAssert.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitAssert.cmx
++lib/ocaml/site-lib/oUnit/oUnitAssert.ml
++lib/ocaml/site-lib/oUnit/oUnitBracket.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitBracket.cmx
++lib/ocaml/site-lib/oUnit/oUnitBracket.ml
++lib/ocaml/site-lib/oUnit/oUnitCache.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitCache.cmx
++lib/ocaml/site-lib/oUnit/oUnitCache.ml
++lib/ocaml/site-lib/oUnit/oUnitCheckEnv.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitCheckEnv.cmx
++lib/ocaml/site-lib/oUnit/oUnitCheckEnv.ml
++lib/ocaml/site-lib/oUnit/oUnitChooser.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitChooser.cmx
++lib/ocaml/site-lib/oUnit/oUnitChooser.ml
++lib/ocaml/site-lib/oUnit/oUnitConf.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitConf.cmx
++lib/ocaml/site-lib/oUnit/oUnitConf.ml
++lib/ocaml/site-lib/oUnit/oUnitCore.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitCore.cmx
++lib/ocaml/site-lib/oUnit/oUnitCore.ml
 +lib/ocaml/site-lib/oUnit/oUnitDiff.cmi
 +${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitDiff.cmx
 +lib/ocaml/site-lib/oUnit/oUnitDiff.mli
++lib/ocaml/site-lib/oUnit/oUnitLogger.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitLogger.cmx
++lib/ocaml/site-lib/oUnit/oUnitLogger.ml
++lib/ocaml/site-lib/oUnit/oUnitLoggerHTML.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitLoggerHTML.cmx
++lib/ocaml/site-lib/oUnit/oUnitLoggerHTML.ml
++lib/ocaml/site-lib/oUnit/oUnitLoggerHTMLData.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitLoggerHTMLData.cmx
++lib/ocaml/site-lib/oUnit/oUnitLoggerJUnit.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitLoggerJUnit.cmx
++lib/ocaml/site-lib/oUnit/oUnitLoggerJUnit.ml
++lib/ocaml/site-lib/oUnit/oUnitLoggerStd.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitLoggerStd.cmx
++lib/ocaml/site-lib/oUnit/oUnitLoggerStd.ml
++lib/ocaml/site-lib/oUnit/oUnitPlugin.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitPlugin.cmx
++lib/ocaml/site-lib/oUnit/oUnitPlugin.ml
++lib/ocaml/site-lib/oUnit/oUnitPropList.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitPropList.cmx
++lib/ocaml/site-lib/oUnit/oUnitPropList.ml
++lib/ocaml/site-lib/oUnit/oUnitResultSummary.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitResultSummary.cmx
++lib/ocaml/site-lib/oUnit/oUnitResultSummary.ml
++lib/ocaml/site-lib/oUnit/oUnitRunner.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitRunner.cmx
++lib/ocaml/site-lib/oUnit/oUnitRunner.ml
++lib/ocaml/site-lib/oUnit/oUnitRunnerProcesses.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitRunnerProcesses.cmx
++lib/ocaml/site-lib/oUnit/oUnitRunnerProcesses.ml
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitRunnerThreads.cmx
++lib/ocaml/site-lib/oUnit/oUnitShared.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitShared.cmx
++lib/ocaml/site-lib/oUnit/oUnitShared.ml
++lib/ocaml/site-lib/oUnit/oUnitState.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitState.cmx
++lib/ocaml/site-lib/oUnit/oUnitState.ml
++lib/ocaml/site-lib/oUnit/oUnitTest.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitTest.cmx
++lib/ocaml/site-lib/oUnit/oUnitTest.ml
++lib/ocaml/site-lib/oUnit/oUnitTestData.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitTestData.cmx
++lib/ocaml/site-lib/oUnit/oUnitTestData.ml
++lib/ocaml/site-lib/oUnit/oUnitThreads.a
++lib/ocaml/site-lib/oUnit/oUnitThreads.cma
++lib/ocaml/site-lib/oUnit/oUnitThreads.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitThreads.cmx
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitThreads.cmxa
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitThreads.cmxs
++lib/ocaml/site-lib/oUnit/oUnitThreads.ml
++lib/ocaml/site-lib/oUnit/oUnitUtils.cmi
++${PLIST.opt}lib/ocaml/site-lib/oUnit/oUnitUtils.cmx
++lib/ocaml/site-lib/oUnit/oUnitUtils.ml
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/oUnit
 +
-diff -r 5861dd13aaf5 -r 2ae97143ac0c devel/ocaml-ounit/distinfo
+diff -r 2714baea959a devel/ocaml-ounit/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ounit/distinfo	Mon May 06 14:23:00 2013 +0900
++++ b/devel/ocaml-ounit/distinfo	Mon Nov 18 00:10:42 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (ounit-1.1.2.tar.gz) = c7311ac200138958eec9b49274083989a0b097f1
-+RMD160 (ounit-1.1.2.tar.gz) = 77793a4478a1ddc1f8775e7d51eed56b89545052
-+Size (ounit-1.1.2.tar.gz) = 58055 bytes
++SHA1 (ounit-2.0.0.tar.gz) = 28e558f810611acb49eac8920fa354997d3db6f5
++RMD160 (ounit-2.0.0.tar.gz) = dcd716e242a329d8e9ad4bed578c8dd68a29feef
++Size (ounit-2.0.0.tar.gz) = 103504 bytes
