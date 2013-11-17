@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent 0e8fdf7b56a111ab43010a15c1d96afb1c909054
-diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/DESCR
+# Parent 7f4539d59d9f6ad3799233790cb8d33a635f75b2
+
+diff -r 7f4539d59d9f devel/ocaml-sexplib/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-sexplib/DESCR	Mon May 06 16:41:26 2013 +0900
++++ b/devel/ocaml-sexplib/DESCR	Mon Nov 18 00:16:06 2013 +0900
 @@ -0,0 +1,14 @@
 +This [OCaml](http://www.ocaml.org) library contains functionality for
 +parsing and pretty-printing S-expressions.  In addition to that it contains a
@@ -18,16 +19,16 @@ diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/DESCR
 +from S-expressions to OCaml-values are reported in human-readable ways
 +with exact location information.  The library also offers functionality for
 +extracting and replacing sub-expressions in S-expressions.
-diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/Makefile
+diff -r 7f4539d59d9f devel/ocaml-sexplib/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-sexplib/Makefile	Mon May 06 16:41:26 2013 +0900
++++ b/devel/ocaml-sexplib/Makefile	Mon Nov 18 00:16:06 2013 +0900
 @@ -0,0 +1,20 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
 +DISTNAME=	sexplib-${VERSION}
-+VERSION=	109.20.00
++VERSION=	109.47.00
 +CATEGORIES=	devel
 +MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
 +FETCH_USING=	curl
@@ -37,14 +38,14 @@ diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/Makefile
 +COMMENT=	automated S-expression conversion
 +LICENSE=	apache-2.0
 +
-+DEPENDS+=	ocaml-type_conv>=109.20.00:../../devel/ocaml-type_conv
++DEPENDS+=	ocaml-type_conv>=109.47.00:../../devel/ocaml-type_conv
 +
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/PLIST
+diff -r 7f4539d59d9f devel/ocaml-sexplib/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-sexplib/PLIST	Mon May 06 16:41:26 2013 +0900
++++ b/devel/ocaml-sexplib/PLIST	Mon Nov 18 00:16:06 2013 +0900
 @@ -0,0 +1,36 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/sexplib
@@ -82,12 +83,12 @@ diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/PLIST
 +lib/ocaml/site-lib/sexplib/type.ml
 +lib/ocaml/site-lib/sexplib/type_with_layout.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/sexplib
-diff -r 0e8fdf7b56a1 -r 71d3ed2850d6 devel/ocaml-sexplib/distinfo
+diff -r 7f4539d59d9f devel/ocaml-sexplib/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-sexplib/distinfo	Mon May 06 16:41:26 2013 +0900
++++ b/devel/ocaml-sexplib/distinfo	Mon Nov 18 00:16:06 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (sexplib-109.20.00.tar.gz) = 3ca86a57d17cdaaffa61232ecb65065b9d8ac66c
-+RMD160 (sexplib-109.20.00.tar.gz) = a4b9188dacbbabfac90ebc930f32dddb2b41b13b
-+Size (sexplib-109.20.00.tar.gz) = 115211 bytes
++SHA1 (sexplib-109.47.00.tar.gz) = 0f2c76972971ed63179b9b342bdac5524899c43f
++RMD160 (sexplib-109.47.00.tar.gz) = 3030cb1103732d6c58dfc66ffaf8e7d47eecc512
++Size (sexplib-109.47.00.tar.gz) = 115670 bytes
