@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent 9cb805d6911c8f214e24ba12b86ca7b27849bd81
+# Parent 1f791b96d70790e960eec27310dbb440d03915cc
 
-diff -r 9cb805d6911c devel/ocaml-res/DESCR
+diff -r 1f791b96d707 devel/ocaml-res/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/DESCR	Mon May 06 23:08:43 2013 +0900
++++ b/devel/ocaml-res/DESCR	Mon Nov 18 00:24:52 2013 +0900
 @@ -0,0 +1,9 @@
 +This OCaml-library consists of a set of modules which implement
 +automatically resizing (= reallocating) datastructures that consume
@@ -14,20 +14,18 @@ diff -r 9cb805d6911c devel/ocaml-res/DESCR
 +
 +There are also functors that allow the generation of similar modules
 +which use different reallocation strategies.
-diff -r 9cb805d6911c devel/ocaml-res/Makefile
+diff -r 1f791b96d707 devel/ocaml-res/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/Makefile	Mon May 06 23:08:43 2013 +0900
-@@ -0,0 +1,20 @@
++++ b/devel/ocaml-res/Makefile	Mon Nov 18 00:24:52 2013 +0900
+@@ -0,0 +1,17 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
-+DISTNAME=	res-3.2.0
++DISTNAME=	res-4.0.3
 +CATEGORIES=	devel
 +MASTER_SITES=	https://bitbucket.org/mmottl/res/downloads/
 +FETCH_USING=	curl
-+
-+USE_TOOLS+=	gmake
 +
 +MAINTAINER=	pkgsrc-users@NetBSD.org
 +HOMEPAGE=	http://janestreet.github.io/
@@ -35,35 +33,50 @@ diff -r 9cb805d6911c devel/ocaml-res/Makefile
 +LICENSE=	gnu-lgpl-v2.1
 +
 +.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/buildlink3.mk"
-+.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 9cb805d6911c devel/ocaml-res/PLIST
+diff -r 1f791b96d707 devel/ocaml-res/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/PLIST	Mon May 06 23:08:43 2013 +0900
-@@ -0,0 +1,16 @@
++++ b/devel/ocaml-res/PLIST	Mon Nov 18 00:24:52 2013 +0900
+@@ -0,0 +1,32 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/res
 +lib/ocaml/site-lib/res/META
++lib/ocaml/site-lib/res/nopres_impl.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/nopres_impl.cmx
++lib/ocaml/site-lib/res/nopres_impl.ml
 +lib/ocaml/site-lib/res/nopres_intf.cmi
-+lib/ocaml/site-lib/res/nopres_intf.mli
++${PLIST.opt}lib/ocaml/site-lib/res/nopres_intf.cmx
++lib/ocaml/site-lib/res/nopres_intf.ml
++lib/ocaml/site-lib/res/pres_impl.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/pres_impl.cmx
++lib/ocaml/site-lib/res/pres_impl.ml
 +lib/ocaml/site-lib/res/pres_intf.cmi
-+lib/ocaml/site-lib/res/pres_intf.mli
++${PLIST.opt}lib/ocaml/site-lib/res/pres_intf.cmx
++lib/ocaml/site-lib/res/pres_intf.ml
 +${PLIST.opt}lib/ocaml/site-lib/res/res.a
 +lib/ocaml/site-lib/res/res.cma
 +lib/ocaml/site-lib/res/res.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/res.cmx
 +${PLIST.opt}lib/ocaml/site-lib/res/res.cmxa
++${PLIST.opt}lib/ocaml/site-lib/res/res.cmxs
 +lib/ocaml/site-lib/res/res.mli
 +lib/ocaml/site-lib/res/strat.cmi
-+lib/ocaml/site-lib/res/strat.mli
++${PLIST.opt}lib/ocaml/site-lib/res/strat.cmx
++lib/ocaml/site-lib/res/strat.ml
++lib/ocaml/site-lib/res/weak_impl.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/weak_impl.cmx
++lib/ocaml/site-lib/res/weak_impl.ml
 +lib/ocaml/site-lib/res/weak_intf.cmi
++${PLIST.opt}lib/ocaml/site-lib/res/weak_intf.cmx
++lib/ocaml/site-lib/res/weak_intf.ml
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/res
-diff -r 9cb805d6911c devel/ocaml-res/distinfo
+diff -r 1f791b96d707 devel/ocaml-res/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-res/distinfo	Mon May 06 23:08:43 2013 +0900
++++ b/devel/ocaml-res/distinfo	Mon Nov 18 00:24:52 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (res-3.2.0.tar.gz) = 93a8ba27d3ca50554b42f71c0c5a275a446583a6
-+RMD160 (res-3.2.0.tar.gz) = b579199069a9aa7533b9f75f1428f4c0ecaf5fa4
-+Size (res-3.2.0.tar.gz) = 40349 bytes
++SHA1 (res-4.0.3.tar.gz) = a2eb656c1294982b9ba3e9f0e6c5ae8f893df57d
++RMD160 (res-4.0.3.tar.gz) = 9ee7bd870f49b49678296c67eaa31241bbaeba82
++Size (res-4.0.3.tar.gz) = 69587 bytes
