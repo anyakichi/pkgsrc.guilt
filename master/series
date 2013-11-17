@@ -55,3 +55,4 @@ ocaml-custom_printf
 ocaml-core_extended
 emacs24-nox11
 vim-share-macosx
+mlterm-use-languages
