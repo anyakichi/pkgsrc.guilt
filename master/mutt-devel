@@ -1,24 +1,25 @@
 # HG changeset patch
-# Parent e8dcb274e3930472bf62aa60f35f94da85ae60c8
-diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/Makefile
---- a/mail/mutt-devel/Makefile	Sun Jan 27 19:54:52 2013 +0900
-+++ b/mail/mutt-devel/Makefile	Tue Jan 29 21:40:37 2013 +0900
-@@ -48,6 +48,10 @@
+# Parent 3b6c84d67d6cde8d0681e74bd92243bdadbffd4f
+
+diff -r 3b6c84d67d6c mail/mutt-devel/Makefile
+--- a/mail/mutt-devel/Makefile	Sat Nov 09 22:54:47 2013 +0900
++++ b/mail/mutt-devel/Makefile	Sun Nov 17 23:17:44 2013 +0900
+@@ -47,6 +47,10 @@
  CONFIGURE_ARGS+=	--with-exec-shell=/bin/ksh
  .endif
  
-+PATCH_SITES+=		http://dev.mutt.org/trac/attachment/ticket/3300/
++PATCH_SITES+=		http://dev.mutt.org/trac/raw-attachment/ticket/3300/
 +PATCHFILES+=		mutt-1.5.21-gpgme-init.patch
 +PATCH_DIST_STRIP=	-p1
 +
  .include "options.mk"
  
  LDFLAGS+=		${_STRIPFLAG_CC}
-diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/distinfo
---- a/mail/mutt-devel/distinfo	Sun Jan 27 19:54:52 2013 +0900
-+++ b/mail/mutt-devel/distinfo	Tue Jan 29 21:40:37 2013 +0900
+diff -r 3b6c84d67d6c mail/mutt-devel/distinfo
+--- a/mail/mutt-devel/distinfo	Sat Nov 09 22:54:47 2013 +0900
++++ b/mail/mutt-devel/distinfo	Sun Nov 17 23:17:44 2013 +0900
 @@ -1,11 +1,17 @@
- $NetBSD: distinfo,v 1.72 2012/03/12 14:35:58 wiz Exp $
+ $NetBSD: distinfo,v 1.76 2013/03/09 22:15:08 is Exp $
  
 +SHA1 (mutt-1.5.21-gpgme-init.patch) = 8cf0d4278aab1d162ab7f847f1b917327d630d98
 +RMD160 (mutt-1.5.21-gpgme-init.patch) = 9e430e6ac5155005c67c5e94c47537ebbbfbc451
@@ -35,9 +36,9 @@ diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/distinfo
  SHA1 (sidebar-5302767aa6aa.gz) = 3f87da8e209213a23f228f48ac554beee15adc0a
  RMD160 (sidebar-5302767aa6aa.gz) = c4fd8186cbca3dad30de253b673b9c45cb9abf26
  Size (sidebar-5302767aa6aa.gz) = 11762 bytes
-diff -r e8dcb274e393 -r a59942503adc mail/mutt-devel/options.mk
---- a/mail/mutt-devel/options.mk	Sun Jan 27 19:54:52 2013 +0900
-+++ b/mail/mutt-devel/options.mk	Tue Jan 29 21:40:37 2013 +0900
+diff -r 3b6c84d67d6c mail/mutt-devel/options.mk
+--- a/mail/mutt-devel/options.mk	Sat Nov 09 22:54:47 2013 +0900
++++ b/mail/mutt-devel/options.mk	Sun Nov 17 23:17:44 2013 +0900
 @@ -11,6 +11,7 @@
  PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
  PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
