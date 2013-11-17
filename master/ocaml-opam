@@ -1,23 +1,23 @@
 # HG changeset patch
-# Parent 05a57a8014abb42ee14d996a6edf8295ad41f6b2
+# Parent a6859016b73ecbfe44dc38777376549ed651b078
 
-diff -r 05a57a8014ab devel/ocaml-opam/DESCR
+diff -r a6859016b73e devel/ocaml-opam/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-opam/DESCR	Mon May 06 09:59:53 2013 +0900
++++ b/devel/ocaml-opam/DESCR	Sun Nov 17 23:36:04 2013 +0900
 @@ -0,0 +1,3 @@
 +OPAM is a source-based package manager for OCaml. It supports multiple
 +simultaneous compiler installations, flexible package constraints, and a
 +Git-friendly development workflow.
-diff -r 05a57a8014ab devel/ocaml-opam/Makefile
+diff -r a6859016b73e devel/ocaml-opam/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-opam/Makefile	Mon May 06 09:59:53 2013 +0900
++++ b/devel/ocaml-opam/Makefile	Sun Nov 17 23:36:04 2013 +0900
 @@ -0,0 +1,19 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-opam-${VERSION}
 +DISTNAME=	opam-full-${VERSION}
-+VERSION=	1.0.0
++VERSION=	1.1.0
 +CATEGORIES=	devel
 +MASTER_SITES=	http://www.ocamlpro.com/pub/
 +
@@ -31,13 +31,16 @@ diff -r 05a57a8014ab devel/ocaml-opam/Makefile
 +
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 05a57a8014ab devel/ocaml-opam/PLIST
+diff -r a6859016b73e devel/ocaml-opam/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-opam/PLIST	Mon May 06 09:59:53 2013 +0900
-@@ -0,0 +1,22 @@
++++ b/devel/ocaml-opam/PLIST	Sun Nov 17 23:36:04 2013 +0900
+@@ -0,0 +1,23 @@
 +@comment $NetBSD$
 +bin/opam
-+bin/opam-mk-repo
++bin/opam-admin
++man/man1/opam-admin-check.1
++man/man1/opam-admin-make.1
++man/man1/opam-admin.1
 +man/man1/opam-check.1
 +man/man1/opam-config.1
 +man/man1/opam-help.1
@@ -45,7 +48,6 @@ diff -r 05a57a8014ab devel/ocaml-opam/PLIST
 +man/man1/opam-init.1
 +man/man1/opam-install.1
 +man/man1/opam-list.1
-+man/man1/opam-mk-repo.1
 +man/man1/opam-pin.1
 +man/man1/opam-reinstall.1
 +man/man1/opam-remote.1
@@ -55,14 +57,13 @@ diff -r 05a57a8014ab devel/ocaml-opam/PLIST
 +man/man1/opam-switch.1
 +man/man1/opam-update.1
 +man/man1/opam-upgrade.1
-+man/man1/opam-upload.1
 +man/man1/opam.1
-diff -r 05a57a8014ab devel/ocaml-opam/distinfo
+diff -r a6859016b73e devel/ocaml-opam/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-opam/distinfo	Mon May 06 09:59:53 2013 +0900
++++ b/devel/ocaml-opam/distinfo	Sun Nov 17 23:36:04 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (opam-full-1.0.0.tar.gz) = 6f408a3c1639e46cc441a9977d06ece7e5a50856
-+RMD160 (opam-full-1.0.0.tar.gz) = e7e137267d1b9e5025fff9639881861f7fdca5d5
-+Size (opam-full-1.0.0.tar.gz) = 2304000 bytes
++SHA1 (opam-full-1.1.0.tar.gz) = b6bfb5ed5f23134e8b0922e3d7317920f8e8bc7c
++RMD160 (opam-full-1.1.0.tar.gz) = 7aad774cc52f35df22835bed211fa5a0c9f8c77d
++Size (opam-full-1.1.0.tar.gz) = 2271477 bytes
