@@ -1,22 +1,23 @@
 # HG changeset patch
-# Parent 2ae97143ac0c34b2cfa88430e0ac30018b57bc55
-diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/DESCR
+# Parent 23420bbe4c1df2eefbdc423598a251cf0e26d99c
+
+diff -r 23420bbe4c1d devel/ocaml-type_conv/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-type_conv/DESCR	Mon May 06 14:25:11 2013 +0900
++++ b/devel/ocaml-type_conv/DESCR	Sun Nov 17 23:49:29 2013 +0900
 @@ -0,0 +1,3 @@
 +Part of Jane Street’s Core library The Core suite of libraries is an
 +industrial strength alternative to OCaml's standard library that was
 +developed by Jane Street, the largest industrial user of OCaml.
-diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/Makefile
+diff -r 23420bbe4c1d devel/ocaml-type_conv/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-type_conv/Makefile	Mon May 06 14:25:11 2013 +0900
++++ b/devel/ocaml-type_conv/Makefile	Sun Nov 17 23:49:29 2013 +0900
 @@ -0,0 +1,18 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
 +DISTNAME=	type_conv-${VERSION}
-+VERSION=	109.20.00
++VERSION=	109.47.00
 +CATEGORIES=	devel
 +MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
 +FETCH_USING=	curl
@@ -29,9 +30,9 @@ diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/Makefile
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/PLIST
+diff -r 23420bbe4c1d devel/ocaml-type_conv/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-type_conv/PLIST	Mon May 06 14:25:11 2013 +0900
++++ b/devel/ocaml-type_conv/PLIST	Sun Nov 17 23:49:29 2013 +0900
 @@ -0,0 +1,12 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/type_conv
@@ -45,12 +46,12 @@ diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/PLIST
 +lib/ocaml/site-lib/type_conv/pa_type_conv.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/type_conv
 +
-diff -r 2ae97143ac0c -r bbc465684860 devel/ocaml-type_conv/distinfo
+diff -r 23420bbe4c1d devel/ocaml-type_conv/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-type_conv/distinfo	Mon May 06 14:25:11 2013 +0900
++++ b/devel/ocaml-type_conv/distinfo	Sun Nov 17 23:49:29 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (type_conv-109.20.00.tar.gz) = d700ed9a43e239ea61d96268ad131d96efededd0
-+RMD160 (type_conv-109.20.00.tar.gz) = 3ce2293eb2a051f60dd19d5ee8d6f391438fadbb
-+Size (type_conv-109.20.00.tar.gz) = 59038 bytes
++SHA1 (type_conv-109.47.00.tar.gz) = 465b87d544f89a87660b9ce97852b085149a77b4
++RMD160 (type_conv-109.47.00.tar.gz) = a173d51549362ac7d3693b72c8aca5cdf999b0c8
++Size (type_conv-109.47.00.tar.gz) = 58766 bytes
