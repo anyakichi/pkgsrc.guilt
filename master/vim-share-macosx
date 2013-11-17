@@ -1,0 +1,29 @@
+# HG changeset patch
+# Parent b8ae34f5c0bbea1dc8130d8cc8c2120954ed9d24
+diff -r b8ae34f5c0bb -r 9014f2554e9c editors/vim-share/distinfo
+--- a/editors/vim-share/distinfo	Sun Nov 17 23:05:07 2013 +0900
++++ b/editors/vim-share/distinfo	Sun Nov 17 23:07:59 2013 +0900
+@@ -8,3 +8,4 @@
+ SHA1 (patch-configure) = ae5970dec6d557d81da8a8f1da36d05ddc59ca56
+ SHA1 (patch-feature.h) = 7fc572f7d94e5342b32b9395c2632fa7ae528c39
+ SHA1 (patch-link.sh) = 24db881cea873330a8a3bf672f6135d0835651fd
++SHA1 (patch-os-unix.c) = 986a59c58f287ca8c7220c2aaf517b853c852095
+diff -r b8ae34f5c0bb -r 9014f2554e9c editors/vim-share/patches/patch-os-unix.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/editors/vim-share/patches/patch-os-unix.c	Sun Nov 17 23:07:59 2013 +0900
+@@ -0,0 +1,15 @@
++--- src/os_unix.c.orig	2013-11-15 20:20:46.000000000 +0900
+++++ src/os_unix.c	2013-11-15 20:20:51.000000000 +0900
++@@ -804,6 +804,12 @@
++  * completely full.
++  */
++ 
+++#if defined(__APPLE__) && \
+++    defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && \
+++    (__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ >= 1090)
+++#include <AvailabilityMacros.h>
+++#endif
+++
++ #ifndef SIGSTKSZ
++ # define SIGSTKSZ 8000    /* just a guess of how much stack is needed... */
++ #endif
