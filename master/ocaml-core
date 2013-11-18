@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent e9509a9f882b5cd4ecb72e39945b28d0cc04eb29
-diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/DESCR
+# Parent 20c9873c1df09c3cd9990590a114a280f67dfc5c
+
+diff -r 20c9873c1df0 devel/ocaml-core/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/DESCR	Mon May 06 17:10:30 2013 +0900
++++ b/devel/ocaml-core/DESCR	Mon Nov 18 11:07:58 2013 +0900
 @@ -0,0 +1,14 @@
 +Core is an industrial-strength alternative to the OCaml standard
 +library.  It was developed by Jane Street, which is the largest
@@ -18,16 +19,16 @@ diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/DESCR
 +open-source libraries on github <https://github.com/janestreet> and
 +on bitbucket <https://bitbucket.org/janestreet>.
 +
-diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/Makefile
+diff -r 20c9873c1df0 devel/ocaml-core/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/Makefile	Mon May 06 17:10:30 2013 +0900
-@@ -0,0 +1,28 @@
++++ b/devel/ocaml-core/Makefile	Mon Nov 18 11:07:58 2013 +0900
+@@ -0,0 +1,31 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-${DISTNAME}
 +DISTNAME=	core-${VERSION}
-+VERSION=	109.21.00
++VERSION=	109.47.00
 +CATEGORIES=	devel
 +MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
 +FETCH_USING=	curl
@@ -37,48 +38,54 @@ diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/Makefile
 +COMMENT=	Industrial strength alternative to OCaml\'s standard library
 +LICENSE=	apache-2.0
 +
-+DEPENDS+=	ocaml-bin_prot>=109.15.00:../../devel/ocaml-bin_prot
-+DEPENDS+=	ocaml-comparelib>=109.15.00:../../devel/ocaml-comparelib
++DEPENDS+=	ocaml-bin_prot>=109.47.00:../../devel/ocaml-bin_prot
++DEPENDS+=	ocaml-comparelib>=109.27.00:../../devel/ocaml-comparelib
++DEPENDS+=	ocaml-core_kernel>=109.47.00:../../devel/ocaml-core_kernel
++DEPENDS+=	ocaml-custom_printf>=109.27.00:../../devel/ocaml-custom_printf
 +DEPENDS+=	ocaml-fieldslib>=109.20.00:../../devel/ocaml-fieldslib
-+DEPENDS+=	ocaml-herelib>=109.15.00:../../devel/ocaml-herelib
-+DEPENDS+=	ocaml-pa_ounit>=109.18.00:../../devel/ocaml-pa_ounit
-+DEPENDS+=	ocaml-pipebang>=109.15.00:../../devel/ocaml-pipebang
++DEPENDS+=	ocaml-herelib>=109.35.00:../../devel/ocaml-herelib
++DEPENDS+=	ocaml-pa_ounit>=109.36.00:../../devel/ocaml-pa_ounit
++DEPENDS+=	ocaml-pipebang>=109.28.00:../../devel/ocaml-pipebang
 +DEPENDS+=	ocaml-res-[0-9]*:../../devel/ocaml-res
-+DEPENDS+=	ocaml-sexplib>=109.20.00:../../devel/ocaml-sexplib
++DEPENDS+=	ocaml-sexplib>=109.47.00:../../devel/ocaml-sexplib
 +DEPENDS+=	ocaml-variantslib>=109.15.00:../../devel/ocaml-variantslib
 +
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
++.include "../../devel/ocaml-core_kernel/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/PLIST
+diff -r 20c9873c1df0 devel/ocaml-core/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/PLIST	Mon May 06 17:10:30 2013 +0900
-@@ -0,0 +1,185 @@
++++ b/devel/ocaml-core/PLIST	Mon Nov 18 11:07:58 2013 +0900
+@@ -0,0 +1,205 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/core
 +lib/ocaml/site-lib/core/META
 +lib/ocaml/site-lib/core/array_permute.ml
-+lib/ocaml/site-lib/core/avltree.mli
++lib/ocaml/site-lib/core/avltree.ml
 +lib/ocaml/site-lib/core/backtrace.mli
-+lib/ocaml/site-lib/core/bag.mli
++lib/ocaml/site-lib/core/bag.ml
 +lib/ocaml/site-lib/core/bigbuffer.mli
++lib/ocaml/site-lib/core/bigbuffer_internal.ml
 +lib/ocaml/site-lib/core/bigstring.mli
 +lib/ocaml/site-lib/core/bigstring_marshal.mli
-+lib/ocaml/site-lib/core/bigsubstring.mli
-+lib/ocaml/site-lib/core/binable.mli
++lib/ocaml/site-lib/core/bigsubstring.ml
++lib/ocaml/site-lib/core/binable.ml
 +lib/ocaml/site-lib/core/binable0.ml
-+lib/ocaml/site-lib/core/binary_packing.mli
-+lib/ocaml/site-lib/core/blang.mli
-+lib/ocaml/site-lib/core/bool.mli
-+lib/ocaml/site-lib/core/bounded_int_table.mli
++lib/ocaml/site-lib/core/binary_packing.ml
++lib/ocaml/site-lib/core/blang.ml
++lib/ocaml/site-lib/core/bool.ml
++lib/ocaml/site-lib/core/bounded_int_table.ml
 +lib/ocaml/site-lib/core/bucket.ml
-+lib/ocaml/site-lib/core/byte_units.mli
++lib/ocaml/site-lib/core/byte_units.ml
 +lib/ocaml/site-lib/core/caml.ml
++lib/ocaml/site-lib/core/check_std.ml
 +lib/ocaml/site-lib/core/command.mli
-+lib/ocaml/site-lib/core/common.mli
++lib/ocaml/site-lib/core/common.ml
 +lib/ocaml/site-lib/core/commutative_group.ml
 +lib/ocaml/site-lib/core/comparable.ml
-+lib/ocaml/site-lib/core/comparator.mli
++lib/ocaml/site-lib/core/comparable_intf.ml
++lib/ocaml/site-lib/core/comparator.ml
 +lib/ocaml/site-lib/core/constrained_float.ml
 +lib/ocaml/site-lib/core/container.ml
 +${PLIST.opt}lib/ocaml/site-lib/core/core.a
@@ -86,40 +93,41 @@ diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/PLIST
 +lib/ocaml/site-lib/core/core.cmi
 +${PLIST.opt}lib/ocaml/site-lib/core/core.cmxa
 +${PLIST.opt}lib/ocaml/site-lib/core/core.cmxs
-+lib/ocaml/site-lib/core/core_arg.mli
-+lib/ocaml/site-lib/core/core_array.mli
++lib/ocaml/site-lib/core/core_arg.ml
++lib/ocaml/site-lib/core/core_array.ml
 +lib/ocaml/site-lib/core/core_bin_prot.ml
-+lib/ocaml/site-lib/core/core_char.mli
++lib/ocaml/site-lib/core/core_char.ml
 +lib/ocaml/site-lib/core/core_condition.mli
++lib/ocaml/site-lib/core/core_config.h
 +lib/ocaml/site-lib/core/core_field.ml
 +lib/ocaml/site-lib/core/core_filename.mli
 +lib/ocaml/site-lib/core/core_gc.mli
-+lib/ocaml/site-lib/core/core_hashtbl.mli
++lib/ocaml/site-lib/core/core_hashtbl.ml
 +lib/ocaml/site-lib/core/core_hashtbl_intf.ml
 +lib/ocaml/site-lib/core/core_install_printers.cmi
 +${PLIST.opt}lib/ocaml/site-lib/core/core_install_printers.cmx
 +lib/ocaml/site-lib/core/core_install_printers.ml
-+lib/ocaml/site-lib/core/core_int.mli
-+lib/ocaml/site-lib/core/core_int32.mli
-+lib/ocaml/site-lib/core/core_int63.mli
-+lib/ocaml/site-lib/core/core_int64.mli
-+lib/ocaml/site-lib/core/core_lazy.mli
-+lib/ocaml/site-lib/core/core_list.mli
-+lib/ocaml/site-lib/core/core_map.mli
++lib/ocaml/site-lib/core/core_int.ml
++lib/ocaml/site-lib/core/core_int32.ml
++lib/ocaml/site-lib/core/core_int63.ml
++lib/ocaml/site-lib/core/core_int64.ml
++lib/ocaml/site-lib/core/core_lazy.ml
++lib/ocaml/site-lib/core/core_list.ml
++lib/ocaml/site-lib/core/core_map.ml
 +lib/ocaml/site-lib/core/core_map_intf.ml
-+lib/ocaml/site-lib/core/core_map_unit_tests.mli
++lib/ocaml/site-lib/core/core_map_unit_tests.ml
 +lib/ocaml/site-lib/core/core_mutex.mli
-+lib/ocaml/site-lib/core/core_nativeint.mli
-+lib/ocaml/site-lib/core/core_printexc.mli
-+lib/ocaml/site-lib/core/core_printf.mli
-+lib/ocaml/site-lib/core/core_queue.mli
-+lib/ocaml/site-lib/core/core_random.mli
-+lib/ocaml/site-lib/core/core_set.mli
++lib/ocaml/site-lib/core/core_nativeint.ml
++lib/ocaml/site-lib/core/core_printexc.ml
++lib/ocaml/site-lib/core/core_printf.ml
++lib/ocaml/site-lib/core/core_queue.ml
++lib/ocaml/site-lib/core/core_random.ml
++lib/ocaml/site-lib/core/core_set.ml
 +lib/ocaml/site-lib/core/core_set_intf.ml
-+lib/ocaml/site-lib/core/core_set_unit_tests.mli
-+lib/ocaml/site-lib/core/core_sexp.mli
-+lib/ocaml/site-lib/core/core_stack.mli
-+lib/ocaml/site-lib/core/core_string.mli
++lib/ocaml/site-lib/core/core_set_unit_tests.ml
++lib/ocaml/site-lib/core/core_sexp.ml
++lib/ocaml/site-lib/core/core_stack.ml
++lib/ocaml/site-lib/core/core_string.ml
 +lib/ocaml/site-lib/core/core_sys.mli
 +lib/ocaml/site-lib/core/core_thread.mli
 +${PLIST.opt}lib/ocaml/site-lib/core/core_top.a
@@ -127,124 +135,140 @@ diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/core/core_top.cmxa
 +${PLIST.opt}lib/ocaml/site-lib/core/core_top.cmxs
 +lib/ocaml/site-lib/core/core_unix.mli
-+lib/ocaml/site-lib/core/core_weak.mli
++lib/ocaml/site-lib/core/core_weak.ml
 +lib/ocaml/site-lib/core/crc.mli
 +lib/ocaml/site-lib/core/daemon.mli
 +lib/ocaml/site-lib/core/date.mli
-+lib/ocaml/site-lib/core/day_of_week.mli
-+lib/ocaml/site-lib/core/dequeue.mli
++lib/ocaml/site-lib/core/date0.mli
++lib/ocaml/site-lib/core/day_of_week.ml
++lib/ocaml/site-lib/core/dequeue.ml
 +lib/ocaml/site-lib/core/dllcore_stubs.so
-+lib/ocaml/site-lib/core/doubly_linked.mli
++lib/ocaml/site-lib/core/doubly_linked.ml
 +lib/ocaml/site-lib/core/equal.ml
-+lib/ocaml/site-lib/core/error.mli
-+lib/ocaml/site-lib/core/exn.mli
-+lib/ocaml/site-lib/core/flags.mli
++lib/ocaml/site-lib/core/error.ml
++lib/ocaml/site-lib/core/exn.ml
++lib/ocaml/site-lib/core/flags.ml
 +lib/ocaml/site-lib/core/flags_intf.ml
-+lib/ocaml/site-lib/core/float.mli
++lib/ocaml/site-lib/core/float.ml
 +lib/ocaml/site-lib/core/float_intf.ml
-+lib/ocaml/site-lib/core/float_robust_compare.mli
++lib/ocaml/site-lib/core/float_robust_compare.ml
 +lib/ocaml/site-lib/core/floatable.ml
-+lib/ocaml/site-lib/core/fn.mli
-+lib/ocaml/site-lib/core/force_once.mli
-+lib/ocaml/site-lib/core/fqueue.mli
++lib/ocaml/site-lib/core/fn.ml
++lib/ocaml/site-lib/core/force_once.ml
++lib/ocaml/site-lib/core/fqueue.ml
 +lib/ocaml/site-lib/core/hash_heap.ml
 +lib/ocaml/site-lib/core/hash_queue.ml
-+lib/ocaml/site-lib/core/hash_set.mli
++lib/ocaml/site-lib/core/hash_set.ml
 +lib/ocaml/site-lib/core/hash_set_intf.ml
 +lib/ocaml/site-lib/core/hashable.ml
-+lib/ocaml/site-lib/core/heap.mli
-+lib/ocaml/site-lib/core/heap_block.mli
-+lib/ocaml/site-lib/core/host_and_port.mli
-+lib/ocaml/site-lib/core/identifiable.mli
-+lib/ocaml/site-lib/core/in_channel.mli
-+lib/ocaml/site-lib/core/info.mli
-+lib/ocaml/site-lib/core/int_conversions.mli
++lib/ocaml/site-lib/core/heap.ml
++lib/ocaml/site-lib/core/heap_block.ml
++lib/ocaml/site-lib/core/host_and_port.ml
++lib/ocaml/site-lib/core/identifiable.ml
++lib/ocaml/site-lib/core/in_channel.ml
++lib/ocaml/site-lib/core/info.ml
++lib/ocaml/site-lib/core/int_conversions.ml
 +lib/ocaml/site-lib/core/int_intf.ml
-+lib/ocaml/site-lib/core/int_math.mli
-+lib/ocaml/site-lib/core/int_replace_polymorphic_compare.mli
-+lib/ocaml/site-lib/core/int_set.mli
++lib/ocaml/site-lib/core/int_math.ml
++lib/ocaml/site-lib/core/int_replace_polymorphic_compare.ml
++lib/ocaml/site-lib/core/int_set.ml
 +lib/ocaml/site-lib/core/intable.ml
 +lib/ocaml/site-lib/core/interfaces.ml
-+lib/ocaml/site-lib/core/interned_string.mli
++lib/ocaml/site-lib/core/interned_string.ml
 +lib/ocaml/site-lib/core/interval.mli
 +lib/ocaml/site-lib/core/interval_intf.ml
 +lib/ocaml/site-lib/core/invariant.ml
++lib/ocaml/site-lib/core/iobuf.mli
++lib/ocaml/site-lib/core/iobuf_debug.mli
++lib/ocaml/site-lib/core/iobuf_intf.ml
++lib/ocaml/site-lib/core/iobuf_tests.mli
++lib/ocaml/site-lib/core/jane_common.h
 +${PLIST.opt}lib/ocaml/site-lib/core/libcore_stubs.a
 +lib/ocaml/site-lib/core/linux_ext.mli
 +lib/ocaml/site-lib/core/lock_file.mli
 +lib/ocaml/site-lib/core/make_substring.ml
-+lib/ocaml/site-lib/core/memo.mli
++lib/ocaml/site-lib/core/memo.ml
 +lib/ocaml/site-lib/core/monad.ml
-+lib/ocaml/site-lib/core/month.mli
++lib/ocaml/site-lib/core/month.ml
 +lib/ocaml/site-lib/core/mutex0.ml
 +lib/ocaml/site-lib/core/nano_mutex.mli
 +lib/ocaml/site-lib/core/never_returns.ml
-+lib/ocaml/site-lib/core/no_polymorphic_compare.mli
-+lib/ocaml/site-lib/core/nothing.mli
++lib/ocaml/site-lib/core/no_polymorphic_compare.ml
++lib/ocaml/site-lib/core/nothing.ml
 +lib/ocaml/site-lib/core/nothing0.ml
++lib/ocaml/site-lib/core/ocaml_utils.h
++lib/ocaml/site-lib/core/ocaml_utils_macros.h
 +lib/ocaml/site-lib/core/ofday.mli
-+lib/ocaml/site-lib/core/only_in_test.mli
-+lib/ocaml/site-lib/core/option.mli
-+lib/ocaml/site-lib/core/or_error.mli
-+lib/ocaml/site-lib/core/ordered_collection_common.mli
-+lib/ocaml/site-lib/core/ordering.mli
-+lib/ocaml/site-lib/core/out_channel.mli
-+lib/ocaml/site-lib/core/pid.mli
++lib/ocaml/site-lib/core/only_in_test.ml
++lib/ocaml/site-lib/core/option.ml
++lib/ocaml/site-lib/core/or_error.ml
++lib/ocaml/site-lib/core/ordered_collection_common.ml
++lib/ocaml/site-lib/core/ordering.ml
++lib/ocaml/site-lib/core/out_channel.ml
++lib/ocaml/site-lib/core/pid.ml
 +lib/ocaml/site-lib/core/piecewise_linear.mli
 +lib/ocaml/site-lib/core/piecewise_linear_intf.ml
-+lib/ocaml/site-lib/core/polymorphic_compare.mli
++lib/ocaml/site-lib/core/polymorphic_compare.ml
 +lib/ocaml/site-lib/core/polymorphic_compare_intf.ml
-+lib/ocaml/site-lib/core/pretty_printer.mli
++lib/ocaml/site-lib/core/pretty_printer.ml
 +lib/ocaml/site-lib/core/process_env.mli
-+lib/ocaml/site-lib/core/quickcheck.mli
-+lib/ocaml/site-lib/core/ref.mli
-+lib/ocaml/site-lib/core/result.mli
++lib/ocaml/site-lib/core/quickcheck.ml
++lib/ocaml/site-lib/core/ref.ml
++lib/ocaml/site-lib/core/result.ml
 +lib/ocaml/site-lib/core/robustly_comparable.ml
-+lib/ocaml/site-lib/core/set_once.mli
++lib/ocaml/site-lib/core/set_once.ml
 +lib/ocaml/site-lib/core/sexpable.ml
 +lib/ocaml/site-lib/core/signal.mli
-+lib/ocaml/site-lib/core/source_code_position.mli
++lib/ocaml/site-lib/core/source_code_position.ml
 +lib/ocaml/site-lib/core/source_code_position0.ml
 +lib/ocaml/site-lib/core/span.mli
 +lib/ocaml/site-lib/core/squeue.mli
 +lib/ocaml/site-lib/core/stable.ml
-+lib/ocaml/site-lib/core/stable_containers.mli
++lib/ocaml/site-lib/core/stable_containers.ml
 +lib/ocaml/site-lib/core/stable_internal.ml
-+lib/ocaml/site-lib/core/stable_unit_test.mli
++lib/ocaml/site-lib/core/stable_unit_test.ml
 +lib/ocaml/site-lib/core/stable_unit_test_intf.ml
-+lib/ocaml/site-lib/core/staged.mli
++lib/ocaml/site-lib/core/staged.ml
 +lib/ocaml/site-lib/core/std.ml
++lib/ocaml/site-lib/core/std_common.ml
 +lib/ocaml/site-lib/core/std_internal.ml
-+lib/ocaml/site-lib/core/string_id.mli
++lib/ocaml/site-lib/core/std_kernel.ml
++lib/ocaml/site-lib/core/string_id.ml
 +lib/ocaml/site-lib/core/stringable.ml
-+lib/ocaml/site-lib/core/substring.mli
++lib/ocaml/site-lib/core/substring.ml
 +lib/ocaml/site-lib/core/substring_intf.ml
 +lib/ocaml/site-lib/core/t.ml
-+lib/ocaml/site-lib/core/thread_safe_queue.mli
++lib/ocaml/site-lib/core/thread_safe_queue.ml
 +lib/ocaml/site-lib/core/time.mli
++lib/ocaml/site-lib/core/time0.ml
 +lib/ocaml/site-lib/core/time_internal.ml
-+lib/ocaml/site-lib/core/timer.mli
-+lib/ocaml/site-lib/core/tuple.mli
-+lib/ocaml/site-lib/core/type_equal.mli
-+lib/ocaml/site-lib/core/union_find.mli
-+lib/ocaml/site-lib/core/unique_id.mli
++lib/ocaml/site-lib/core/time_stamp_counter.mli
++lib/ocaml/site-lib/core/timing_wheel.mli
++lib/ocaml/site-lib/core/timing_wheel_intf.ml
++lib/ocaml/site-lib/core/timing_wheel_unit_tests.mli
++lib/ocaml/site-lib/core/tuple.ml
++lib/ocaml/site-lib/core/type_equal.ml
++lib/ocaml/site-lib/core/union_find.ml
++lib/ocaml/site-lib/core/unique_id.ml
 +lib/ocaml/site-lib/core/unique_id_intf.ml
-+lib/ocaml/site-lib/core/unit.mli
-+lib/ocaml/site-lib/core/univ.mli
-+lib/ocaml/site-lib/core/univ_map.mli
-+lib/ocaml/site-lib/core/unpack_buffer.mli
++lib/ocaml/site-lib/core/unit.ml
++lib/ocaml/site-lib/core/univ.ml
++lib/ocaml/site-lib/core/univ_map.ml
++lib/ocaml/site-lib/core/unix_utils.h
++lib/ocaml/site-lib/core/unpack_buffer.ml
 +lib/ocaml/site-lib/core/user_and_group.mli
 +lib/ocaml/site-lib/core/uuid.mli
-+lib/ocaml/site-lib/core/with_return.mli
-+lib/ocaml/site-lib/core/word_size.mli
++lib/ocaml/site-lib/core/validate.ml
++lib/ocaml/site-lib/core/with_return.ml
++lib/ocaml/site-lib/core/word_size.ml
 +lib/ocaml/site-lib/core/zone.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/core
-diff -r e9509a9f882b -r 70ea208cae02 devel/ocaml-core/distinfo
+diff -r 20c9873c1df0 devel/ocaml-core/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/distinfo	Mon May 06 17:10:30 2013 +0900
++++ b/devel/ocaml-core/distinfo	Mon Nov 18 11:07:58 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (core-109.21.00.tar.gz) = e844e31a1263fc14f1ef89544c4b6b54c5dba9ba
-+RMD160 (core-109.21.00.tar.gz) = 871bb9b00634bccbdfdfad90d9688f955e9a7034
-+Size (core-109.21.00.tar.gz) = 816796 bytes
++SHA1 (core-109.47.00.tar.gz) = ae5b6d6e1c142f67ba0972ac764603e20e5fe64a
++RMD160 (core-109.47.00.tar.gz) = f26e07aeb3e19c2731599f05e2d49731b664da0c
++Size (core-109.47.00.tar.gz) = 689203 bytes
