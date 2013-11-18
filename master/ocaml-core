@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent 20c9873c1df09c3cd9990590a114a280f67dfc5c
+# Parent 22b82cfc29e32acf821fd3cffaa50cef3695c43d
 
-diff -r 20c9873c1df0 devel/ocaml-core/DESCR
+diff -r 22b82cfc29e3 devel/ocaml-core/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/DESCR	Mon Nov 18 11:07:58 2013 +0900
++++ b/devel/ocaml-core/DESCR	Mon Nov 18 18:46:12 2013 +0900
 @@ -0,0 +1,14 @@
 +Core is an industrial-strength alternative to the OCaml standard
 +library.  It was developed by Jane Street, which is the largest
@@ -19,9 +19,9 @@ diff -r 20c9873c1df0 devel/ocaml-core/DESCR
 +open-source libraries on github <https://github.com/janestreet> and
 +on bitbucket <https://bitbucket.org/janestreet>.
 +
-diff -r 20c9873c1df0 devel/ocaml-core/Makefile
+diff -r 22b82cfc29e3 devel/ocaml-core/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/Makefile	Mon Nov 18 11:07:58 2013 +0900
++++ b/devel/ocaml-core/Makefile	Mon Nov 18 18:46:12 2013 +0900
 @@ -0,0 +1,31 @@
 +# $NetBSD$
 +#
@@ -54,9 +54,9 @@ diff -r 20c9873c1df0 devel/ocaml-core/Makefile
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../devel/ocaml-core_kernel/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 20c9873c1df0 devel/ocaml-core/PLIST
+diff -r 22b82cfc29e3 devel/ocaml-core/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/PLIST	Mon Nov 18 11:07:58 2013 +0900
++++ b/devel/ocaml-core/PLIST	Mon Nov 18 18:46:12 2013 +0900
 @@ -0,0 +1,205 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/core
@@ -263,9 +263,27 @@ diff -r 20c9873c1df0 devel/ocaml-core/PLIST
 +lib/ocaml/site-lib/core/word_size.ml
 +lib/ocaml/site-lib/core/zone.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/core
-diff -r 20c9873c1df0 devel/ocaml-core/distinfo
+diff -r 22b82cfc29e3 devel/ocaml-core/buildlink3.mk
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/distinfo	Mon Nov 18 11:07:58 2013 +0900
++++ b/devel/ocaml-core/buildlink3.mk	Mon Nov 18 18:46:12 2013 +0900
+@@ -0,0 +1,14 @@
++# $NetBSD$
++
++BUILDLINK_TREE+=	ocaml-core
++
++.if !defined(OCAML_CORE_BUILDLINK3_MK)
++OCAML_CORE_BUILDLINK3_MK:=
++
++BUILDLINK_API_DEPENDS.ocaml-core+=	ocaml-core>=109.47.00
++BUILDLINK_PKGSRCDIR.ocaml-core?=	../../devel/ocaml-core
++
++.include "../../devel/ocaml-core_kernel/buildlink3.mk"
++.endif	# OCAML_CORE_BUILDLINK3_MK
++
++BUILDLINK_TREE+=	-ocaml-core
+diff -r 22b82cfc29e3 devel/ocaml-core/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-core/distinfo	Mon Nov 18 18:46:12 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
