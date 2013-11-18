@@ -1,0 +1,73 @@
+# HG changeset patch
+# Parent 9e82e1b683ec3eb92f93d178cda62343bd8eb745
+diff -r 9e82e1b683ec -r 4fb5f6658f23 devel/ocaml-re2/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-re2/DESCR	Mon Nov 18 11:37:52 2013 +0900
+@@ -0,0 +1,11 @@
++We export a library Re2 with one module Regex which binds the Google re2 regex
++library.  Binaries which link to the OCaml Re2 library get the underlying
++Google library and these bindings.
++
++At the moment, OMake does not detect changes made to the C source during
++a build, because it calls Make to build the underlying library and the C-side
++stub code.  If you call OMake without -P, everything should work.  If you call
++OMake with -P, you will link against C object files that are at least as
++current as the C source was when OMake was first invoked.  If you call OMake
++with -P and then modify the C source, you will need to restart OMake in order
++to get those modifications.
+diff -r 9e82e1b683ec -r 4fb5f6658f23 devel/ocaml-re2/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-re2/Makefile	Mon Nov 18 11:37:52 2013 +0900
+@@ -0,0 +1,27 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	re2-${VERSION}
++VERSION=	109.45.02
++CATEGORIES=	devel
++MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.45.00/individual/
++FETCH_USING=	curl
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://janestreet.github.io/
++COMMENT=	OCaml bindings for RE2
++LICENSE=	apache-2.0
++
++USE_LANGUAGES+=	c c++
++USE_TOOLS+=	gmake
++
++DEPENDS+=	ocaml-bin_prot>=109.45.00:../../devel/ocaml-bin_prot
++DEPENDS+=	ocaml-comparelib>=109.15.00:../../devel/ocaml-comparelib
++DEPENDS+=	ocaml-core>=109.45.00:../../devel/ocaml-core
++DEPENDS+=	ocaml-pa_ounit>=109.18.00:../../devel/ocaml-pa_ounit
++DEPENDS+=	ocaml-sexplib>=109.20.00:../../devel/ocaml-sexplib
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/oasis.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 9e82e1b683ec -r 4fb5f6658f23 devel/ocaml-re2/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-re2/PLIST	Mon Nov 18 11:37:52 2013 +0900
+@@ -0,0 +1,12 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/re2
++lib/ocaml/site-lib/re2/META
++lib/ocaml/site-lib/re2/dllre2_stubs.so
++${PLIST.opt}lib/ocaml/site-lib/re2/libre2_stubs.a
++${PLIST.opt}lib/ocaml/site-lib/re2/re2.a
++lib/ocaml/site-lib/re2/re2.cma
++lib/ocaml/site-lib/re2/re2.cmi
++${PLIST.opt}lib/ocaml/site-lib/re2/re2.cmxa
++${PLIST.opt}lib/ocaml/site-lib/re2/re2.cmxs
++lib/ocaml/site-lib/re2/regex.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/re2
+diff -r 9e82e1b683ec -r 4fb5f6658f23 devel/ocaml-re2/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-re2/distinfo	Mon Nov 18 11:37:52 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (re2-109.45.02.tar.gz) = ffd963a72899a48ce312af1fc5ba596e26cf568c
++RMD160 (re2-109.45.02.tar.gz) = 7e7e5fc45c05afc7b98dbb5519d24d05d766e691
++Size (re2-109.45.02.tar.gz) = 467003 bytes
