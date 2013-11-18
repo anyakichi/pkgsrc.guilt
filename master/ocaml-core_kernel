@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent f3c00d53fe4356f84a41b04fe7d141cc89a6c832
+# Parent 5cb46d38a8662437eba4739fcb02c949f682723b
 
-diff -r f3c00d53fe43 devel/ocaml-core_kernel/DESCR
+diff -r 5cb46d38a866 devel/ocaml-core_kernel/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core_kernel/DESCR	Mon Nov 18 11:34:20 2013 +0900
++++ b/devel/ocaml-core_kernel/DESCR	Mon Nov 18 18:34:43 2013 +0900
 @@ -0,0 +1,16 @@
 +Core is an industrial-strength alternative to the OCaml standard
 +library.  It was developed by Jane Street, which is the largest
@@ -21,10 +21,10 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/DESCR
 +open-source libraries on github <https://github.com/janestreet> and
 +on bitbucket <https://bitbucket.org/janestreet>.
 +
-diff -r f3c00d53fe43 devel/ocaml-core_kernel/Makefile
+diff -r 5cb46d38a866 devel/ocaml-core_kernel/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core_kernel/Makefile	Mon Nov 18 11:34:20 2013 +0900
-@@ -0,0 +1,28 @@
++++ b/devel/ocaml-core_kernel/Makefile	Mon Nov 18 18:34:43 2013 +0900
+@@ -0,0 +1,35 @@
 +# $NetBSD$
 +#
 +
@@ -50,13 +50,20 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/Makefile
 +DEPENDS+=	ocaml-sexplib>=109.47.00:../../devel/ocaml-sexplib
 +DEPENDS+=	ocaml-variantslib>=109.15.00:../../devel/ocaml-variantslib
 +
++.include "../../mk/bsd.prefs.mk"
++
++PLIST_VARS+=	caml_modify
++.if ${OPSYS} != "Darwin"
++PLIST.caml_modify=	yes
++.endif
++
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/oasis.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r f3c00d53fe43 devel/ocaml-core_kernel/PLIST
+diff -r 5cb46d38a866 devel/ocaml-core_kernel/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core_kernel/PLIST	Mon Nov 18 11:34:20 2013 +0900
-@@ -0,0 +1,185 @@
++++ b/devel/ocaml-core_kernel/PLIST	Mon Nov 18 18:34:43 2013 +0900
+@@ -0,0 +1,193 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/core_kernel
 +lib/ocaml/site-lib/core_kernel/META
@@ -82,6 +89,12 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/PLIST
 +lib/ocaml/site-lib/core_kernel/bucket.ml
 +lib/ocaml/site-lib/core_kernel/byte_units.mli
 +lib/ocaml/site-lib/core_kernel/caml.ml
++${PLIST.caml_modify}lib/ocaml/site-lib/core_kernel/caml_modify.mli
++${PLIST.caml_modify}${PLIST.opt}lib/ocaml/site-lib/core_kernel/check_caml_modify.a
++${PLIST.caml_modify}lib/ocaml/site-lib/core_kernel/check_caml_modify.cma
++${PLIST.caml_modify}lib/ocaml/site-lib/core_kernel/check_caml_modify.cmi
++${PLIST.caml_modify}${PLIST.opt}lib/ocaml/site-lib/core_kernel/check_caml_modify.cmxa
++${PLIST.caml_modify}${PLIST.opt}lib/ocaml/site-lib/core_kernel/check_caml_modify.cmxs
 +lib/ocaml/site-lib/core_kernel/common.mli
 +lib/ocaml/site-lib/core_kernel/commutative_group.ml
 +lib/ocaml/site-lib/core_kernel/comparable.mli
@@ -129,6 +142,7 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/PLIST
 +lib/ocaml/site-lib/core_kernel/debug.mli
 +lib/ocaml/site-lib/core_kernel/decimal.mli
 +lib/ocaml/site-lib/core_kernel/dequeue.mli
++${PLIST.caml_modify}lib/ocaml/site-lib/core_kernel/dllcheck_caml_modify_stubs.so
 +lib/ocaml/site-lib/core_kernel/dllcore_kernel_stubs.so
 +lib/ocaml/site-lib/core_kernel/doubly_linked.mli
 +lib/ocaml/site-lib/core_kernel/equal.ml
@@ -172,6 +186,7 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/PLIST
 +lib/ocaml/site-lib/core_kernel/interned_string.mli
 +lib/ocaml/site-lib/core_kernel/invariant.mli
 +lib/ocaml/site-lib/core_kernel/invariant_intf.ml
++${PLIST.caml_modify}${PLIST.opt}lib/ocaml/site-lib/core_kernel/libcheck_caml_modify_stubs.a
 +${PLIST.opt}lib/ocaml/site-lib/core_kernel/libcore_kernel_stubs.a
 +lib/ocaml/site-lib/core_kernel/linked_stack.mli
 +lib/ocaml/site-lib/core_kernel/make_substring.ml
@@ -242,9 +257,9 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/PLIST
 +lib/ocaml/site-lib/core_kernel/with_return.mli
 +lib/ocaml/site-lib/core_kernel/word_size.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/core_kernel
-diff -r f3c00d53fe43 devel/ocaml-core_kernel/buildlink3.mk
+diff -r 5cb46d38a866 devel/ocaml-core_kernel/buildlink3.mk
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core_kernel/buildlink3.mk	Mon Nov 18 11:34:20 2013 +0900
++++ b/devel/ocaml-core_kernel/buildlink3.mk	Mon Nov 18 18:34:43 2013 +0900
 @@ -0,0 +1,12 @@
 +# $NetBSD$
 +
@@ -258,9 +273,9 @@ diff -r f3c00d53fe43 devel/ocaml-core_kernel/buildlink3.mk
 +.endif	# OCAML_CORE_KERNEL_BUILDLINK3_MK
 +
 +BUILDLINK_TREE+=	-ocaml-core_kernel
-diff -r f3c00d53fe43 devel/ocaml-core_kernel/distinfo
+diff -r 5cb46d38a866 devel/ocaml-core_kernel/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core_kernel/distinfo	Mon Nov 18 11:34:20 2013 +0900
++++ b/devel/ocaml-core_kernel/distinfo	Mon Nov 18 18:34:43 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
