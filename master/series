@@ -58,3 +58,4 @@ vim-share-macosx
 mlterm-use-languages
 ocaml-core_kernel
 ocaml-re2
+ocaml-textutils
