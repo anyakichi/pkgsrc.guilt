@@ -1,0 +1,26 @@
+# HG changeset patch
+# Parent cffe1edd2349ffc4fdefb0e55f2f47822a46e686
+diff -r cffe1edd2349 -r d1cef5129b3b devel/omake/distinfo
+--- a/devel/omake/distinfo	Wed Nov 27 12:55:44 2013 +0900
++++ b/devel/omake/distinfo	Sun Dec 01 21:00:04 2013 +0900
+@@ -28,4 +28,5 @@
+ SHA1 (patch-aw) = 4999a863230373cca75a6e5cbc4203430823468d
+ SHA1 (patch-ax) = 0a91c5d1a561b319885e848def2a3c54d52751d7
+ SHA1 (patch-lib_build_OCaml.om) = 19cf48d1480086db866e7f5d095ace4edf3db8c9
++SHA1 (patch-lib_configure_readline.om) = 6f92f0f60cd0b8ab82be362124c21bde2b7685fe
+ SHA1 (patch-src_libmojave-external_cutil_fam__pseudo.h) = cffac5428d8ff93db0773e5604176df974321b2e
+diff -r cffe1edd2349 -r d1cef5129b3b devel/omake/patches/patch-lib_configure_readline.om
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/omake/patches/patch-lib_configure_readline.om	Sun Dec 01 21:00:04 2013 +0900
+@@ -0,0 +1,11 @@
++--- lib/configure/readline.om.orig	2013-11-30 20:36:53.000000000 +0900
+++++ lib/configure/readline.om	2013-11-30 20:36:49.000000000 +0900
++@@ -39,7 +39,7 @@
++             READLINE_CFLAGS += -DREADLINE_ENABLED
++ 
++             # Test for GNU
++-            if $(CheckLib ncurses readline, rl_on_new_line)
+++            if $(and $(not $(equal $(SYSNAME), Darwin)), $(CheckLib ncurses readline, rl_on_new_line))
++                 READLINE_GNU = true
++                 READLINE_CFLAGS += -DREADLINE_GNU
++                 export
