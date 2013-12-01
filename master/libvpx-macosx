@@ -1,0 +1,208 @@
+# HG changeset patch
+# Parent 714c8b06e8513421d24b3705beee2b573abb2069
+diff -r 714c8b06e851 -r b93f175abc61 multimedia/libvpx/Makefile
+--- a/multimedia/libvpx/Makefile	Sun Dec 01 21:02:56 2013 +0900
++++ b/multimedia/libvpx/Makefile	Sun Dec 01 21:04:23 2013 +0900
+@@ -38,31 +38,6 @@
+ 
+ .if ${OPSYS} == "Darwin"
+ BUILDLINK_TRANSFORM+=	rm:-Wl,-Bsymbolic
+-.  if ${MACHINE_ARCH} == "i386"
+-.    if !empty(OS_VERSION:M12.*)
+-CONFIGURE_ARGS+=	--target=x86-darwin12-gcc
+-.    elif !empty(OS_VERSION:M11.*)
+-CONFIGURE_ARGS+=	--target=x86-darwin11-gcc
+-.    elif !empty(OS_VERSION:M10.*)
+-CONFIGURE_ARGS+=	--target=x86-darwin10-gcc
+-.    elif !empty(OS_VERSION:M9.*)
+-CONFIGURE_ARGS+=	--target=x86-darwin9-gcc
+-.    else
+-CONFIGURE_ARGS+=	--target=x86-darwin8-gcc
+-.    endif
+-.  elif ${MACHINE_ARCH} == "x86_64"
+-.    if !empty(OS_VERSION:M12.*)
+-CONFIGURE_ARGS+=	--target=x86_64-darwin12-gcc
+-.    elif !empty(OS_VERSION:M11.*)
+-CONFIGURE_ARGS+=	--target=x86_64-darwin11-gcc
+-.    elif !empty(OS_VERSION:M10.*)
+-CONFIGURE_ARGS+=	--target=x86_64-darwin10-gcc
+-.    elif !empty(OS_VERSION:M9.*)
+-CONFIGURE_ARGS+=	--target=x86_64-darwin9-gcc
+-.    else
+-CONFIGURE_ARGS+=	--target=x86_64-darwin8-gcc
+-.    endif
+-.  endif
+ .endif
+ 
+ .include "../../mk/compiler.mk"
+diff -r 714c8b06e851 -r b93f175abc61 multimedia/libvpx/distinfo
+--- a/multimedia/libvpx/distinfo	Sun Dec 01 21:02:56 2013 +0900
++++ b/multimedia/libvpx/distinfo	Sun Dec 01 21:04:23 2013 +0900
+@@ -8,8 +8,9 @@
+ SHA1 (patch-ac) = e177ad5416b50b75fe026377d8033032e0ca63c3
+ SHA1 (patch-ad) = 274dc555219811c72b1f4a3298a0e9b1b300d169
+ SHA1 (patch-af) = 3eb0c222433a62d044e712f572000d97b1d635a3
++SHA1 (patch-build_make_configure.sh) = dbd325938389d8728b3e5f45a435e797f25e5fb3
+ SHA1 (patch-build_make_gen_asm_deps.sh) = db7f9abcf1bdd1ccb8e48c695de3f2276bb5f891
+-SHA1 (patch-configure) = 72587d9f326040dd50b55e8ea086a05713533cbe
++SHA1 (patch-configure) = d943eda875dc6b4d9cb89f5f306a01cb2512708f
+ SHA1 (patch-test_i420__video__source.h) = e67478f08339c4b7f4cccf96e4798d1972941a7c
+ SHA1 (patch-test_sad__test.cc) = 0b3037ceec806e2b4b42c6be1c6db19a8f2f34a4
+ SHA1 (patch-test_sixtap__predict__test.cc) = d803819f3e5d282c3159e4410e7fbbd68cd403be
+diff -r 714c8b06e851 -r b93f175abc61 multimedia/libvpx/patches/patch-build_make_configure.sh
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/multimedia/libvpx/patches/patch-build_make_configure.sh	Sun Dec 01 21:04:23 2013 +0900
+@@ -0,0 +1,101 @@
++--- build/make/configure.sh.orig	2013-09-05 03:49:22.000000000 +0900
+++++ build/make/configure.sh	2013-11-29 23:53:05.000000000 +0900
++@@ -435,10 +435,10 @@
++ EOF
++ 
++     if enabled rvct; then cat >> $1 << EOF
++-fmt_deps = sed -e 's;^__image.axf;\$(dir \$@)\$(notdir \$<).o \$@;' #hide
+++fmt_deps = sed -e 's;^__image.axf\$\$;\$(dir \$@)\$(notdir \$<).o \$@;' #hide
++ EOF
++     else cat >> $1 << EOF
++-fmt_deps = sed -e 's;^\([a-zA-Z0-9_]*\)\.o;\$(dir \$@)\1\$(suffix \$<).o \$@;'
+++fmt_deps = sed -e 's;^\([a-zA-Z0-9_]*\)\.o\$\$;\$(dir \$@)\1\$(suffix \$<).o \$@;'
++ EOF
++     fi
++ 
++@@ -621,25 +621,13 @@
++ 
++         # detect tgt_os
++         case "$gcctarget" in
++-            *darwin8*)
+++            *darwin[89]*)
++                 tgt_isa=universal
++-                tgt_os=darwin8
+++                tgt_os=darwin
++                 ;;
++-            *darwin9*)
++-                tgt_isa=universal
++-                tgt_os=darwin9
++-                ;;
++-            *darwin10*)
++-                tgt_isa=x86_64
++-                tgt_os=darwin10
++-                ;;
++-            *darwin11*)
++-                tgt_isa=x86_64
++-                tgt_os=darwin11
++-                ;;
++-            *darwin12*)
+++            *darwin*)
++                 tgt_isa=x86_64
++-                tgt_os=darwin12
+++                tgt_os=darwin
++                 ;;
++             *mingw32*|*cygwin*)
++                 [ -z "$tgt_isa" ] && tgt_isa=x86
++@@ -689,55 +677,6 @@
++     # PIC is probably what we want when building shared libs
++     enabled shared && soft_enable pic
++ 
++-    # Handle darwin variants. Newer SDKs allow targeting older
++-    # platforms, so find the newest SDK available.
++-    case ${toolchain} in
++-        *-darwin*)
++-            if [ -z "${DEVELOPER_DIR}" ]; then
++-                DEVELOPER_DIR=`xcode-select -print-path 2> /dev/null`
++-                [ $? -ne 0 ] && OSX_SKIP_DIR_CHECK=1
++-            fi
++-            if [ -z "${OSX_SKIP_DIR_CHECK}" ]; then
++-                OSX_SDK_ROOTS="${DEVELOPER_DIR}/SDKs"
++-                OSX_SDK_VERSIONS="MacOSX10.4u.sdk MacOSX10.5.sdk MacOSX10.6.sdk"
++-                OSX_SDK_VERSIONS="${OSX_SDK_VERSIONS} MacOSX10.7.sdk"
++-                for v in ${OSX_SDK_VERSIONS}; do
++-                    if [ -d "${OSX_SDK_ROOTS}/${v}" ]; then
++-                        osx_sdk_dir="${OSX_SDK_ROOTS}/${v}"
++-                    fi
++-                done
++-            fi
++-            ;;
++-    esac
++-
++-    if [ -d "${osx_sdk_dir}" ]; then
++-        add_cflags  "-isysroot ${osx_sdk_dir}"
++-        add_ldflags "-isysroot ${osx_sdk_dir}"
++-    fi
++-
++-    case ${toolchain} in
++-        *-darwin8-*)
++-            add_cflags  "-mmacosx-version-min=10.4"
++-            add_ldflags "-mmacosx-version-min=10.4"
++-            ;;
++-        *-darwin9-*)
++-            add_cflags  "-mmacosx-version-min=10.5"
++-            add_ldflags "-mmacosx-version-min=10.5"
++-            ;;
++-        *-darwin10-*)
++-            add_cflags  "-mmacosx-version-min=10.6"
++-            add_ldflags "-mmacosx-version-min=10.6"
++-            ;;
++-        *-darwin11-*)
++-            add_cflags  "-mmacosx-version-min=10.7"
++-            add_ldflags "-mmacosx-version-min=10.7"
++-            ;;
++-        *-darwin12-*)
++-            add_cflags  "-mmacosx-version-min=10.8"
++-            add_ldflags "-mmacosx-version-min=10.8"
++-            ;;
++-    esac
++-
++     # Handle Solaris variants. Solaris 10 needs -lposix4
++     case ${toolchain} in
++         sparc-solaris-*)
+diff -r 714c8b06e851 -r b93f175abc61 multimedia/libvpx/patches/patch-configure
+--- a/multimedia/libvpx/patches/patch-configure	Sun Dec 01 21:02:56 2013 +0900
++++ b/multimedia/libvpx/patches/patch-configure	Sun Dec 01 21:04:23 2013 +0900
+@@ -1,12 +1,45 @@
+ $NetBSD: patch-configure,v 1.1 2012/02/28 14:12:05 martin Exp $
+ 
+---- configure.orig	2012-02-28 11:02:34.000000000 +0100
+-+++ configure	2012-02-28 14:57:32.000000000 +0100
+-@@ -101,6 +101,7 @@ all_platforms="${all_platforms} ppc32-li
++--- configure.orig	2013-09-05 03:49:22.000000000 +0900
+++++ configure	2013-11-29 23:47:13.000000000 +0900
++@@ -100,10 +100,13 @@
++ all_platforms="${all_platforms} mips32-linux-gcc"
++ all_platforms="${all_platforms} ppc32-darwin8-gcc"
++ all_platforms="${all_platforms} ppc32-darwin9-gcc"
+++all_platforms="${all_platforms} ppc32-darwin-gcc"
++ all_platforms="${all_platforms} ppc32-linux-gcc"
+  all_platforms="${all_platforms} ppc64-darwin8-gcc"
+  all_platforms="${all_platforms} ppc64-darwin9-gcc"
+++all_platforms="${all_platforms} ppc64-darwin-gcc"
+  all_platforms="${all_platforms} ppc64-linux-gcc"
+ +all_platforms="${all_platforms} sparc-linux-gcc"
+  all_platforms="${all_platforms} sparc-solaris-gcc"
+  all_platforms="${all_platforms} x86-darwin8-gcc"
+  all_platforms="${all_platforms} x86-darwin8-icc"
++@@ -112,6 +115,8 @@
++ all_platforms="${all_platforms} x86-darwin10-gcc"
++ all_platforms="${all_platforms} x86-darwin11-gcc"
++ all_platforms="${all_platforms} x86-darwin12-gcc"
+++all_platforms="${all_platforms} x86-darwin-gcc"
+++all_platforms="${all_platforms} x86-darwin-clang"
++ all_platforms="${all_platforms} x86-linux-gcc"
++ all_platforms="${all_platforms} x86-linux-icc"
++ all_platforms="${all_platforms} x86-os2-gcc"
++@@ -124,6 +129,8 @@
++ all_platforms="${all_platforms} x86_64-darwin10-gcc"
++ all_platforms="${all_platforms} x86_64-darwin11-gcc"
++ all_platforms="${all_platforms} x86_64-darwin12-gcc"
+++all_platforms="${all_platforms} x86_64-darwin-gcc"
+++all_platforms="${all_platforms} x86_64-darwin-clang"
++ all_platforms="${all_platforms} x86_64-linux-gcc"
++ all_platforms="${all_platforms} x86_64-linux-icc"
++ all_platforms="${all_platforms} x86_64-solaris-gcc"
++@@ -135,6 +142,8 @@
++ all_platforms="${all_platforms} universal-darwin10-gcc"
++ all_platforms="${all_platforms} universal-darwin11-gcc"
++ all_platforms="${all_platforms} universal-darwin12-gcc"
+++all_platforms="${all_platforms} universal-darwin-gcc"
+++all_platforms="${all_platforms} universal-darwin-clang"
++ all_platforms="${all_platforms} generic-gnu"
++ 
++ # all_targets is a list of all targets that can be configured
