@@ -60,3 +60,4 @@ ocaml-core_kernel
 ocaml-re2
 ocaml-textutils
 omake-macosx
+tools-darwin
