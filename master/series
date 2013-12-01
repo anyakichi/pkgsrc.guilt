@@ -63,3 +63,4 @@ omake-macosx
 tools-darwin
 libvpx-macosx
 ocaml-gnuplot
+ocaml-gnuplot-pdf
