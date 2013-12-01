@@ -1,0 +1,57 @@
+# HG changeset patch
+# Parent b93f175abc6175361796e53c59f70270fb83f2b6
+diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/graphics/ocaml-gnuplot/DESCR	Sun Dec 01 21:07:18 2013 +0900
+@@ -0,0 +1,1 @@
++OCaml Gnuplot Interface
+diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/graphics/ocaml-gnuplot/Makefile	Sun Dec 01 21:07:18 2013 +0900
+@@ -0,0 +1,21 @@
++# $NetBSD$
++#
++
++DISTNAME=	ocaml-gnuplot-${VERSION}
++VERSION=	0.8.3
++CATEGORIES=	devel
++MASTER_SITES=	http://downloads.sourceforge.net/project/ocaml-gnuplot/ocaml-gnuplot/${VERSION}/
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://sourceforge.net/projects/ocaml-gnuplot/
++COMMENT=	OCaml Gnuplot Interface
++LICENSE=	gnu-lgpl-v2.1
++
++USE_TOOLS+=	gmake gsed
++
++DEPENDS+=	gnuplot>=4.0:../../graphics/gnuplot
++
++.include "../../lang/ocaml/buildlink3.mk"
++.include "../../lang/ocaml/opt.mk"
++.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/graphics/ocaml-gnuplot/PLIST	Sun Dec 01 21:07:18 2013 +0900
+@@ -0,0 +1,12 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/gnuplot
++lib/ocaml/site-lib/gnuplot/META
++${PLIST.opt}lib/ocaml/site-lib/gnuplot/gnuplot.a
++lib/ocaml/site-lib/gnuplot/gnuplot.cma
++lib/ocaml/site-lib/gnuplot/gnuplot.cmi
++${PLIST.opt}lib/ocaml/site-lib/gnuplot/gnuplot.cmx
++${PLIST.opt}lib/ocaml/site-lib/gnuplot/gnuplot.cmxa
++lib/ocaml/site-lib/gnuplot/gnuplot.mli
++lib/ocaml/site-lib/gnuplot/gnuplot_common.cmi
++lib/ocaml/site-lib/gnuplot/gnuplot_common.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/gnuplot
+diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/graphics/ocaml-gnuplot/distinfo	Sun Dec 01 21:07:18 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (ocaml-gnuplot-0.8.3.tar.gz) = b464b7092d17354d063e02aa1b029642082561be
++RMD160 (ocaml-gnuplot-0.8.3.tar.gz) = d2817b77f472d0409fedf5ee361f2cf41f41a330
++Size (ocaml-gnuplot-0.8.3.tar.gz) = 45672 bytes
