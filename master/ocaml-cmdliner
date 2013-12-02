@@ -1,0 +1,60 @@
+# HG changeset patch
+# Parent 7658aea94768557b78f32f34ebdf9aadfcc69d52
+diff -r 7658aea94768 -r 6adf1c763b8a devel/ocaml-cmdliner/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-cmdliner/DESCR	Mon Dec 02 13:05:57 2013 +0900
+@@ -0,0 +1,8 @@
++Cmdliner is a module for the declarative definition of command line
++interfaces.
++
++It provides a simple and compositional mechanism to convert command
++line arguments to OCaml values and pass them to your functions. The
++module automatically handles syntax errors, help messages and UNIX man
++page generation. It supports programs with single or multiple commands
++and respects most of the POSIX and GNU conventions.
+diff -r 7658aea94768 -r 6adf1c763b8a devel/ocaml-cmdliner/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-cmdliner/Makefile	Mon Dec 02 13:05:57 2013 +0900
+@@ -0,0 +1,18 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-${DISTNAME}
++DISTNAME=	cmdliner-${VERSION}
++VERSION=	0.9.2
++CATEGORIES=	devel
++MASTER_SITES=	http://erratique.ch/software/cmdliner/releases/
++EXTRACT_SUFX=	.tbz
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://erratique.ch/software/cmdliner
++COMMENT=	Declarative definition of command line interfaces for OCaml
++LICENSE=	modified-bsd
++
++.include "../../lang/ocaml/oasis.mk"
++.include "../../lang/ocaml/opt.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 7658aea94768 -r 6adf1c763b8a devel/ocaml-cmdliner/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-cmdliner/PLIST	Mon Dec 02 13:05:57 2013 +0900
+@@ -0,0 +1,11 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/cmdliner
++lib/ocaml/site-lib/cmdliner/META
++${PLIST.opt}lib/ocaml/site-lib/cmdliner/cmdliner.a
++lib/ocaml/site-lib/cmdliner/cmdliner.cma
++lib/ocaml/site-lib/cmdliner/cmdliner.cmi
++${PLIST.opt}lib/ocaml/site-lib/cmdliner/cmdliner.cmx
++${PLIST.opt}lib/ocaml/site-lib/cmdliner/cmdliner.cmxa
++${PLIST.opt}lib/ocaml/site-lib/cmdliner/cmdliner.cmxs
++lib/ocaml/site-lib/cmdliner/cmdliner.mli
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/cmdliner
+diff -r 7658aea94768 -r 6adf1c763b8a devel/ocaml-cmdliner/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-cmdliner/distinfo	Mon Dec 02 13:05:57 2013 +0900
+@@ -0,0 +1,5 @@
++$NetBSD$
++
++SHA1 (cmdliner-0.9.2.tbz) = 65461806b64a95a8c30f6d3b80b3200b4a109c60
++RMD160 (cmdliner-0.9.2.tbz) = 15d5ed31171e6633bf7c74d16f47beaec498dea2
++Size (cmdliner-0.9.2.tbz) = 74952 bytes
