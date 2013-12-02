@@ -65,3 +65,4 @@ libvpx-macosx
 ocaml-gnuplot
 ocaml-gnuplot-pdf
 ocaml-cmdliner
+ocaml-ocp-build
