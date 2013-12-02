@@ -1,0 +1,157 @@
+# HG changeset patch
+# Parent 078dd426e661e4362df9ccaa5202f7c8c5f75b0e
+diff -r 078dd426e661 -r 0b9fe659487d devel/ocaml-ocp-indent/DESCR
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ocp-indent/DESCR	Mon Dec 02 13:25:39 2013 +0900
+@@ -0,0 +1,1 @@
++ocp-indent is a customizable tool to indent OCaml code.
+diff -r 078dd426e661 -r 0b9fe659487d devel/ocaml-ocp-indent/Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ocp-indent/Makefile	Mon Dec 02 13:25:39 2013 +0900
+@@ -0,0 +1,29 @@
++# $NetBSD$
++#
++
++PKGNAME=	ocaml-ocp-indent-${VERSION}
++DISTNAME=	${VERSION}
++VERSION=	1.4.0
++DIST_SUBDIR=	${PKGNAME_NOREV}
++
++CATEGORIES=	devel
++MASTER_SITES=	https://github.com/OcamlPro/ocp-indent/archive/
++FETCH_USING=	curl
++
++GNU_CONFIGURE=	yes
++USE_TOOLS+=	gmake
++
++MAINTAINER=	pkgsrc-users@NetBSD.org
++HOMEPAGE=	http://opam.ocamlpro.com/
++COMMENT=	a customizable tool to indent OCaml code
++LICENSE=	gnu-gpl-v3
++
++WRKSRC=		${WRKDIR}/ocp-indent-${DISTNAME}/
++
++CONFIGURE_ARGS+=--datarootdir=${PREFIX}/share/ocp-indent
++MAKE_FLAGS+=	LIBDIR=${BUILDLINK_PREFIX.ocaml-findlib}/lib/ocaml/site-lib
++
++.include "../../lang/ocaml/opt.mk"
++.include "../../lang/ocaml/buildlink3.mk"
++.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../mk/bsd.pkg.mk"
+diff -r 078dd426e661 -r 0b9fe659487d devel/ocaml-ocp-indent/PLIST
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ocp-indent/PLIST	Mon Dec 02 13:25:39 2013 +0900
+@@ -0,0 +1,50 @@
++@comment $NetBSD$
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent-lexer
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent-lib
++@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent-utils
++bin/ocp-indent
++bin/ocp-indent.byte
++lib/ocaml/site-lib/ocp-indent-lexer/META
++lib/ocaml/site-lib/ocp-indent-lexer/approx_common.cmi
++lib/ocaml/site-lib/ocp-indent-lexer/approx_lexer.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lexer/approx_lexer.cmx
++lib/ocaml/site-lib/ocp-indent-lexer/approx_tokens.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lexer/approx_tokens.cmx
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lexer/ocp-indent-lexer.a
++lib/ocaml/site-lib/ocp-indent-lexer/ocp-indent-lexer.cma
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lexer/ocp-indent-lexer.cmxa
++lib/ocaml/site-lib/ocp-indent-lexer/ocp-indent-lexer.uninstall
++lib/ocaml/site-lib/ocp-indent-lib/META
++lib/ocaml/site-lib/ocp-indent-lib/indentBlock.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lib/indentBlock.cmx
++lib/ocaml/site-lib/ocp-indent-lib/indentConfig.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lib/indentConfig.cmx
++lib/ocaml/site-lib/ocp-indent-lib/indentPrinter.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lib/indentPrinter.cmx
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lib/ocp-indent-lib.a
++lib/ocaml/site-lib/ocp-indent-lib/ocp-indent-lib.cma
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-lib/ocp-indent-lib.cmxa
++lib/ocaml/site-lib/ocp-indent-lib/ocp-indent-lib.uninstall
++lib/ocaml/site-lib/ocp-indent-utils/META
++lib/ocaml/site-lib/ocp-indent-utils/compat.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/compat.cmx
++lib/ocaml/site-lib/ocp-indent-utils/nstream.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/nstream.cmx
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/ocp-indent-utils.a
++lib/ocaml/site-lib/ocp-indent-utils/ocp-indent-utils.cma
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/ocp-indent-utils.cmxa
++lib/ocaml/site-lib/ocp-indent-utils/ocp-indent-utils.uninstall
++lib/ocaml/site-lib/ocp-indent-utils/pos.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/pos.cmx
++lib/ocaml/site-lib/ocp-indent-utils/util.cmi
++${PLIST.opt}lib/ocaml/site-lib/ocp-indent-utils/util.cmx
++lib/ocaml/site-lib/ocp-indent/META
++lib/ocaml/site-lib/ocp-indent/ocp-indent.uninstall
++man/man1/ocp-indent.1
++share/ocp-indent/emacs/site-lisp/ocp-indent.el
++share/ocp-indent/vim/syntax/ocp-indent.vim
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-lexer
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-lib
++@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-utils
+diff -r 078dd426e661 -r 0b9fe659487d devel/ocaml-ocp-indent/distinfo
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ocp-indent/distinfo	Mon Dec 02 13:25:39 2013 +0900
+@@ -0,0 +1,6 @@
++$NetBSD$
++
++SHA1 (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 2d63ff62504e0ad4b96596c59e931743aea64501
++RMD160 (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 023ced886ceae0ab303f430d85ac46bf88326140
++Size (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 123297 bytes
++SHA1 (patch-Makefile) = a9773ddd67d3e1ed08a478dedb7fdf9d6b062d40
+diff -r 078dd426e661 -r 0b9fe659487d devel/ocaml-ocp-indent/patches/patch-Makefile
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/devel/ocaml-ocp-indent/patches/patch-Makefile	Mon Dec 02 13:25:39 2013 +0900
+@@ -0,0 +1,49 @@
++--- Makefile.orig	2013-12-01 23:52:50.000000000 +0900
+++++ Makefile	2013-12-01 23:59:46.000000000 +0900
++@@ -4,7 +4,7 @@
++ native = _obuild/ocp-indent/ocp-indent.asm
++ manpage = man/man1/ocp-indent.1
++ 
++-OCPBUILD_ARGS = -install-lib $(prefix)/lib
+++OCPBUILD_ARGS = -install-lib $(LIBDIR)
++ 
++ .PHONY: $(native) $(byte)
++ 
++@@ -48,24 +48,24 @@
++ 	    | grep -q ocp-indent; then \
++ 	  ocp-build uninstall $(OCPBUILD_ARGS) ocp-indent;\
++ 	fi
++-	ocp-build install $(OCPBUILD_ARGS) -install-bin $(prefix)/bin
+++	ocp-build install $(OCPBUILD_ARGS) -install-destdir $(DESTDIR) -install-bin $(prefix)/bin
++ 	@# workaround ocp-build bug
++-	if [ ! -e "$(prefix)/lib/ocp-indent/ocp-indent-lexer/approx_lexer.cmi" ]; then \
+++	if [ ! -e "$(DESTDIR)$(LIBDIR)/ocp-indent/ocp-indent-lexer/approx_lexer.cmi" ]; then \
++ 	  install -m 644 \
++ 	    "_obuild/ocp-indent-lexer/approx_lexer.cmi" \
++ 	    "_obuild/ocp-indent-lexer/approx_tokens.cmi" \
++-	    "$(prefix)/lib/ocp-indent-lexer/"; \
++-	  echo "REG $(prefix)/lib/ocp-indent-lexer/approx_lexer.cmi" \
++-	    >> "$(prefix)/lib/ocp-indent-lexer/ocp-indent-lexer.uninstall"; \
++-	  echo "REG $(prefix)/lib/ocp-indent-lexer/approx_tokens.cmi" \
++-	    >> "$(prefix)/lib/ocp-indent-lexer/ocp-indent-lexer.uninstall"; \
+++	    "$(DESTDIR)$(LIBDIR)/ocp-indent-lexer/"; \
+++	  echo "REG $(LIBDIR)/ocp-indent-lexer/approx_lexer.cmi" \
+++	    >> "$(DESTDIR)$(LIBDIR)/ocp-indent-lexer/ocp-indent-lexer.uninstall"; \
+++	  echo "REG $(LIBDIR)/ocp-indent-lexer/approx_tokens.cmi" \
+++	    >> "$(DESTDIR)$(LIBDIR)/ocp-indent-lexer/ocp-indent-lexer.uninstall"; \
++ 	fi
++-	mkdir -p $(mandir)/man1
++-	install -m 644 $(manpage) $(mandir)/man1/
++-	mkdir -p $(datarootdir)/emacs/site-lisp
++-	install -m 644 tools/ocp-indent.el $(datarootdir)/emacs/site-lisp/
++-	mkdir -p $(datarootdir)/vim/syntax
++-	install -m 644 tools/ocp-indent.vim $(datarootdir)/vim/syntax/
+++	mkdir -p $(DESTDIR)$(mandir)/man1
+++	install -m 644 $(manpage) $(DESTDIR)$(mandir)/man1/
+++	mkdir -p $(DESTDIR)$(datarootdir)/emacs/site-lisp
+++	install -m 644 tools/ocp-indent.el $(DESTDIR)$(datarootdir)/emacs/site-lisp/
+++	mkdir -p $(DESTDIR)$(datarootdir)/vim/syntax
+++	install -m 644 tools/ocp-indent.vim $(DESTDIR)$(datarootdir)/vim/syntax/
++ 	@echo
++ 	@echo
++ 	@echo "=== ocp-indent installed ==="
