@@ -63,7 +63,7 @@ omake-macosx
 tools-darwin
 libvpx-macosx
 ocaml-gnuplot
-ocaml-gnuplot-pdf
+ocaml-gnuplot-exterms
 ocaml-cmdliner
 ocaml-ocp-build
 ocaml-ocp-indent
