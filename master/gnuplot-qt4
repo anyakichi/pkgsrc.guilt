@@ -1,0 +1,13 @@
+# HG changeset patch
+# Parent 7e1a4136451973c00b925f8c9bd8557a602f3fa2
+diff -r 7e1a41364519 -r 18205080a6bf graphics/gnuplot/options.mk
+--- a/graphics/gnuplot/options.mk	Wed Dec 04 00:23:09 2013 +0900
++++ b/graphics/gnuplot/options.mk	Wed Dec 04 12:44:00 2013 +0900
+@@ -40,6 +40,7 @@
+ CONFIGURE_ARGS+=	--enable-qt
+ PLIST.qt4=		yes
+ .include "../../x11/qt4-libs/buildlink3.mk"
++.include "../../x11/qt4-tools/buildlink3.mk"
+ .else
+ CONFIGURE_ARGS+=	--disable-qt
+ .endif
