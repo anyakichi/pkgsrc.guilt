@@ -1,14 +1,14 @@
 # HG changeset patch
-# Parent 586251ea66781589cd9c140cf887951b64cc4f29
+# Parent 393128efef947a7c7a9cde9052fc9ba2a7746df9
 
-diff -r 586251ea6678 devel/ocaml-ocp-indent/DESCR
+diff -r 393128efef94 devel/ocaml-ocp-indent/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/DESCR	Wed Dec 04 00:23:09 2013 +0900
++++ b/devel/ocaml-ocp-indent/DESCR	Sat Dec 07 23:36:20 2013 +0900
 @@ -0,0 +1,1 @@
 +ocp-indent is a customizable tool to indent OCaml code.
-diff -r 586251ea6678 devel/ocaml-ocp-indent/Makefile
+diff -r 393128efef94 devel/ocaml-ocp-indent/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/Makefile	Wed Dec 04 00:23:09 2013 +0900
++++ b/devel/ocaml-ocp-indent/Makefile	Sat Dec 07 23:36:20 2013 +0900
 @@ -0,0 +1,32 @@
 +# $NetBSD$
 +#
@@ -42,9 +42,9 @@ diff -r 586251ea6678 devel/ocaml-ocp-indent/Makefile
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 586251ea6678 devel/ocaml-ocp-indent/PLIST
+diff -r 393128efef94 devel/ocaml-ocp-indent/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/PLIST	Wed Dec 04 00:23:09 2013 +0900
++++ b/devel/ocaml-ocp-indent/PLIST	Sat Dec 07 23:36:20 2013 +0900
 @@ -0,0 +1,50 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent
@@ -96,37 +96,34 @@ diff -r 586251ea6678 devel/ocaml-ocp-indent/PLIST
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-lexer
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-lib
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent-utils
-diff -r 586251ea6678 devel/ocaml-ocp-indent/distinfo
+diff -r 393128efef94 devel/ocaml-ocp-indent/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/distinfo	Wed Dec 04 00:23:09 2013 +0900
++++ b/devel/ocaml-ocp-indent/distinfo	Sat Dec 07 23:36:20 2013 +0900
 @@ -0,0 +1,6 @@
 +$NetBSD$
 +
 +SHA1 (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 2d63ff62504e0ad4b96596c59e931743aea64501
 +RMD160 (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 023ced886ceae0ab303f430d85ac46bf88326140
 +Size (ocaml-ocp-indent-1.4.0/1.4.0.tar.gz) = 123297 bytes
-+SHA1 (patch-Makefile) = a9773ddd67d3e1ed08a478dedb7fdf9d6b062d40
-diff -r 586251ea6678 devel/ocaml-ocp-indent/patches/patch-Makefile
++SHA1 (patch-Makefile) = 5c46efb7f928ac23220b9de8e7620db76d503cd1
+diff -r 393128efef94 devel/ocaml-ocp-indent/patches/patch-Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/patches/patch-Makefile	Wed Dec 04 00:23:09 2013 +0900
-@@ -0,0 +1,49 @@
-+--- Makefile.orig	2013-12-01 23:52:50.000000000 +0900
-++++ Makefile	2013-12-01 23:59:46.000000000 +0900
++++ b/devel/ocaml-ocp-indent/patches/patch-Makefile	Sat Dec 07 23:36:20 2013 +0900
+@@ -0,0 +1,46 @@
++--- Makefile.orig	2013-11-22 20:37:16.000000000 +0900
+++++ Makefile	2013-12-06 00:03:01.000000000 +0900
 +@@ -4,7 +4,7 @@
 + native = _obuild/ocp-indent/ocp-indent.asm
 + manpage = man/man1/ocp-indent.1
 + 
 +-OCPBUILD_ARGS = -install-lib $(prefix)/lib
-++OCPBUILD_ARGS = -install-lib $(LIBDIR)
+++OCPBUILD_ARGS = -install-destdir $(DESTDIR) -install-lib $(LIBDIR)
 + 
 + .PHONY: $(native) $(byte)
 + 
-+@@ -48,24 +48,24 @@
-+ 	    | grep -q ocp-indent; then \
-+ 	  ocp-build uninstall $(OCPBUILD_ARGS) ocp-indent;\
++@@ -50,22 +50,22 @@
 + 	fi
-+-	ocp-build install $(OCPBUILD_ARGS) -install-bin $(prefix)/bin
-++	ocp-build install $(OCPBUILD_ARGS) -install-destdir $(DESTDIR) -install-bin $(prefix)/bin
++ 	ocp-build install $(OCPBUILD_ARGS) -install-bin $(prefix)/bin
 + 	@# workaround ocp-build bug
 +-	if [ ! -e "$(prefix)/lib/ocp-indent/ocp-indent-lexer/approx_lexer.cmi" ]; then \
 ++	if [ ! -e "$(DESTDIR)$(LIBDIR)/ocp-indent/ocp-indent-lexer/approx_lexer.cmi" ]; then \
