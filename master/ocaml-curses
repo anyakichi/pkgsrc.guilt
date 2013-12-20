@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent 70a94047a335cd19ddcd51ced09a09e6559d8ea6
-diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/DESCR
+# Parent 35f1f7d24ffc560ecec762cda6ec4a00889a8a64
+
+diff -r 35f1f7d24ffc devel/ocaml-curses/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-curses/DESCR	Sat Dec 07 23:32:19 2013 +0900
++++ b/devel/ocaml-curses/DESCR	Fri Dec 20 21:12:52 2013 +0900
 @@ -0,0 +1,10 @@
 +OCaml Curses is a project to provide curses / ncurses bindings for the
 +Objective Caml language.
@@ -14,10 +15,10 @@ diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/DESCR
 +
 +OCaml Curses is free software, under the terms of the GNU Lesser General
 +Public License.
-diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/Makefile
+diff -r 35f1f7d24ffc devel/ocaml-curses/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-curses/Makefile	Sat Dec 07 23:32:19 2013 +0900
-@@ -0,0 +1,25 @@
++++ b/devel/ocaml-curses/Makefile	Fri Dec 20 21:12:52 2013 +0900
+@@ -0,0 +1,28 @@
 +# $NetBSD$
 +#
 +
@@ -35,6 +36,8 @@ diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/Makefile
 +COMMENT=	Bindings to curses/ncurses
 +LICENSE=	gnu-lgpl-v2.1
 +
++CURSES_DEFAULT=	ncurses
++
 +WRKSRC=		${WRKDIR}/${PKGNAME}/
 +
 +BUILD_TARGET=	byte opt
@@ -42,10 +45,11 @@ diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/Makefile
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../mk/curses.buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/PLIST
+diff -r 35f1f7d24ffc devel/ocaml-curses/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-curses/PLIST	Sat Dec 07 23:32:19 2013 +0900
++++ b/devel/ocaml-curses/PLIST	Fri Dec 20 21:12:52 2013 +0900
 @@ -0,0 +1,12 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/curses
@@ -59,10 +63,10 @@ diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/PLIST
 +lib/ocaml/site-lib/curses/keys.cmi
 +${PLIST.opt}lib/ocaml/site-lib/curses/libcurses_stubs.a
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/curses
-diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/buildlink3.mk
+diff -r 35f1f7d24ffc devel/ocaml-curses/buildlink3.mk
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-curses/buildlink3.mk	Sat Dec 07 23:32:19 2013 +0900
-@@ -0,0 +1,13 @@
++++ b/devel/ocaml-curses/buildlink3.mk	Fri Dec 20 21:12:52 2013 +0900
+@@ -0,0 +1,15 @@
 +# $NetBSD$
 +
 +BUILDLINK_TREE+=	ocaml-curses
@@ -73,12 +77,14 @@ diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/buildlink3.mk
 +BUILDLINK_API_DEPENDS.ocaml-curses+=	ocaml-curses>=1.0.3
 +BUILDLINK_PKGSRCDIR.ocaml-curses?=	../../devel/ocaml-curses
 +
++CURSES_DEFAULT=		ncurses
++.include "../../mk/curses.buildlink3.mk"
 +.endif	# OCAML_CURSES_BUILDLINK3_MK
 +
 +BUILDLINK_TREE+=	-ocaml-curses
-diff -r 70a94047a335 -r 56f0247f4c6a devel/ocaml-curses/distinfo
+diff -r 35f1f7d24ffc devel/ocaml-curses/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-curses/distinfo	Sat Dec 07 23:32:19 2013 +0900
++++ b/devel/ocaml-curses/distinfo	Fri Dec 20 21:12:52 2013 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
