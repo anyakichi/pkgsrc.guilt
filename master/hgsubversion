@@ -1,16 +1,16 @@
 # HG changeset patch
-# Parent b4d11924873ed9fdbf19568d4026dcea9a188004
+# Parent 3d4f4867761b412c2fbc62bd87ea807f67cb871f
 
-diff -r b4d11924873e devel/hgsubversion/DESCR
+diff -r 3d4f4867761b devel/hgsubversion/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/DESCR	Sat Apr 12 17:19:31 2014 +0900
++++ b/devel/hgsubversion/DESCR	Sun Apr 13 08:42:04 2014 +0900
 @@ -0,0 +1,2 @@
 +hgsubversion is an extension for Mercurial that allows using Mercurial
 +as a Subversion client.
-diff -r b4d11924873e devel/hgsubversion/Makefile
+diff -r 3d4f4867761b devel/hgsubversion/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/Makefile	Sat Apr 12 17:19:31 2014 +0900
-@@ -0,0 +1,21 @@
++++ b/devel/hgsubversion/Makefile	Sun Apr 13 08:42:04 2014 +0900
+@@ -0,0 +1,22 @@
 +# $NetBSD$
 +#
 +
@@ -19,6 +19,7 @@ diff -r b4d11924873e devel/hgsubversion/Makefile
 +CATEGORIES=		devel python
 +MASTER_SITES=		http://pypi.python.org/packages/source/h/hgsubversion/
 +EXTRACT_SUFX=		.tar.gz
++FETCH_USING=		curl
 +
 +MAINTAINER=		pkgsrc-users@NetBSD.org
 +HOMEPAGE=		https://bitbucket.org/durin42/hgsubversion/overview/
@@ -32,9 +33,9 @@ diff -r b4d11924873e devel/hgsubversion/Makefile
 +
 +.include "../../lang/python/egg.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r b4d11924873e devel/hgsubversion/PLIST
+diff -r 3d4f4867761b devel/hgsubversion/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/PLIST	Sat Apr 12 17:19:31 2014 +0900
++++ b/devel/hgsubversion/PLIST	Sun Apr 13 08:42:04 2014 +0900
 @@ -0,0 +1,91 @@
 +@comment $NetBSD$
 +${PYSITELIB}/${EGG_INFODIR}/PKG-INFO
@@ -127,9 +128,9 @@ diff -r b4d11924873e devel/hgsubversion/PLIST
 +${PYSITELIB}/hgsubversion/wrappers.py
 +${PYSITELIB}/hgsubversion/wrappers.pyc
 +${PYSITELIB}/hgsubversion/wrappers.pyo
-diff -r b4d11924873e devel/hgsubversion/distinfo
+diff -r 3d4f4867761b devel/hgsubversion/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/distinfo	Sat Apr 12 17:19:31 2014 +0900
++++ b/devel/hgsubversion/distinfo	Sun Apr 13 08:42:04 2014 +0900
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
