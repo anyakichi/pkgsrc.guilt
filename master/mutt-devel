@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent c72c95fb2a53f96da17692f5f6456b3c4f9738e6
+# Parent ec71b88060d785fe5592fee09dd8ccc3d8f5755d
 
-diff -r c72c95fb2a53 mail/mutt-devel/Makefile.common
---- a/mail/mutt-devel/Makefile.common	Tue Apr 01 14:40:47 2014 +0900
-+++ b/mail/mutt-devel/Makefile.common	Sat Apr 05 15:33:00 2014 +0900
+diff -r ec71b88060d7 mail/mutt-devel/Makefile.common
+--- a/mail/mutt-devel/Makefile.common	Sun Apr 13 11:34:08 2014 +0900
++++ b/mail/mutt-devel/Makefile.common	Sun Apr 13 21:45:13 2014 +0900
 @@ -8,6 +8,7 @@
  .include "../../mk/bsd.prefs.mk"
  
@@ -12,9 +12,9 @@ diff -r c72c95fb2a53 mail/mutt-devel/Makefile.common
  USE_TOOLS+=		msgfmt
  USE_TOOLS+=		perl
  GNU_CONFIGURE=		yes
-diff -r c72c95fb2a53 mail/mutt-devel/distinfo
---- a/mail/mutt-devel/distinfo	Tue Apr 01 14:40:47 2014 +0900
-+++ b/mail/mutt-devel/distinfo	Sat Apr 05 15:33:00 2014 +0900
+diff -r ec71b88060d7 mail/mutt-devel/distinfo
+--- a/mail/mutt-devel/distinfo	Sun Apr 13 11:34:08 2014 +0900
++++ b/mail/mutt-devel/distinfo	Sun Apr 13 21:45:13 2014 +0900
 @@ -3,6 +3,12 @@
  SHA1 (mutt-1.5.23.tar.gz) = 8ac821d8b1e25504a31bf5fda9c08d93a4acc862
  RMD160 (mutt-1.5.23.tar.gz) = 2476a9e202ab1cd20a512253246e37538e0aad5a
@@ -33,9 +33,9 @@ diff -r c72c95fb2a53 mail/mutt-devel/distinfo
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
-diff -r c72c95fb2a53 mail/mutt-devel/options.mk
---- a/mail/mutt-devel/options.mk	Tue Apr 01 14:40:47 2014 +0900
-+++ b/mail/mutt-devel/options.mk	Sat Apr 05 15:33:00 2014 +0900
+diff -r ec71b88060d7 mail/mutt-devel/options.mk
+--- a/mail/mutt-devel/options.mk	Sun Apr 13 11:34:08 2014 +0900
++++ b/mail/mutt-devel/options.mk	Sun Apr 13 21:45:13 2014 +0900
 @@ -7,6 +7,7 @@
  PKG_OPTIONS_GROUP.display=	slang ncurses ncursesw curses
  PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
@@ -65,3 +65,38 @@ diff -r c72c95fb2a53 mail/mutt-devel/options.mk
 +pre-configure:
 +	cd ${WRKSRC} && autoconf && autoheader
 +.endif
+diff -r ec71b88060d7 mail/mutt-devel/patches/patch-configure.ac
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/mail/mutt-devel/patches/patch-configure.ac	Sun Apr 13 21:45:13 2014 +0900
+@@ -0,0 +1,31 @@
++--- configure.ac.orig	2014-04-01 23:42:48.000000000 +0900
+++++ configure.ac	2014-04-02 00:02:35.000000000 +0900
++@@ -78,6 +78,10 @@
++             [Define if you have use_default_colors, as a function or macro.])
++ AH_TEMPLATE([HAVE_RESIZETERM],
++             [Define if you have resizeterm, as a function or macro.])
+++AH_TEMPLATE([HAVE_MVCHGAT],
+++            [Define to 1 if you have the `mvchgat' function.])
+++AH_TEMPLATE([HAVE_MVWCHGAT],
+++            [Define to 1 if you have the `mvwchgat' function.])
++ AH_TEMPLATE([SIG_ATOMIC_VOLATILE_T],
++             [Some systems declare sig_atomic_t as volatile, some others -- no.
++              This define will have value `sig_atomic_t' or
++@@ -288,7 +292,7 @@
++         old_LIBS="$LIBS"
++         LIBS="$LIBS $MUTTLIBS"
++         CF_CHECK_FUNCDECLS([#include <${cf_cv_ncurses_header-curses.h}>],
++-                           [start_color typeahead bkgdset curs_set meta use_default_colors resizeterm])
+++                           [start_color typeahead bkgdset curs_set meta use_default_colors resizeterm mvchgat mvwchgat])
++         if test "$ac_cv_func_decl_start_color" = yes; then
++                 AC_DEFINE(HAVE_COLOR,1,[ Define if your curses library supports color. ])
++         fi
++@@ -551,7 +555,7 @@
++ 
++ if test x$mutt_cv_setgid = xyes; then
++         DOTLOCK_GROUP='mail'
++-        DOTLOCK_PERMISSION=2755
+++        DOTLOCK_PERMISSION=2555
++ else
++         DOTLOCK_GROUP=''
++         DOTLOCK_PERMISSION=755
