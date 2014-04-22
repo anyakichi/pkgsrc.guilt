@@ -1,0 +1,80 @@
+# HG changeset patch
+# Parent 5cf87fa9b18528d27a14d8ba093dcc3ecf7285cc
+diff -r 5cf87fa9b185 -r 047ad71af722 patches/x11/mlterm/patch-xevent
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/patches/x11/mlterm/patch-xevent	Tue Apr 22 22:22:27 2014 +0900
+@@ -0,0 +1,74 @@
++--- ChangeLog	Sun Mar 23 07:04:07 2014 +0900
+++++ ChangeLog	Tue Apr 22 05:11:16 2014 +0900
++@@ -1,3 +1,8 @@
+++2014-04-22  Araki Ken  <arakiken@users.sf.net>
+++
+++	* x_event_source.c, xlib/x_display.c: Pending events in the event queue
+++	  is read before select().
+++
++ 2014-03-22  Araki Ken  <arakiken@users.sf.net>
++ 
++ 	* 3.3.4 released.
++--- xwindow/x_event_source.c	Sun Mar 23 07:04:07 2014 +0900
+++++ xwindow/x_event_source.c	Tue Apr 22 05:11:16 2014 +0900
++@@ -134,7 +134,13 @@
++ 		for( count = 0 ; count < num_of_displays ; count ++)
++ 		{
++ 		#ifdef  X_PROTOCOL
++-			/* XFlush() is necessary after using Xlib functions. */
+++			/* Need to read pending events before waiting in select(). */
+++			if( XEventsQueued( displays[count]->display , QueuedAlready))
+++			{
+++				x_display_receive_next_event( displays[count]) ;
+++			}
+++
+++			/* Need flush events in output buffer before waiting in select(). */
++ 			XFlush( displays[count]->display) ;
++ 		#endif
++ 
++--- xwindow/xlib/x_display.c	Sun Mar 23 07:04:07 2014 +0900
+++++ xwindow/xlib/x_display.c	Tue Apr 22 05:11:16 2014 +0900
++@@ -466,34 +466,22 @@
++ 	x_display_t *  disp
++ 	)
++ {
++-	if( XEventsQueued( disp->display , QueuedAfterReading))
+++	XEvent  event ;
+++	int  count ;
+++
+++	do
++ 	{
++-		XEvent  event ;
++-		int  count ;
+++		XNextEvent( disp->display , &event) ;
++ 
++-		do
+++		if( ! XFilterEvent( &event , None))
++ 		{
++-			XNextEvent( disp->display , &event) ;
++-
++-			if( ! XFilterEvent( &event , None))
+++			for( count = 0 ; count < disp->num_of_roots ; count ++)
++ 			{
++-				for( count = 0 ; count < disp->num_of_roots ; count ++)
++-				{
++-					x_window_receive_event( disp->roots[count] , &event) ;
++-				}
+++				x_window_receive_event( disp->roots[count] , &event) ;
++ 			}
++ 		}
++-		while( XEventsQueued( disp->display , QueuedAfterReading)) ;
++ 	}
++-
++-	/* XFlush() is called in x_event_source.c */
++-#if  0
++-	/*
++-	 * If XEventsQueued() return 0, this should be done because events
++-	 * should be flushed before waiting in select().
++-	 */
++-	XFlush( disp->display) ;
++-#endif
+++	while( XEventsQueued( disp->display , QueuedAfterReading)) ;
++ 
++ 	return  1 ;
++ }
