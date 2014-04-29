@@ -65,3 +65,4 @@ gnuplot-qt4
 ocaml-curses
 ocaml-ocp-index
 mlterm-xevent
+py-dulwich

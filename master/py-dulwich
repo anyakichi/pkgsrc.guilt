@@ -1,0 +1,87 @@
+# HG changeset patch
+# Parent d88b23a6ed6f00fb413f613b0df81bdb98fc78d7
+diff -r d88b23a6ed6f -r f7d77b5305bd devel/py-dulwich/Makefile
+--- a/devel/py-dulwich/Makefile	Sun Apr 27 14:20:14 2014 +0900
++++ b/devel/py-dulwich/Makefile	Wed Apr 30 01:25:35 2014 +0900
+@@ -1,17 +1,18 @@
+ # $NetBSD: Makefile,v 1.8 2014/01/20 12:42:24 wiz Exp $
+ 
+-DISTNAME=	dulwich-0.9.4
++DISTNAME=	dulwich-0.9.6
+ PKGNAME=	${PYPKGPREFIX}-${DISTNAME}
+ EGG_NAME=	${DISTNAME}
+ CATEGORIES=	devel python
+ MASTER_SITES=	https://pypi.python.org/packages/source/d/dulwich/
++FETCH_USING=	curl
+ 
+ MAINTAINER=	pkgsrc-users@NetBSD.org
+ HOMEPAGE=	http://www.samba.org/~jelmer/dulwich/
+ COMMENT=	Python implementation of Git
+ LICENSE=	gnu-gpl-v2
+ 
+-PYTHON_VERSIONS_INCOMPATIBLE=	33 # not yet ported as of 0.9.4
++PYTHON_VERSIONS_INCOMPATIBLE=	33 # not yet ported as of 0.9.6
+ 
+ .include "../../lang/python/egg.mk"
+ .include "../../mk/bsd.pkg.mk"
+diff -r d88b23a6ed6f -r f7d77b5305bd devel/py-dulwich/PLIST
+--- a/devel/py-dulwich/PLIST	Sun Apr 27 14:20:14 2014 +0900
++++ b/devel/py-dulwich/PLIST	Wed Apr 30 01:25:35 2014 +0900
+@@ -1,4 +1,4 @@
+-@comment $NetBSD: PLIST,v 1.5 2014/01/20 12:42:24 wiz Exp $
++@comment $NetBSD$
+ bin/dul-daemon
+ bin/dul-receive-pack
+ bin/dul-upload-pack
+@@ -11,9 +11,6 @@
+ ${PYSITELIB}/dulwich/__init__.py
+ ${PYSITELIB}/dulwich/__init__.pyc
+ ${PYSITELIB}/dulwich/__init__.pyo
+-${PYSITELIB}/dulwich/_compat.py
+-${PYSITELIB}/dulwich/_compat.pyc
+-${PYSITELIB}/dulwich/_compat.pyo
+ ${PYSITELIB}/dulwich/_diff_tree.so
+ ${PYSITELIB}/dulwich/_objects.so
+ ${PYSITELIB}/dulwich/_pack.so
+@@ -53,6 +50,9 @@
+ ${PYSITELIB}/dulwich/objects.py
+ ${PYSITELIB}/dulwich/objects.pyc
+ ${PYSITELIB}/dulwich/objects.pyo
++${PYSITELIB}/dulwich/objectspec.py
++${PYSITELIB}/dulwich/objectspec.pyc
++${PYSITELIB}/dulwich/objectspec.pyo
+ ${PYSITELIB}/dulwich/pack.py
+ ${PYSITELIB}/dulwich/pack.pyc
+ ${PYSITELIB}/dulwich/pack.pyo
+@@ -143,6 +143,9 @@
+ ${PYSITELIB}/dulwich/tests/test_objects.py
+ ${PYSITELIB}/dulwich/tests/test_objects.pyc
+ ${PYSITELIB}/dulwich/tests/test_objects.pyo
++${PYSITELIB}/dulwich/tests/test_objectspec.py
++${PYSITELIB}/dulwich/tests/test_objectspec.pyc
++${PYSITELIB}/dulwich/tests/test_objectspec.pyo
+ ${PYSITELIB}/dulwich/tests/test_pack.py
+ ${PYSITELIB}/dulwich/tests/test_pack.pyc
+ ${PYSITELIB}/dulwich/tests/test_pack.pyo
+@@ -155,6 +158,9 @@
+ ${PYSITELIB}/dulwich/tests/test_protocol.py
+ ${PYSITELIB}/dulwich/tests/test_protocol.pyc
+ ${PYSITELIB}/dulwich/tests/test_protocol.pyo
++${PYSITELIB}/dulwich/tests/test_refs.py
++${PYSITELIB}/dulwich/tests/test_refs.pyc
++${PYSITELIB}/dulwich/tests/test_refs.pyo
+ ${PYSITELIB}/dulwich/tests/test_repository.py
+ ${PYSITELIB}/dulwich/tests/test_repository.pyc
+ ${PYSITELIB}/dulwich/tests/test_repository.pyo
+diff -r d88b23a6ed6f -r f7d77b5305bd devel/py-dulwich/distinfo
+--- a/devel/py-dulwich/distinfo	Sun Apr 27 14:20:14 2014 +0900
++++ b/devel/py-dulwich/distinfo	Wed Apr 30 01:25:35 2014 +0900
+@@ -1,5 +1,5 @@
+ $NetBSD: distinfo,v 1.6 2014/01/20 12:42:24 wiz Exp $
+ 
+-SHA1 (dulwich-0.9.4.tar.gz) = dffc10c3aef1076b0a5d0af8c1ede7fc71cec05f
+-RMD160 (dulwich-0.9.4.tar.gz) = 26321fed55ef2effa1c0a2f0302e1e4efea87b82
+-Size (dulwich-0.9.4.tar.gz) = 235283 bytes
++SHA1 (dulwich-0.9.6.tar.gz) = 62767ad638cd1a7853fdd614e4e6afea3b99c692
++RMD160 (dulwich-0.9.6.tar.gz) = dbcf53ce56311d3e273e3e051c738cf1b5953c51
++Size (dulwich-0.9.6.tar.gz) = 237451 bytes
