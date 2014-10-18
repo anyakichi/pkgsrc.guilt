@@ -25,15 +25,10 @@ tmux-timersub
 tmux-solaris
 vim-lua
 ocaml-opam
-ocaml-findlib-buildlink3
 ocaml-opt-mk
 ocaml-oasis-mk
-ocamlify
-ocamlmod
 ocaml-ounit
-ocaml-type_conv
 ocaml-data-notation
-ocaml-oasis
 ocaml-fileutils
 ocaml-pcre
 ocaml-sexplib
@@ -66,4 +61,3 @@ ocaml-curses
 ocaml-ocp-index
 py-dulwich
 hg-git
-ruby-selenium-webdriver

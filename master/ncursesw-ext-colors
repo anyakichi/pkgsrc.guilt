@@ -1,13 +1,14 @@
 # HG changeset patch
-# Parent 0b15628c40c68f5811ddb2de4fca06569f91aea3
-diff -r 0b15628c40c6 -r b9b2bd713d57 devel/ncursesw/Makefile
---- a/devel/ncursesw/Makefile	Sun Feb 03 00:55:47 2013 +0900
-+++ b/devel/ncursesw/Makefile	Sun Feb 03 00:57:18 2013 +0900
-@@ -9,6 +9,7 @@
+# Parent 43906b9ace1ec21beffda0ed37e3acf2e76fa6c6
+
+diff -r 43906b9ace1e devel/ncursesw/Makefile
+--- a/devel/ncursesw/Makefile	Sat Oct 18 15:48:51 2014 +0900
++++ b/devel/ncursesw/Makefile	Sat Oct 18 15:50:35 2014 +0900
+@@ -10,6 +10,7 @@
  DISTINFO_FILE=	${.CURDIR}/../../devel/ncurses/distinfo
  
  CONFIGURE_ARGS+=	--enable-widec
 +CONFIGURE_ARGS+=	--enable-ext-colors
+ CONFIGURE_ARGS+=	--includedir=${PREFIX}/include/ncursesw
  
  INSTALLATION_DIRS+=	include/ncursesw
- INSTALLATION_DIRS+=	lib
