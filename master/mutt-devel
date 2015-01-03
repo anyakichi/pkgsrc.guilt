@@ -1,10 +1,10 @@
 # HG changeset patch
-# Parent 3bb061d7a6fe74ced88db53ae43938a0e87d913c
+# Parent 05a16da950e73974d6337f8b196bfd6aadd1179f
 
-diff -r 3bb061d7a6fe mail/mutt-devel/Makefile.common
---- a/mail/mutt-devel/Makefile.common	Sat Apr 26 10:47:45 2014 +0900
-+++ b/mail/mutt-devel/Makefile.common	Sat Apr 26 10:57:28 2014 +0900
-@@ -8,6 +8,7 @@
+diff -r 05a16da950e7 mail/mutt-devel/Makefile.common
+--- a/mail/mutt-devel/Makefile.common	Sat Jan 03 21:52:41 2015 +0900
++++ b/mail/mutt-devel/Makefile.common	Sat Jan 03 22:09:11 2015 +0900
+@@ -6,6 +6,7 @@
  .include "../../mk/bsd.prefs.mk"
  
  USE_PKGLOCALEDIR=	yes
@@ -12,30 +12,30 @@ diff -r 3bb061d7a6fe mail/mutt-devel/Makefile.common
  USE_TOOLS+=		msgfmt
  USE_TOOLS+=		perl
  GNU_CONFIGURE=		yes
-diff -r 3bb061d7a6fe mail/mutt-devel/distinfo
---- a/mail/mutt-devel/distinfo	Sat Apr 26 10:47:45 2014 +0900
-+++ b/mail/mutt-devel/distinfo	Sat Apr 26 10:57:28 2014 +0900
+diff -r 05a16da950e7 mail/mutt-devel/distinfo
+--- a/mail/mutt-devel/distinfo	Sat Jan 03 21:52:41 2015 +0900
++++ b/mail/mutt-devel/distinfo	Sat Jan 03 22:09:11 2015 +0900
 @@ -3,6 +3,12 @@
  SHA1 (mutt-1.5.23.tar.gz) = 8ac821d8b1e25504a31bf5fda9c08d93a4acc862
  RMD160 (mutt-1.5.23.tar.gz) = 2476a9e202ab1cd20a512253246e37538e0aad5a
  Size (mutt-1.5.23.tar.gz) = 3782032 bytes
-+SHA1 (patch-1.5.22.tt.cjk_width_tree_chars.1.gz) = 2b29af2b3da9698c2f077f12dad027e6555bf02d
-+RMD160 (patch-1.5.22.tt.cjk_width_tree_chars.1.gz) = 928d26fb49672900c38c882bdc7e83289dbdeda5
-+Size (patch-1.5.22.tt.cjk_width_tree_chars.1.gz) = 1664 bytes
-+SHA1 (patch-1.5.22.tt.wcwidth.1.gz) = c1aba9049bf1039a44779df77079b8ac2cef78db
-+RMD160 (patch-1.5.22.tt.wcwidth.1.gz) = 4ee50e0efe6f4abcd7b968a94a93fc944f64d837
-+Size (patch-1.5.22.tt.wcwidth.1.gz) = 8657 bytes
- SHA1 (patch-1.5.23.sidebar.20140412.txt) = 8b86f148d8e1a0b37b0b77268349f4c94e797561
- RMD160 (patch-1.5.23.sidebar.20140412.txt) = 55b691a9d959040d2844644c165b10377a53744d
- Size (patch-1.5.23.sidebar.20140412.txt) = 66728 bytes
-@@ -20,3 +26,4 @@
++SHA1 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 8341017c0d12185b090f5b1151de12b174708bdc
++RMD160 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 17e32afff173656fe974fcd00a1f035da1995ced
++Size (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 1568 bytes
++SHA1 (patch-1.5.23.tt.wcwidth.1.gz) = 8a33bbc1c770e903144fb86771a4a187560ad4d8
++RMD160 (patch-1.5.23.tt.wcwidth.1.gz) = 6b5826911de08322c63e33f90b65cd8a18790126
++Size (patch-1.5.23.tt.wcwidth.1.gz) = 8587 bytes
+ SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
+ SHA1 (patch-ab) = 857799206db0784672ad9042799eb12703711a31
+ SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
+@@ -17,3 +23,4 @@
  SHA1 (patch-ao) = a5dddb01d30f28337ca825c6461139c2d9f288d5
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
-diff -r 3bb061d7a6fe mail/mutt-devel/options.mk
---- a/mail/mutt-devel/options.mk	Sat Apr 26 10:47:45 2014 +0900
-+++ b/mail/mutt-devel/options.mk	Sat Apr 26 10:57:28 2014 +0900
+diff -r 05a16da950e7 mail/mutt-devel/options.mk
+--- a/mail/mutt-devel/options.mk	Sat Jan 03 21:52:41 2015 +0900
++++ b/mail/mutt-devel/options.mk	Sat Jan 03 22:09:11 2015 +0900
 @@ -7,6 +7,7 @@
  PKG_OPTIONS_GROUP.display=	slang ncurses ncursesw curses
  PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
@@ -44,7 +44,7 @@ diff -r 3bb061d7a6fe mail/mutt-devel/options.mk
  # Comment the following line out on updates.
  #PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
  PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
-@@ -182,3 +183,20 @@
+@@ -187,3 +188,20 @@
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
@@ -54,8 +54,8 @@ diff -r 3bb061d7a6fe mail/mutt-devel/options.mk
 +###
 +.if !empty(PKG_OPTIONS:Mmutt-wcwidth)
 +PATCH_SITES+=		http://emaillab.jp/pub/mutt/1.5/
-+PATCHFILES+=		patch-1.5.22.tt.wcwidth.1.gz
-+PATCHFILES+=		patch-1.5.22.tt.cjk_width_tree_chars.1.gz
++PATCHFILES+=		patch-1.5.23.tt.wcwidth.1.gz
++PATCHFILES+=		patch-1.5.23.tt.cjk_width_tree_chars.1.gz
 +PATCH_DIST_STRIP=	-p1
 +PATCH_FUZZ_FACTOR=	-F1
 +CONFIGURE_ARGS+=	--enable-cjk-ambiguous-width
@@ -65,9 +65,9 @@ diff -r 3bb061d7a6fe mail/mutt-devel/options.mk
 +pre-configure:
 +	cd ${WRKSRC} && autoconf && autoheader
 +.endif
-diff -r 3bb061d7a6fe mail/mutt-devel/patches/patch-configure.ac
+diff -r 05a16da950e7 mail/mutt-devel/patches/patch-configure.ac
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/mail/mutt-devel/patches/patch-configure.ac	Sat Apr 26 10:57:28 2014 +0900
++++ b/mail/mutt-devel/patches/patch-configure.ac	Sat Jan 03 22:09:11 2015 +0900
 @@ -0,0 +1,31 @@
 +--- configure.ac.orig	2014-04-01 23:42:48.000000000 +0900
 ++++ configure.ac	2014-04-02 00:02:35.000000000 +0900
