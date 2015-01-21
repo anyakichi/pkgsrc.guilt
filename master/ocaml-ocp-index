@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent 5e130a526617ddcd7b80da17f605bf76bea10801
-diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/DESCR
+# Parent 60225c09a65a8b00fd4882a66bf57d102fee76fc
+
+diff -r 60225c09a65a devel/ocaml-ocp-index/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/DESCR	Sat Dec 07 23:38:30 2013 +0900
++++ b/devel/ocaml-ocp-index/DESCR	Wed Jan 21 17:33:46 2015 +0900
 @@ -0,0 +1,10 @@
 +ocp-index is a light-weight tool and library providing easy access to
 +the information contained in your OCaml cmi/cmt/cmti files.  It can be
@@ -14,16 +15,16 @@ diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/DESCR
 +http://www.typerex.org/ocp-index.html
 +
 +It is released under LGPL v3 with linking exception.
-diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/Makefile
+diff -r 60225c09a65a devel/ocaml-ocp-index/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/Makefile	Sat Dec 07 23:38:30 2013 +0900
-@@ -0,0 +1,33 @@
++++ b/devel/ocaml-ocp-index/Makefile	Wed Jan 21 17:33:46 2015 +0900
+@@ -0,0 +1,38 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-ocp-index-${VERSION}
 +DISTNAME=	${VERSION}
-+VERSION=	1.0.0
++VERSION=	1.1.1-4.02
 +DIST_SUBDIR=	${PKGNAME_NOREV}
 +
 +CATEGORIES=	devel
@@ -32,6 +33,8 @@ diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/Makefile
 +
 +GNU_CONFIGURE=	yes
 +USE_TOOLS+=	gmake
++
++MAKE_JOBS_SAFE=	no
 +
 +MAINTAINER=	pkgsrc-users@NetBSD.org
 +HOMEPAGE=	http://opam.ocamlpro.com/
@@ -45,92 +48,59 @@ diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/Makefile
 +
 +DEPENDS+=	ocaml-cmdliner-[0-9]*:../../devel/ocaml-cmdliner
 +DEPENDS+=	ocaml-ocp-build-[0-9]*:../../devel/ocaml-ocp-build
++DEPENDS+=	ocaml-ocp-indent-[0-9]*:../../devel/ocaml-ocp-indent
 +
 +.include "../../lang/ocaml/opt.mk"
 +.include "../../lang/ocaml/buildlink3.mk"
++.include "../../devel/ocaml-cmdliner/buildlink3.mk"
 +.include "../../devel/ocaml-curses/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../devel/ocaml-re/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/PLIST
+diff -r 60225c09a65a devel/ocaml-ocp-index/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/PLIST	Sat Dec 07 23:38:30 2013 +0900
-@@ -0,0 +1,32 @@
++++ b/devel/ocaml-ocp-index/PLIST	Wed Jan 21 17:33:46 2015 +0900
+@@ -0,0 +1,17 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-index
-+@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-index-lib
++bin/ocp-grep
 +bin/ocp-index
-+bin/ocp-index.byte
-+lib/ocaml/site-lib/ocp-index-lib/META
-+lib/ocaml/site-lib/ocp-index-lib/indexBuild.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexBuild.cmx
-+lib/ocaml/site-lib/ocp-index-lib/indexMisc.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexMisc.cmx
-+lib/ocaml/site-lib/ocp-index-lib/indexOut.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexOut.cmx
-+lib/ocaml/site-lib/ocp-index-lib/indexPredefined.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexPredefined.cmx
-+lib/ocaml/site-lib/ocp-index-lib/indexScope.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexScope.cmx
-+lib/ocaml/site-lib/ocp-index-lib/indexTypes.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/indexTypes.cmx
-+lib/ocaml/site-lib/ocp-index-lib/libIndex.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/libIndex.cmx
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/ocp-index-lib.a
-+lib/ocaml/site-lib/ocp-index-lib/ocp-index-lib.cma
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/ocp-index-lib.cmxa
-+lib/ocaml/site-lib/ocp-index-lib/ocp-index-lib.uninstall
-+lib/ocaml/site-lib/ocp-index-lib/trie.cmi
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index-lib/trie.cmx
 +lib/ocaml/site-lib/ocp-index/META
-+lib/ocaml/site-lib/ocp-index/ocp-index.uninstall
++lib/ocaml/site-lib/ocp-index/lib/indexScope.cmi
++lib/ocaml/site-lib/ocp-index/lib/indexScope.cmti
++lib/ocaml/site-lib/ocp-index/lib/libIndex.cmi
++lib/ocaml/site-lib/ocp-index/lib/libIndex.cmti
++${PLIST.opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.a
++lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.cma
++${PLIST.opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.cmxa
++man/man1/ocp-grep.1
 +man/man1/ocp-index.1
 +share/ocp-index/emacs/site-lisp/ocp-index.el
++share/ocp-index/vim/syntax/ocpindex.vim
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-index
-+@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-index-lib
-diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/distinfo
+diff -r 60225c09a65a devel/ocaml-ocp-index/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/distinfo	Sat Dec 07 23:38:30 2013 +0900
-@@ -0,0 +1,6 @@
++++ b/devel/ocaml-ocp-index/distinfo	Wed Jan 21 17:33:46 2015 +0900
+@@ -0,0 +1,7 @@
 +$NetBSD$
 +
-+SHA1 (ocaml-ocp-index-1.0.0/1.0.0.tar.gz) = 04750232ded315f2ea316918de1435d25e3b8291
-+RMD160 (ocaml-ocp-index-1.0.0/1.0.0.tar.gz) = 7cf2459e5a180c2f1645a150145364fea017d0df
-+Size (ocaml-ocp-index-1.0.0/1.0.0.tar.gz) = 78994 bytes
-+SHA1 (patch-Makefile) = d537eea5c8fe2af7297d9d798993cbfdabb85c8b
-diff -r 5e130a526617 -r f49957d9c920 devel/ocaml-ocp-index/patches/patch-Makefile
++SHA1 (ocaml-ocp-index-1.1.1-4.02/1.1.1-4.02.tar.gz) = 67a3fd8d9cf0ce523ab95ac2daabf85ad53e8c37
++RMD160 (ocaml-ocp-index-1.1.1-4.02/1.1.1-4.02.tar.gz) = 5faee1b6bf63ba35b6567f1e72cc3b26df4047a6
++Size (ocaml-ocp-index-1.1.1-4.02/1.1.1-4.02.tar.gz) = 908773 bytes
++SHA1 (patch-Makefile) = f18890094822000da6596d5a7b554a676a11d420
++SHA1 (patch-ocp-index.install) = 1b6bb3445ae6a565012cd94eb99a3bc09dbb68ba
+diff -r 60225c09a65a devel/ocaml-ocp-index/patches/patch-Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/patches/patch-Makefile	Sat Dec 07 23:38:30 2013 +0900
-@@ -0,0 +1,33 @@
-+--- Makefile.orig	2013-12-05 23:36:34.000000000 +0900
-++++ Makefile	2013-12-05 23:42:44.000000000 +0900
-+@@ -6,7 +6,7 @@
-+ native = _obuild/ocp-index/ocp-index.asm
-+ manpage = man/man1/ocp-index.1
++++ b/devel/ocaml-ocp-index/patches/patch-Makefile	Wed Jan 21 17:33:46 2015 +0900
+@@ -0,0 +1,11 @@
++--- Makefile.orig	2015-01-12 17:29:30.000000000 +0900
+++++ Makefile	2015-01-12 17:29:40.000000000 +0900
++@@ -34,7 +34,7 @@
 + 
-+-OCPBUILD_ARGS = -install-lib $(prefix)/lib/ocp-index
-++OCPBUILD_ARGS = -install-destdir $(DESTDIR) -install-lib $(LIBDIR)
-+ 
-+ all: $(PROJECTS)
-+ 
-+@@ -46,16 +46,16 @@
-+ 	  ocp-build uninstall $(OCPBUILD_ARGS) $(PROJECTS); \
-+ 	fi
-+ 	ocp-build install $(OCPBUILD_ARGS) -install-bin $(prefix)/bin $(PROJECTS)
-+-	mkdir -p $(mandir)/man1
-+-	install -m 644 $(manpage) $(mandir)/man1/
-+-	mkdir -p $(datarootdir)/emacs/site-lisp
-+-	install -m 644 tools/ocp-index.el $(datarootdir)/emacs/site-lisp/
-++	mkdir -p $(DESTDIR)$(mandir)/man1
-++	install -m 644 $(manpage) $(DESTDIR)$(mandir)/man1/
-++	mkdir -p $(DESTDIR)$(datarootdir)/emacs/site-lisp
-++	install -m 644 tools/ocp-index.el $(DESTDIR)$(datarootdir)/emacs/site-lisp/
++ .PHONY: install
++ install: $(PROJECTS) man
++-	opam-installer --prefix $(prefix) ocp-index.install
+++	opam-installer --prefix $(DESTDIR)$(PREFIX) --libdir $(DESTDIR)$(LIBDIR) ocp-index.install
 + 	@echo
 + 	@echo
 + 	@echo "=== ocp-index installed ==="
-+ 	@echo
-+ 	@if $$(which emacs >/dev/null); then \
-+-	  tools/emacs-setup.sh $(datarootdir)/emacs/site-lisp; \
-++	  tools/emacs-setup.sh $(DESTDIR)$(datarootdir)/emacs/site-lisp; \
-+ 	  echo; \
-+ 	fi
-+ 
