@@ -1,8 +1,9 @@
 # HG changeset patch
-# Parent d73fbf7c63681076f80c934ea110d371c80293b7
-diff -r d73fbf7c6368 -r bb50b501eeff patches/lang/python27/py-sqlite3.patch
+# Parent a12a4e337e60b593168552b0e28c3724e18fd9fd
+
+diff -r a12a4e337e60 patches/lang/python27/py-sqlite3.patch
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/lang/python27/py-sqlite3.patch	Sun Feb 03 01:35:13 2013 +0900
++++ b/patches/lang/python27/py-sqlite3.patch	Wed Jan 21 17:27:41 2015 +0900
 @@ -0,0 +1,63 @@
 +diff -ur Modules/_sqlite/connection.c.orig Modules/_sqlite/connection.c
 +--- Modules/_sqlite/connection.c.orig	2012-07-10 12:54:11.000000000 +0900
@@ -49,8 +50,8 @@ diff -r d73fbf7c6368 -r bb50b501eeff patches/lang/python27/py-sqlite3.patch
 +diff -ur Modules/_sqlite/statement.c.orig Modules/_sqlite/statement.c
 +--- Modules/_sqlite/statement.c.orig	2012-07-10 12:54:11.000000000 +0900
 ++++ Modules/_sqlite/statement.c	2012-07-10 12:55:16.000000000 +0900
-+@@ -80,7 +80,7 @@
-+     sql_cstr = PyString_AsString(sql_str);
++@@ -84,7 +84,7 @@
++     self->sql = sql_str;
 + 
 +     Py_BEGIN_ALLOW_THREADS
 +-    rc = sqlite3_prepare(connection->db,
@@ -58,7 +59,7 @@ diff -r d73fbf7c6368 -r bb50b501eeff patches/lang/python27/py-sqlite3.patch
 +                          sql_cstr,
 +                          -1,
 +                          &self->st,
-+@@ -331,7 +331,7 @@
++@@ -337,7 +337,7 @@
 +     sql_cstr = PyString_AsString(self->sql);
 + 
 +     Py_BEGIN_ALLOW_THREADS
