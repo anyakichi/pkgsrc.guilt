@@ -1,40 +1,12 @@
 # HG changeset patch
-# Parent c8e86672049fc3ba46e4586a1e39042134bb9755
+# Parent d0107bc670d3135a0ed4e2f14d092b3934a43682
 
-diff -r c8e86672049f patches/textproc/py-sphinx/sphinx-platex.patch
+diff -r d0107bc670d3 patches/textproc/py-sphinx/sphinx-platex.patch
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/textproc/py-sphinx/sphinx-platex.patch	Sun Apr 13 08:38:47 2014 +0900
-@@ -0,0 +1,82 @@
-+diff -ur Sphinx-1.1.2.orig/sphinx/builders/latex.py Sphinx-1.1.2/sphinx/builders/latex.py
-+--- sphinx/builders/latex.py	2012-03-31 18:29:07.000000000 +0900
-++++ sphinx/builders/latex.py	2012-03-31 18:30:32.000000000 +0900
-+@@ -34,8 +34,8 @@
-+     """
-+     name = 'latex'
-+     format = 'latex'
-+-    supported_image_types = ['application/pdf', 'image/png',
-+-                             'image/gif', 'image/jpeg']
-++    supported_image_types = ['application/pdf', 'application/postscript',
-++                             'image/png', 'image/gif', 'image/jpeg']
-+ 
-+     def init(self):
-+         self.docnames = []
-+diff -ur Sphinx-1.1.2.orig/sphinx/environment.py Sphinx-1.1.2/sphinx/environment.py
-+--- sphinx/environment.py	2012-03-31 18:29:07.000000000 +0900
-++++ sphinx/environment.py	2012-03-31 18:56:57.000000000 +0900
-+@@ -803,6 +803,9 @@
-+                                                 filename)
-+                     if filename.lower().endswith('.pdf'):
-+                         candidates['application/pdf'] = new_imgpath
-++                    elif (filename.lower().endswith('.ps') or
-++                          filename.lower().endswith('.eps')):
-++                        candidates['application/postscript'] = new_imgpath
-+                     elif filename.lower().endswith('.svg'):
-+                         candidates['image/svg+xml'] = new_imgpath
-+                     else:
-+diff -ur Sphinx-1.1.2.orig/sphinx/texinputs/sphinx.sty Sphinx-1.1.2/sphinx/texinputs/sphinx.sty
-+--- sphinx/texinputs/sphinx.sty	2012-03-31 18:29:07.000000000 +0900
-++++ sphinx/texinputs/sphinx.sty	2012-03-31 18:30:28.000000000 +0900
++++ b/patches/textproc/py-sphinx/sphinx-platex.patch	Wed Jan 21 17:35:55 2015 +0900
+@@ -0,0 +1,54 @@
++--- sphinx/texinputs/sphinx.sty.orig	2014-05-03 12:52:31.000000000 +0900
+++++ sphinx/texinputs/sphinx.sty	2015-01-17 13:35:31.000000000 +0900
 +@@ -29,7 +29,9 @@
 + % For floating figures in the text.
 + \RequirePackage{wrapfig}
@@ -45,8 +17,8 @@ diff -r c8e86672049f patches/textproc/py-sphinx/sphinx-platex.patch
 ++\fi
 + % For parsed-literal blocks.
 + \RequirePackage{alltt}
-+ 
-+@@ -351,11 +353,13 @@
++ % Display "real" single quotes in literal blocks.
++@@ -353,11 +355,13 @@
 + 
 + % Redefine description environment so that it is usable inside fulllineitems.
 + %
@@ -65,7 +37,7 @@ diff -r c8e86672049f patches/textproc/py-sphinx/sphinx-platex.patch
 + 
 + % Definition lists; requested by AMK for HOWTO documents.  Probably useful
 + % elsewhere as well, so keep in in the general style support.
-+@@ -432,10 +436,17 @@
++@@ -434,10 +438,17 @@
 + \fi
 + 
 + % Include hyperref last.
