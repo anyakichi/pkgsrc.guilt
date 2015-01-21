@@ -1,23 +1,24 @@
 # HG changeset patch
-# Parent 6adf1c763b8aff29d015ad0aa66e724b091b7f5c
-diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/DESCR
+# Parent cabf91be59bc5b5a271f0ac64569ab2b897f3f2e
+
+diff -r cabf91be59bc devel/ocaml-ocp-build/DESCR
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-build/DESCR	Mon Dec 02 13:18:23 2013 +0900
++++ b/devel/ocaml-ocp-build/DESCR	Wed Jan 21 17:30:47 2015 +0900
 @@ -0,0 +1,4 @@
 +ocp-build is a build system for OCaml application, based on simple
 +descriptions of packages. ocp-build combines the descriptions of packages,
 +and optimize the parallel compilation of files depending on the number of
 +cores and the automatically-infered dependencies between source files.
-diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/Makefile
+diff -r cabf91be59bc devel/ocaml-ocp-build/Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-build/Makefile	Mon Dec 02 13:18:23 2013 +0900
++++ b/devel/ocaml-ocp-build/Makefile	Wed Jan 21 17:30:47 2015 +0900
 @@ -0,0 +1,25 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-ocp-build-${VERSION}
 +DISTNAME=	ocp-build.${VERSION}
-+VERSION=	1.99.7-beta
++VERSION=	1.99.8-beta
 +CATEGORIES=	devel
 +MASTER_SITES=	https://github.com/OcamlPro/ocp-build/archive/
 +FETCH_USING=	curl
@@ -37,10 +38,10 @@ diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/Makefile
 +.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-findlib/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/PLIST
+diff -r cabf91be59bc devel/ocaml-ocp-build/PLIST
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-build/PLIST	Mon Dec 02 13:18:23 2013 +0900
-@@ -0,0 +1,62 @@
++++ b/devel/ocaml-ocp-build/PLIST	Wed Jan 21 17:30:47 2015 +0900
+@@ -0,0 +1,109 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/typerex
 +bin/ocp-build
@@ -48,9 +49,12 @@ diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/PLIST
 +lib/ocaml/site-lib/META.ocp-build
 +lib/ocaml/site-lib/META.ocp-build-bundle
 +lib/ocaml/site-lib/META.ocp-build-misc
-+lib/ocaml/site-lib/META.ocp-build-ocplib
 +lib/ocaml/site-lib/META.ocp-build-win32
++lib/ocaml/site-lib/META.ocplib-debug
++lib/ocaml/site-lib/META.ocplib-lang
 +lib/ocaml/site-lib/META.ocplib-project
++lib/ocaml/site-lib/META.ocplib-subcmd
++lib/ocaml/site-lib/META.ocplib-system
 +lib/ocaml/site-lib/typerex/ocp-build-bundle/ocp-build-bundle.uninstall
 +lib/ocaml/site-lib/typerex/ocp-build-misc/buildFind.cmi
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/buildFind.cmx
@@ -60,18 +64,14 @@ diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/buildScanner.cmx
 +lib/ocaml/site-lib/typerex/ocp-build-misc/buildSubst.cmi
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/buildSubst.cmx
++lib/ocaml/site-lib/typerex/ocp-build-misc/buildTerm.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/buildTerm.cmx
 +lib/ocaml/site-lib/typerex/ocp-build-misc/logger.cmi
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/logger.cmx
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/ocp-build-misc.a
 +lib/ocaml/site-lib/typerex/ocp-build-misc/ocp-build-misc.cma
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-misc/ocp-build-misc.cmxa
 +lib/ocaml/site-lib/typerex/ocp-build-misc/ocp-build-misc.uninstall
-+lib/ocaml/site-lib/typerex/ocp-build-ocplib/buildBase.cmi
-+${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-ocplib/buildBase.cmx
-+${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-ocplib/ocp-build-ocplib.a
-+lib/ocaml/site-lib/typerex/ocp-build-ocplib/ocp-build-ocplib.cma
-+${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-ocplib/ocp-build-ocplib.cmxa
-+lib/ocaml/site-lib/typerex/ocp-build-ocplib/ocp-build-ocplib.uninstall
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-win32/libmlocp-build-win32.a
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocp-build-win32/ocp-build-win32.a
 +lib/ocaml/site-lib/typerex/ocp-build-win32/ocp-build-win32.cma
@@ -84,6 +84,54 @@ diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/PLIST
 +lib/ocaml/site-lib/typerex/ocp-build/camlp4.ocp
 +lib/ocaml/site-lib/typerex/ocp-build/ocaml.ocp
 +lib/ocaml/site-lib/typerex/ocp-build/ocp-build.uninstall
++lib/ocaml/site-lib/typerex/ocplib-debug/debugTyperex.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-debug/debugTyperex.cmx
++lib/ocaml/site-lib/typerex/ocplib-debug/debugVerbosity.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-debug/debugVerbosity.cmx
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-debug/ocplib-debug.a
++lib/ocaml/site-lib/typerex/ocplib-debug/ocplib-debug.cma
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-debug/ocplib-debug.cmxa
++lib/ocaml/site-lib/typerex/ocplib-debug/ocplib-debug.uninstall
++lib/ocaml/site-lib/typerex/ocplib-lang/intMap.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/intMap.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/intSet.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/intSet.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/linearToposort.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/linearToposort.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocamllexer.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocamllexer.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpDigest.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpDigest.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpGenlex.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpGenlex.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpHashtbl.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpHashtbl.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpLang.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpLang.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpList.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpList.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpPervasives.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpPervasives.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpStream.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpStream.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/ocpString.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocpString.cmx
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocplib-lang.a
++lib/ocaml/site-lib/typerex/ocplib-lang/ocplib-lang.cma
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/ocplib-lang.cmxa
++lib/ocaml/site-lib/typerex/ocplib-lang/ocplib-lang.uninstall
++lib/ocaml/site-lib/typerex/ocplib-lang/option.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/option.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/stringMap.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/stringMap.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/stringSet.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/stringSet.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/stringSubst.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/stringSubst.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/toposort.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/toposort.cmx
++lib/ocaml/site-lib/typerex/ocplib-lang/trie.cmi
++${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-lang/trie.cmx
 +lib/ocaml/site-lib/typerex/ocplib-project/buildOCP.cmi
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-project/buildOCP.cmx
 +lib/ocaml/site-lib/typerex/ocplib-project/buildOCPInterp.cmi
@@ -103,25 +151,25 @@ diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/PLIST
 +${PLIST.opt}lib/ocaml/site-lib/typerex/ocplib-project/ocplib-project.cmxa
 +lib/ocaml/site-lib/typerex/ocplib-project/ocplib-project.uninstall
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/typerex
-diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/distinfo
+diff -r cabf91be59bc devel/ocaml-ocp-build/distinfo
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-build/distinfo	Mon Dec 02 13:18:23 2013 +0900
++++ b/devel/ocaml-ocp-build/distinfo	Wed Jan 21 17:30:47 2015 +0900
 @@ -0,0 +1,6 @@
 +$NetBSD$
 +
-+SHA1 (ocp-build.1.99.7-beta.tar.gz) = 83b56db3e45dd3ce5a66f29f7a994f18ec036e9c
-+RMD160 (ocp-build.1.99.7-beta.tar.gz) = 701cce86c018125acfc6af397d4ff5ddbf58d8d9
-+Size (ocp-build.1.99.7-beta.tar.gz) = 647595 bytes
-+SHA1 (patch-Makefile) = 32ec10f103f75b1aeb6fe6422a910b96dbd58d97
-diff -r 6adf1c763b8a -r 078dd426e661 devel/ocaml-ocp-build/patches/patch-Makefile
++SHA1 (ocp-build.1.99.8-beta.tar.gz) = 5ce19d0a41394f22a611b7dbbe0653a6e180217b
++RMD160 (ocp-build.1.99.8-beta.tar.gz) = 667723ca117ace8965feec3c5402ec732b2c5521
++Size (ocp-build.1.99.8-beta.tar.gz) = 892813 bytes
++SHA1 (patch-Makefile) = 492be9396ac9c6ca6c163f3bd3f0cd898d63d402
+diff -r cabf91be59bc devel/ocaml-ocp-build/patches/patch-Makefile
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-build/patches/patch-Makefile	Mon Dec 02 13:18:23 2013 +0900
++++ b/devel/ocaml-ocp-build/patches/patch-Makefile	Wed Jan 21 17:30:47 2015 +0900
 @@ -0,0 +1,10 @@
-+--- Makefile.orig	2013-12-01 23:11:50.000000000 +0900
-++++ Makefile	2013-12-01 23:12:03.000000000 +0900
-+@@ -60,6 +60,7 @@
++--- Makefile.orig	2014-08-26 20:45:12.000000000 +0900
+++++ Makefile	2015-01-11 11:44:41.000000000 +0900
++@@ -62,6 +62,7 @@
 + install:
-+ 	$(OCPBUILD) -install \
++ 	$(OCPBUILD) install \
 + 	  -install-bundle ocp-build-bundle \
 ++	  -install-destdir $(DESTDIR) \
 +           -install-lib $(LIBDIR) \
