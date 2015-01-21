@@ -24,7 +24,6 @@ cocot
 tmux-timersub
 tmux-solaris
 vim-lua
-ocaml-opam
 ocaml-opt-mk
 ocaml-oasis-mk
 ocaml-ounit
