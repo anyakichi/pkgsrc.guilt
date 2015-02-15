@@ -1,15 +1,18 @@
 # HG changeset patch
-# Parent 9dfd7bcafbb8f03c7d34bc4dc26a0a5c2a8aa385
+# Parent c031c61e2725d415a17fbb04da0cd42c1a5649c6
+temp
 
-diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/DESCR	Wed Jan 21 17:33:25 2015 +0900
+diff --git a/devel/ocaml-ocp-indent/DESCR b/devel/ocaml-ocp-indent/DESCR
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/DESCR
 @@ -0,0 +1,1 @@
 +ocp-indent is a customizable tool to indent OCaml code.
-diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/Makefile	Wed Jan 21 17:33:25 2015 +0900
-@@ -0,0 +1,32 @@
+diff --git a/devel/ocaml-ocp-indent/Makefile b/devel/ocaml-ocp-indent/Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/Makefile
+@@ -0,0 +1,33 @@
 +# $NetBSD$
 +#
 +
@@ -30,21 +33,23 @@ diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/Makefile
 +COMMENT=	a customizable tool to indent OCaml code
 +LICENSE=	gnu-gpl-v3
 +
++OCAML_USE_FINDLIB= yes
++
 +WRKSRC=		${WRKDIR}/ocp-indent-${DISTNAME}/
 +
 +CONFIGURE_ARGS+=--datarootdir=${PREFIX}/share/ocp-indent
 +MAKE_FLAGS+=	LIBDIR=${BUILDLINK_PREFIX.ocaml-findlib}/lib/ocaml/site-lib
 +
-+DEPENDS+=	ocaml-cmdliner-[0-9]*:../../devel/ocaml-cmdliner
 +DEPENDS+=	ocaml-ocp-build-[0-9]*:../../devel/ocaml-ocp-build
++DEPENDS+=	ocaml-opam-[0-9]*:../../misc/ocaml-opam
 +
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/buildlink3.mk"
-+.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../devel/ocaml-cmdliner/buildlink3.mk"
++.include "../../mk/ocaml.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/PLIST	Wed Jan 21 17:33:25 2015 +0900
+diff --git a/devel/ocaml-ocp-indent/PLIST b/devel/ocaml-ocp-indent/PLIST
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/PLIST
 @@ -0,0 +1,31 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent
@@ -54,32 +59,33 @@ diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/PLIST
 +lib/ocaml/site-lib/ocp-indent/lexer/approx_lexer.cmt
 +lib/ocaml/site-lib/ocp-indent/lexer/approx_tokens.cmi
 +lib/ocaml/site-lib/ocp-indent/lexer/approx_tokens.cmt
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.a
 +lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.cma
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.cmxa
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.cmxa
 +lib/ocaml/site-lib/ocp-indent/lib/indentBlock.cmi
 +lib/ocaml/site-lib/ocp-indent/lib/indentBlock.cmti
 +lib/ocaml/site-lib/ocp-indent/lib/indentConfig.cmi
 +lib/ocaml/site-lib/ocp-indent/lib/indentConfig.cmti
 +lib/ocaml/site-lib/ocp-indent/lib/indentPrinter.cmi
 +lib/ocaml/site-lib/ocp-indent/lib/indentPrinter.cmti
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.a
 +lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.cma
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.cmxa
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.cmxa
 +lib/ocaml/site-lib/ocp-indent/utils/nstream.cmi
 +lib/ocaml/site-lib/ocp-indent/utils/nstream.cmti
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.a
 +lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.cma
-+${PLIST.opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.cmxa
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.cmxa
 +lib/ocaml/site-lib/ocp-indent/utils/pos.cmi
 +lib/ocaml/site-lib/ocp-indent/utils/pos.cmti
 +man/man1/ocp-indent.1
 +share/ocp-indent/emacs/site-lisp/ocp-indent.el
 +share/ocp-indent/vim/syntax/ocp-indent.vim
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent
-diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/distinfo	Wed Jan 21 17:33:25 2015 +0900
+diff --git a/devel/ocaml-ocp-indent/distinfo b/devel/ocaml-ocp-indent/distinfo
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/distinfo
 @@ -0,0 +1,7 @@
 +$NetBSD$
 +
@@ -88,9 +94,10 @@ diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/distinfo
 +Size (ocaml-ocp-indent-1.4.2b/1.4.2b.tar.gz) = 139321 bytes
 +SHA1 (patch-Makefile) = 4585421e3ead94f474e639a5dd72bee1b06314c2
 +SHA1 (patch-ocp-indent.install) = a26ab10718710e077e9feab45096845c32bbb599
-diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/patches/patch-Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-indent/patches/patch-Makefile	Wed Jan 21 17:33:25 2015 +0900
+diff --git a/devel/ocaml-ocp-indent/patches/patch-Makefile b/devel/ocaml-ocp-indent/patches/patch-Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/patches/patch-Makefile
 @@ -0,0 +1,11 @@
 +--- Makefile.orig	2014-09-01 18:31:54.000000000 +0900
 ++++ Makefile	2015-01-12 15:59:55.000000000 +0900
@@ -103,3 +110,19 @@ diff -r 9dfd7bcafbb8 devel/ocaml-ocp-indent/patches/patch-Makefile
 + 	@echo
 + 	@echo
 + 	@echo "=== ocp-indent installed ==="
+diff --git a/devel/ocaml-ocp-indent/patches/patch-ocp-indent.install b/devel/ocaml-ocp-indent/patches/patch-ocp-indent.install
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-indent/patches/patch-ocp-indent.install
+@@ -0,0 +1,11 @@
++--- ocp-indent.install.orig	2015-01-12 15:59:27.000000000 +0900
+++++ ocp-indent.install	2015-01-12 15:59:36.000000000 +0900
++@@ -35,6 +35,6 @@
++   "man/man1/ocp-indent.1" {"man1/ocp-indent.1"}
++ ]
++ share: [
++-  "tools/ocp-indent.el" {"../emacs/site-lisp/ocp-indent.el"}
++-  "tools/ocp-indent.vim" {"../vim/syntax/ocp-indent.vim"}
+++  "tools/ocp-indent.el" {"emacs/site-lisp/ocp-indent.el"}
+++  "tools/ocp-indent.vim" {"vim/syntax/ocp-indent.vim"}
++ ]
