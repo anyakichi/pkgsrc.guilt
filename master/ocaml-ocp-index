@@ -1,9 +1,10 @@
 # HG changeset patch
-# Parent 60225c09a65a8b00fd4882a66bf57d102fee76fc
+# Parent 336975a2c3cbd60d55f0c9b6bffa7802cca0ba13
 
-diff -r 60225c09a65a devel/ocaml-ocp-index/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/DESCR	Wed Jan 21 17:33:46 2015 +0900
+diff --git a/devel/ocaml-ocp-index/DESCR b/devel/ocaml-ocp-index/DESCR
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/DESCR
 @@ -0,0 +1,10 @@
 +ocp-index is a light-weight tool and library providing easy access to
 +the information contained in your OCaml cmi/cmt/cmti files.  It can be
@@ -15,9 +16,10 @@ diff -r 60225c09a65a devel/ocaml-ocp-index/DESCR
 +http://www.typerex.org/ocp-index.html
 +
 +It is released under LGPL v3 with linking exception.
-diff -r 60225c09a65a devel/ocaml-ocp-index/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/Makefile	Wed Jan 21 17:33:46 2015 +0900
+diff --git a/devel/ocaml-ocp-index/Makefile b/devel/ocaml-ocp-index/Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/Makefile
 @@ -0,0 +1,38 @@
 +# $NetBSD$
 +#
@@ -41,25 +43,26 @@ diff -r 60225c09a65a devel/ocaml-ocp-index/Makefile
 +COMMENT=	Lightweight documentation extractor for OCaml libraries
 +LICENSE=	gnu-gpl-v3
 +
++OCAML_USE_FINDLIB= yes
++
 +WRKSRC=		${WRKDIR}/ocp-index-${DISTNAME}/
 +
 +CONFIGURE_ARGS+=--datarootdir=${PREFIX}/share/ocp-index
 +MAKE_FLAGS+=	LIBDIR=${BUILDLINK_PREFIX.ocaml-findlib}/lib/ocaml/site-lib
 +
-+DEPENDS+=	ocaml-cmdliner-[0-9]*:../../devel/ocaml-cmdliner
 +DEPENDS+=	ocaml-ocp-build-[0-9]*:../../devel/ocaml-ocp-build
 +DEPENDS+=	ocaml-ocp-indent-[0-9]*:../../devel/ocaml-ocp-indent
++DEPENDS+=	ocaml-opam-[0-9]*:../../misc/ocaml-opam
 +
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/buildlink3.mk"
 +.include "../../devel/ocaml-cmdliner/buildlink3.mk"
 +.include "../../devel/ocaml-curses/buildlink3.mk"
-+.include "../../devel/ocaml-findlib/buildlink3.mk"
 +.include "../../devel/ocaml-re/buildlink3.mk"
++.include "../../mk/ocaml.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 60225c09a65a devel/ocaml-ocp-index/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/PLIST	Wed Jan 21 17:33:46 2015 +0900
+diff --git a/devel/ocaml-ocp-index/PLIST b/devel/ocaml-ocp-index/PLIST
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/PLIST
 @@ -0,0 +1,17 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-index
@@ -70,17 +73,18 @@ diff -r 60225c09a65a devel/ocaml-ocp-index/PLIST
 +lib/ocaml/site-lib/ocp-index/lib/indexScope.cmti
 +lib/ocaml/site-lib/ocp-index/lib/libIndex.cmi
 +lib/ocaml/site-lib/ocp-index/lib/libIndex.cmti
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.a
 +lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.cma
-+${PLIST.opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.cmxa
++${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-index/lib/ocp-index-lib.cmxa
 +man/man1/ocp-grep.1
 +man/man1/ocp-index.1
 +share/ocp-index/emacs/site-lisp/ocp-index.el
 +share/ocp-index/vim/syntax/ocpindex.vim
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-index
-diff -r 60225c09a65a devel/ocaml-ocp-index/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/distinfo	Wed Jan 21 17:33:46 2015 +0900
+diff --git a/devel/ocaml-ocp-index/distinfo b/devel/ocaml-ocp-index/distinfo
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/distinfo
 @@ -0,0 +1,7 @@
 +$NetBSD$
 +
@@ -89,9 +93,10 @@ diff -r 60225c09a65a devel/ocaml-ocp-index/distinfo
 +Size (ocaml-ocp-index-1.1.1-4.02/1.1.1-4.02.tar.gz) = 908773 bytes
 +SHA1 (patch-Makefile) = f18890094822000da6596d5a7b554a676a11d420
 +SHA1 (patch-ocp-index.install) = 1b6bb3445ae6a565012cd94eb99a3bc09dbb68ba
-diff -r 60225c09a65a devel/ocaml-ocp-index/patches/patch-Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-ocp-index/patches/patch-Makefile	Wed Jan 21 17:33:46 2015 +0900
+diff --git a/devel/ocaml-ocp-index/patches/patch-Makefile b/devel/ocaml-ocp-index/patches/patch-Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/patches/patch-Makefile
 @@ -0,0 +1,11 @@
 +--- Makefile.orig	2015-01-12 17:29:30.000000000 +0900
 ++++ Makefile	2015-01-12 17:29:40.000000000 +0900
@@ -104,3 +109,19 @@ diff -r 60225c09a65a devel/ocaml-ocp-index/patches/patch-Makefile
 + 	@echo
 + 	@echo
 + 	@echo "=== ocp-index installed ==="
+diff --git a/devel/ocaml-ocp-index/patches/patch-ocp-index.install b/devel/ocaml-ocp-index/patches/patch-ocp-index.install
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-ocp-index/patches/patch-ocp-index.install
+@@ -0,0 +1,11 @@
++--- ocp-index.install.orig	2015-01-12 17:29:35.000000000 +0900
+++++ ocp-index.install	2015-01-12 17:29:43.000000000 +0900
++@@ -19,6 +19,6 @@
++   "?man/man1/ocp-browser.1"
++ ]
++ share: [
++-  "tools/ocp-index.el" {"../emacs/site-lisp/ocp-index.el"}
++-  "tools/ocp-index.vim" {"../vim/syntax/ocpindex.vim"}
+++  "tools/ocp-index.el" {"emacs/site-lisp/ocp-index.el"}
+++  "tools/ocp-index.vim" {"vim/syntax/ocpindex.vim"}
++ ]
