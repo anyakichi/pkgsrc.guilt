@@ -1,20 +1,9 @@
 # HG changeset patch
-# Parent 05a16da950e73974d6337f8b196bfd6aadd1179f
+# Parent 8285a4042abc1de5fd697002dcf043f5115a7a0f
 
-diff -r 05a16da950e7 mail/mutt-devel/Makefile.common
---- a/mail/mutt-devel/Makefile.common	Sat Jan 03 21:52:41 2015 +0900
-+++ b/mail/mutt-devel/Makefile.common	Sat Jan 03 22:09:11 2015 +0900
-@@ -6,6 +6,7 @@
- .include "../../mk/bsd.prefs.mk"
- 
- USE_PKGLOCALEDIR=	yes
-+USE_TOOLS+=		gmake
- USE_TOOLS+=		msgfmt
- USE_TOOLS+=		perl
- GNU_CONFIGURE=		yes
-diff -r 05a16da950e7 mail/mutt-devel/distinfo
---- a/mail/mutt-devel/distinfo	Sat Jan 03 21:52:41 2015 +0900
-+++ b/mail/mutt-devel/distinfo	Sat Jan 03 22:09:11 2015 +0900
+diff --git a/mail/mutt-devel/distinfo b/mail/mutt-devel/distinfo
+--- a/mail/mutt-devel/distinfo
++++ b/mail/mutt-devel/distinfo
 @@ -3,6 +3,12 @@
  SHA1 (mutt-1.5.23.tar.gz) = 8ac821d8b1e25504a31bf5fda9c08d93a4acc862
  RMD160 (mutt-1.5.23.tar.gz) = 2476a9e202ab1cd20a512253246e37538e0aad5a
@@ -28,15 +17,16 @@ diff -r 05a16da950e7 mail/mutt-devel/distinfo
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 857799206db0784672ad9042799eb12703711a31
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -17,3 +23,4 @@
+@@ -17,4 +23,5 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
  SHA1 (patch-ao) = a5dddb01d30f28337ca825c6461139c2d9f288d5
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
-diff -r 05a16da950e7 mail/mutt-devel/options.mk
---- a/mail/mutt-devel/options.mk	Sat Jan 03 21:52:41 2015 +0900
-+++ b/mail/mutt-devel/options.mk	Sat Jan 03 22:09:11 2015 +0900
-@@ -7,6 +7,7 @@
+ SHA1 (patch-sendlib.c) = 7394a7814f3986d5fc82c6a5dab76d9b85212c0b
+diff --git a/mail/mutt-devel/options.mk b/mail/mutt-devel/options.mk
+--- a/mail/mutt-devel/options.mk
++++ b/mail/mutt-devel/options.mk
+@@ -7,6 +7,7 @@ PKG_OPTIONS_REQUIRED_GROUPS=	display
  PKG_OPTIONS_GROUP.display=	slang ncurses ncursesw curses
  PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
  PKG_SUPPORTED_OPTIONS+=	mutt-hcache tokyocabinet mutt-smtp
@@ -44,7 +34,7 @@ diff -r 05a16da950e7 mail/mutt-devel/options.mk
  # Comment the following line out on updates.
  #PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
  PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
-@@ -187,3 +188,20 @@
+@@ -188,3 +189,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
@@ -65,9 +55,10 @@ diff -r 05a16da950e7 mail/mutt-devel/options.mk
 +pre-configure:
 +	cd ${WRKSRC} && autoconf && autoheader
 +.endif
-diff -r 05a16da950e7 mail/mutt-devel/patches/patch-configure.ac
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/mail/mutt-devel/patches/patch-configure.ac	Sat Jan 03 22:09:11 2015 +0900
+diff --git a/mail/mutt-devel/patches/patch-configure.ac b/mail/mutt-devel/patches/patch-configure.ac
+new file mode 100644
+--- /dev/null
++++ b/mail/mutt-devel/patches/patch-configure.ac
 @@ -0,0 +1,31 @@
 +--- configure.ac.orig	2014-04-01 23:42:48.000000000 +0900
 ++++ configure.ac	2014-04-02 00:02:35.000000000 +0900
