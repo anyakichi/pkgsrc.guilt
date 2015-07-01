@@ -1,0 +1,22 @@
+# HG changeset patch
+# User INAJIMA Daisuke <inajima@sopht.jp>
+# Parent  66dfdc961778fc1b39a8ff0738aa30495d7be650
+
+diff --git a/patches/x11/rxvt-unicode/no-im-fading.patch b/patches/x11/rxvt-unicode/no-im-fading.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/x11/rxvt-unicode/no-im-fading.patch
+@@ -0,0 +1,13 @@
++--- src/init.C.orig	2015-07-01 21:38:08.000000000 +0900
+++++ src/init.C	2015-07-01 21:38:19.000000000 +0900
++@@ -1442,8 +1442,8 @@
++ 
++ #ifdef OFF_FOCUS_FADING
++   // initially we are in unfocused state
++-  if (rs[Rs_fade])
++-    pix_colors = pix_colors_unfocused;
+++  //if (rs[Rs_fade])
+++  //  pix_colors = pix_colors_unfocused;
++ #endif
++ 
++   pointer_unblank ();
