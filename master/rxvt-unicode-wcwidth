@@ -1,13 +1,13 @@
 # HG changeset patch
 # User INAJIMA Daisuke <inajima@sopht.jp>
-# Parent  a1d832c0e7b7b552ae0a30e9d4426a3fc709c07a
+# Parent  cca9f13be370404927edc961cbceb39f2c1afa99
 rxvt-unicode: Ambiguous width character support.
 
 diff --git a/patches/x11/rxvt-unicode/wcwidth.patch b/patches/x11/rxvt-unicode/wcwidth.patch
 new file mode 100644
 --- /dev/null
 +++ b/patches/x11/rxvt-unicode/wcwidth.patch
-@@ -0,0 +1,527 @@
+@@ -0,0 +1,528 @@
 +--- src/Makefile.in	2015-01-01 01:02:45.000000000 +0900
 ++++ src/Makefile.in	2015-07-01 20:51:29.000000000 +0900
 +@@ -40,7 +40,7 @@
@@ -36,7 +36,7 @@ new file mode 100644
 + #define WCWIDTH(c)		(IN_RANGE_INC (c, 0x20, 0x7e) ? 1 : wcwidth (c))
 +--- src/wcwidth.C	1970-01-01 09:00:00.000000000 +0900
 ++++ src/wcwidth.C	2015-07-01 21:10:02.000000000 +0900
-+@@ -0,0 +1,498 @@
++@@ -0,0 +1,499 @@
 ++#include <stdlib.h>
 ++#include <wchar.h>
 ++
@@ -502,9 +502,10 @@ new file mode 100644
 ++	if (wc < 0xa0)
 ++		return -1;
 ++
-++	item = bsearch(&wc, (const void *)wcwidth_table,
-++		       sizeof(wcwidth_table) / sizeof(wcwidth_table[0]),
-++		       sizeof(wcwidth_table[0]), comp);
+++	item = (struct wcwidth_entry *)
+++	    bsearch(&wc, (const void *)wcwidth_table,
+++		    sizeof(wcwidth_table) / sizeof(wcwidth_table[0]),
+++		    sizeof(wcwidth_table[0]), comp);
 ++
 ++	if (item != NULL) {
 ++		if (item->flags & WCF_COMB)
@@ -535,14 +536,3 @@ new file mode 100644
 ++
 ++	return width;
 ++}
-diff --git a/x11/rxvt-unicode/Makefile b/x11/rxvt-unicode/Makefile
---- a/x11/rxvt-unicode/Makefile
-+++ b/x11/rxvt-unicode/Makefile
-@@ -22,6 +22,7 @@ CONFIGURE_ARGS+=	--enable-256-color
- 
- INSTALLATION_DIRS+=	share/doc/rxvt-unicode share/examples/rxvt-unicode
- 
-+CXXFLAGS+=	-fpermissive
- LIBS.SunOS+=	-lnsl -lsocket
- 
- post-install:
