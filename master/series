@@ -56,3 +56,4 @@ gnuplot-qt4
 ocaml-curses
 ocaml-ocp-index
 hg-git
+rxvt-unicode-wcwidth
