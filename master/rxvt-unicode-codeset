@@ -1,0 +1,26 @@
+# HG changeset patch
+# User INAJIMA Daisuke <inajima@sopht.jp>
+# Parent  4b12ff3a34ac8deb736f162aebca4f66c3ef2018
+
+diff --git a/patches/x11/rxvt-unicode/codeset.patch b/patches/x11/rxvt-unicode/codeset.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/x11/rxvt-unicode/codeset.patch
+@@ -0,0 +1,17 @@
++--- src/rxvtfont.C.orig	2014-12-13 10:00:23.000000000 +0900
+++++ src/rxvtfont.C	2015-07-01 18:58:20.000000000 +0900
++@@ -1695,11 +1695,11 @@
++     {
++       rxvt_font *f = fonts[i];
++ 
+++      if (FROM_UNICODE (f->cs, unicode) == NOCHAR)
+++        goto next_font;
+++
++       if (!f->loaded)
++         {
++-          if (FROM_UNICODE (f->cs, unicode) == NOCHAR)
++-            goto next_font;
++-
++           if (!realize_font (i))
++             goto next_font;
++ 

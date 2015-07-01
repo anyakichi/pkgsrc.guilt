@@ -57,3 +57,4 @@ ocaml-curses
 ocaml-ocp-index
 hg-git
 rxvt-unicode-wcwidth
+rxvt-unicode-codeset
