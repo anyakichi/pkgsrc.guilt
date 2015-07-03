@@ -1,42 +1,44 @@
 # HG changeset patch
 # Parent 3d4f4867761b412c2fbc62bd87ea807f67cb871f
+# Parent  ffa868bbbdb4b57445febfb6db7cfc312af53b0c
 
-diff -r 3d4f4867761b devel/hgsubversion/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/DESCR	Sun Apr 13 08:42:04 2014 +0900
+diff --git a/devel/hgsubversion/DESCR b/devel/hgsubversion/DESCR
+new file mode 100644
+--- /dev/null
++++ b/devel/hgsubversion/DESCR
 @@ -0,0 +1,2 @@
 +hgsubversion is an extension for Mercurial that allows using Mercurial
 +as a Subversion client.
-diff -r 3d4f4867761b devel/hgsubversion/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/Makefile	Sun Apr 13 08:42:04 2014 +0900
-@@ -0,0 +1,22 @@
+diff --git a/devel/hgsubversion/Makefile b/devel/hgsubversion/Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/hgsubversion/Makefile
+@@ -0,0 +1,20 @@
 +# $NetBSD$
 +#
 +
-+DISTNAME=		hgsubversion-1.6
-+EGG_NAME=		hgsubversion-1.6
++DISTNAME=		hgsubversion-1.8.1
 +CATEGORIES=		devel python
 +MASTER_SITES=		http://pypi.python.org/packages/source/h/hgsubversion/
-+EXTRACT_SUFX=		.tar.gz
-+FETCH_USING=		curl
 +
 +MAINTAINER=		pkgsrc-users@NetBSD.org
-+HOMEPAGE=		https://bitbucket.org/durin42/hgsubversion/overview/
++HOMEPAGE=		http://bitbucket.org/durin42/hgsubversion/
 +COMMENT=		Subversion plugin for Mercurial
++LICENSE=		gnu-gpl-v2
 +
-+PKG_DESTDIR_SUPPORT=	user-destdir
-+
-+DEPENDS+=	mercurial>=2.0:../../devel/mercurial
++DEPENDS+=	${PYPKGPREFIX}-mercurial>=2.0:../../devel/py-mercurial
 +DEPENDS+=	${PYPKGPREFIX}-subvertpy>=0.7.4:../../devel/py-subvertpy
-+DEPENDS+=	subversion-base>=1.5:../../devel/subversion-base
++
++PYTHON_VERSIONS_INCOMPATIBLE=	33 34 # py-mercurial
++EGG_NAME=		${DISTNAME}
 +
 +.include "../../lang/python/egg.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 3d4f4867761b devel/hgsubversion/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/PLIST	Sun Apr 13 08:42:04 2014 +0900
-@@ -0,0 +1,91 @@
+diff --git a/devel/hgsubversion/PLIST b/devel/hgsubversion/PLIST
+new file mode 100644
+--- /dev/null
++++ b/devel/hgsubversion/PLIST
+@@ -0,0 +1,85 @@
 +@comment $NetBSD$
 +${PYSITELIB}/${EGG_INFODIR}/PKG-INFO
 +${PYSITELIB}/${EGG_INFODIR}/SOURCES.txt
@@ -71,12 +73,6 @@ diff -r 3d4f4867761b devel/hgsubversion/PLIST
 +${PYSITELIB}/hgsubversion/layouts/custom.py
 +${PYSITELIB}/hgsubversion/layouts/custom.pyc
 +${PYSITELIB}/hgsubversion/layouts/custom.pyo
-+${PYSITELIB}/hgsubversion/layouts/detect.py
-+${PYSITELIB}/hgsubversion/layouts/detect.pyc
-+${PYSITELIB}/hgsubversion/layouts/detect.pyo
-+${PYSITELIB}/hgsubversion/layouts/persist.py
-+${PYSITELIB}/hgsubversion/layouts/persist.pyc
-+${PYSITELIB}/hgsubversion/layouts/persist.pyo
 +${PYSITELIB}/hgsubversion/layouts/single.py
 +${PYSITELIB}/hgsubversion/layouts/single.pyc
 +${PYSITELIB}/hgsubversion/layouts/single.pyo
@@ -128,12 +124,13 @@ diff -r 3d4f4867761b devel/hgsubversion/PLIST
 +${PYSITELIB}/hgsubversion/wrappers.py
 +${PYSITELIB}/hgsubversion/wrappers.pyc
 +${PYSITELIB}/hgsubversion/wrappers.pyo
-diff -r 3d4f4867761b devel/hgsubversion/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/hgsubversion/distinfo	Sun Apr 13 08:42:04 2014 +0900
+diff --git a/devel/hgsubversion/distinfo b/devel/hgsubversion/distinfo
+new file mode 100644
+--- /dev/null
++++ b/devel/hgsubversion/distinfo
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (hgsubversion-1.6.tar.gz) = c3051d4d0ef7241b063372017c0ad58b95122854
-+RMD160 (hgsubversion-1.6.tar.gz) = da588eba0e65f9961d0ddc482c4e7799c1c79fcd
-+Size (hgsubversion-1.6.tar.gz) = 172888 bytes
++SHA1 (hgsubversion-1.8.1.tar.gz) = d835b356acc454e781ed35f4155559c09bb07e39
++RMD160 (hgsubversion-1.8.1.tar.gz) = a027045f50012a03eb53ddddf3d094cfe99b3798
++Size (hgsubversion-1.8.1.tar.gz) = 179270 bytes
