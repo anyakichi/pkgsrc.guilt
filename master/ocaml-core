@@ -1,292 +1,692 @@
 # HG changeset patch
-# Parent 22b82cfc29e32acf821fd3cffaa50cef3695c43d
+# User INAJIMA Daisuke <inajima@sopht.jp>
+# Parent  8ce76e885291ffc622c60f4e2f744022330f5b5e
 
-diff -r 22b82cfc29e3 devel/ocaml-core/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/DESCR	Mon Nov 18 18:46:12 2013 +0900
-@@ -0,0 +1,14 @@
-+Core is an industrial-strength alternative to the OCaml standard
-+library.  It was developed by Jane Street, which is the largest
-+industrial user of OCaml.
+diff --git a/wip/ocaml-core/DESCR b/wip/ocaml-core/DESCR
+new file mode 100755
+--- /dev/null
++++ b/wip/ocaml-core/DESCR
+@@ -0,0 +1,4 @@
++This library defines a syntax extension for OCaml using Camlp4 that
++can be used to define first class values representing record fields,
++and additional routines, to get and set record fields, iterate and
++fold over all fields of a record and create new record values.
+diff --git a/wip/ocaml-core/Makefile b/wip/ocaml-core/Makefile
+new file mode 100755
+--- /dev/null
++++ b/wip/ocaml-core/Makefile
+@@ -0,0 +1,32 @@
++# $NetBSD: Makefile,v 1.3 2014/11/16 23:40:53 jgoamakf Exp $
 +
-+Core provides an overlay on the usual namespace, so the best way to
-+use Core is to start your file with:
-+
-+   open Core.Std
-+
-+In the case of bugs, feature requests and similar, you can contact us
-+at <opensource@janestreet.com>.  You can find all of Jane Street's
-+open-source libraries on github <https://github.com/janestreet> and
-+on bitbucket <https://bitbucket.org/janestreet>.
-+
-diff -r 22b82cfc29e3 devel/ocaml-core/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/Makefile	Mon Nov 18 18:46:12 2013 +0900
-@@ -0,0 +1,31 @@
-+# $NetBSD$
-+#
-+
-+PKGNAME=	ocaml-${DISTNAME}
-+DISTNAME=	core-${VERSION}
-+VERSION=	109.47.00
++DISTNAME=	core-${VERS}
++VERS=		112.06.01
 +CATEGORIES=	devel
-+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/${VERSION}/individual/
++MASTER_SITES=	https://github.com/janestreet/core/archive/
++DISTFILES=	${VERS}${EXTRACT_SUFX}
++DIST_SUBDIR=	ocaml-core
 +FETCH_USING=	curl
 +
 +MAINTAINER=	pkgsrc-users@NetBSD.org
-+HOMEPAGE=	http://janestreet.github.io/
-+COMMENT=	Industrial strength alternative to OCaml\'s standard library
++HOMEPAGE=	https://github.com/janestreet/core/
++COMMENT=	Jane Street Capital's standard library overlay
 +LICENSE=	apache-2.0
 +
-+DEPENDS+=	ocaml-bin_prot>=109.47.00:../../devel/ocaml-bin_prot
-+DEPENDS+=	ocaml-comparelib>=109.27.00:../../devel/ocaml-comparelib
-+DEPENDS+=	ocaml-core_kernel>=109.47.00:../../devel/ocaml-core_kernel
-+DEPENDS+=	ocaml-custom_printf>=109.27.00:../../devel/ocaml-custom_printf
-+DEPENDS+=	ocaml-fieldslib>=109.20.00:../../devel/ocaml-fieldslib
-+DEPENDS+=	ocaml-herelib>=109.35.00:../../devel/ocaml-herelib
-+DEPENDS+=	ocaml-pa_ounit>=109.36.00:../../devel/ocaml-pa_ounit
-+DEPENDS+=	ocaml-pipebang>=109.28.00:../../devel/ocaml-pipebang
-+DEPENDS+=	ocaml-res-[0-9]*:../../devel/ocaml-res
-+DEPENDS+=	ocaml-sexplib>=109.47.00:../../devel/ocaml-sexplib
-+DEPENDS+=	ocaml-variantslib>=109.15.00:../../devel/ocaml-variantslib
++OCAML_USE_OASIS=      yes
 +
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/oasis.mk"
-+.include "../../devel/ocaml-core_kernel/buildlink3.mk"
++.include "../../wip/ocaml-bin_prot/buildlink3.mk"
++.include "../../wip/ocaml-comparelib/buildlink3.mk"
++.include "../../wip/ocaml-core_kernel/buildlink3.mk"
++.include "../../wip/ocaml-custom_printf/buildlink3.mk"
++.include "../../wip/ocaml-enumerate/buildlink3.mk"
++.include "../../wip/ocaml-fieldslib/buildlink3.mk"
++.include "../../wip/ocaml-herelib/buildlink3.mk"
++.include "../../wip/ocaml-pa_bench/buildlink3.mk"
++.include "../../wip/ocaml-pa_ounit/buildlink3.mk"
++.include "../../wip/ocaml-pa_test/buildlink3.mk"
++.include "../../wip/ocaml-pipebang/buildlink3.mk"
++.include "../../devel/ocaml-sexplib/buildlink3.mk"
++.include "../../wip/ocaml-variantslib/buildlink3.mk"
++.include "../../mk/ocaml.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 22b82cfc29e3 devel/ocaml-core/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/PLIST	Mon Nov 18 18:46:12 2013 +0900
-@@ -0,0 +1,205 @@
+diff --git a/wip/ocaml-core/PLIST b/wip/ocaml-core/PLIST
+new file mode 100755
+--- /dev/null
++++ b/wip/ocaml-core/PLIST
+@@ -0,0 +1,608 @@
 +@comment $NetBSD$
-+@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/core
 +lib/ocaml/site-lib/core/META
++lib/ocaml/site-lib/core/array_permute.annot
++lib/ocaml/site-lib/core/array_permute.cmt
 +lib/ocaml/site-lib/core/array_permute.ml
++lib/ocaml/site-lib/core/avltree.annot
++lib/ocaml/site-lib/core/avltree.cmt
 +lib/ocaml/site-lib/core/avltree.ml
++lib/ocaml/site-lib/core/backtrace.annot
++lib/ocaml/site-lib/core/backtrace.cmt
++lib/ocaml/site-lib/core/backtrace.cmti
 +lib/ocaml/site-lib/core/backtrace.mli
++lib/ocaml/site-lib/core/bag.annot
++lib/ocaml/site-lib/core/bag.cmt
 +lib/ocaml/site-lib/core/bag.ml
++lib/ocaml/site-lib/core/bigbuffer.annot
++lib/ocaml/site-lib/core/bigbuffer.cmt
++lib/ocaml/site-lib/core/bigbuffer.cmti
 +lib/ocaml/site-lib/core/bigbuffer.mli
++lib/ocaml/site-lib/core/bigbuffer_internal.annot
++lib/ocaml/site-lib/core/bigbuffer_internal.cmt
 +lib/ocaml/site-lib/core/bigbuffer_internal.ml
++lib/ocaml/site-lib/core/bigstring.annot
++lib/ocaml/site-lib/core/bigstring.cmt
++lib/ocaml/site-lib/core/bigstring.cmti
 +lib/ocaml/site-lib/core/bigstring.mli
++lib/ocaml/site-lib/core/bigstring_marshal.annot
++lib/ocaml/site-lib/core/bigstring_marshal.cmt
++lib/ocaml/site-lib/core/bigstring_marshal.cmti
 +lib/ocaml/site-lib/core/bigstring_marshal.mli
++lib/ocaml/site-lib/core/bigsubstring.annot
++lib/ocaml/site-lib/core/bigsubstring.cmt
 +lib/ocaml/site-lib/core/bigsubstring.ml
++lib/ocaml/site-lib/core/binable.annot
++lib/ocaml/site-lib/core/binable.cmt
 +lib/ocaml/site-lib/core/binable.ml
++lib/ocaml/site-lib/core/binable0.annot
++lib/ocaml/site-lib/core/binable0.cmt
 +lib/ocaml/site-lib/core/binable0.ml
++lib/ocaml/site-lib/core/binary_packing.annot
++lib/ocaml/site-lib/core/binary_packing.cmt
 +lib/ocaml/site-lib/core/binary_packing.ml
++lib/ocaml/site-lib/core/blang.annot
++lib/ocaml/site-lib/core/blang.cmt
 +lib/ocaml/site-lib/core/blang.ml
++lib/ocaml/site-lib/core/bool.annot
++lib/ocaml/site-lib/core/bool.cmt
 +lib/ocaml/site-lib/core/bool.ml
++lib/ocaml/site-lib/core/bounded_int_table.annot
++lib/ocaml/site-lib/core/bounded_int_table.cmt
 +lib/ocaml/site-lib/core/bounded_int_table.ml
++lib/ocaml/site-lib/core/bucket.annot
++lib/ocaml/site-lib/core/bucket.cmt
 +lib/ocaml/site-lib/core/bucket.ml
++lib/ocaml/site-lib/core/byte_units.annot
++lib/ocaml/site-lib/core/byte_units.cmt
 +lib/ocaml/site-lib/core/byte_units.ml
++lib/ocaml/site-lib/core/caml.annot
++lib/ocaml/site-lib/core/caml.cmt
 +lib/ocaml/site-lib/core/caml.ml
++lib/ocaml/site-lib/core/check_std.annot
++lib/ocaml/site-lib/core/check_std.cmt
 +lib/ocaml/site-lib/core/check_std.ml
++lib/ocaml/site-lib/core/command.annot
++lib/ocaml/site-lib/core/command.cmt
++lib/ocaml/site-lib/core/command.cmti
 +lib/ocaml/site-lib/core/command.mli
++lib/ocaml/site-lib/core/common.annot
++lib/ocaml/site-lib/core/common.cmt
 +lib/ocaml/site-lib/core/common.ml
++lib/ocaml/site-lib/core/commutative_group.annot
++lib/ocaml/site-lib/core/commutative_group.cmt
 +lib/ocaml/site-lib/core/commutative_group.ml
++lib/ocaml/site-lib/core/comparable.annot
++lib/ocaml/site-lib/core/comparable.cmt
 +lib/ocaml/site-lib/core/comparable.ml
++lib/ocaml/site-lib/core/comparable_intf.annot
++lib/ocaml/site-lib/core/comparable_intf.cmt
 +lib/ocaml/site-lib/core/comparable_intf.ml
++lib/ocaml/site-lib/core/comparator.annot
++lib/ocaml/site-lib/core/comparator.cmt
 +lib/ocaml/site-lib/core/comparator.ml
++lib/ocaml/site-lib/core/constrained_float.annot
++lib/ocaml/site-lib/core/constrained_float.cmt
 +lib/ocaml/site-lib/core/constrained_float.ml
++lib/ocaml/site-lib/core/container.annot
++lib/ocaml/site-lib/core/container.cmt
 +lib/ocaml/site-lib/core/container.ml
-+${PLIST.opt}lib/ocaml/site-lib/core/core.a
++lib/ocaml/site-lib/core/core.a
 +lib/ocaml/site-lib/core/core.cma
 +lib/ocaml/site-lib/core/core.cmi
-+${PLIST.opt}lib/ocaml/site-lib/core/core.cmxa
-+${PLIST.opt}lib/ocaml/site-lib/core/core.cmxs
++lib/ocaml/site-lib/core/core.cmt
++lib/ocaml/site-lib/core/core.cmx
++lib/ocaml/site-lib/core/core.cmxa
++lib/ocaml/site-lib/core/core.cmxs
++lib/ocaml/site-lib/core/core_arg.annot
++lib/ocaml/site-lib/core/core_arg.cmt
 +lib/ocaml/site-lib/core/core_arg.ml
++lib/ocaml/site-lib/core/core_array.annot
++lib/ocaml/site-lib/core/core_array.cmt
 +lib/ocaml/site-lib/core/core_array.ml
++lib/ocaml/site-lib/core/core_bin_prot.annot
++lib/ocaml/site-lib/core/core_bin_prot.cmt
 +lib/ocaml/site-lib/core/core_bin_prot.ml
++lib/ocaml/site-lib/core/core_char.annot
++lib/ocaml/site-lib/core/core_char.cmt
 +lib/ocaml/site-lib/core/core_char.ml
++lib/ocaml/site-lib/core/core_condition.annot
++lib/ocaml/site-lib/core/core_condition.cmt
++lib/ocaml/site-lib/core/core_condition.cmti
 +lib/ocaml/site-lib/core/core_condition.mli
 +lib/ocaml/site-lib/core/core_config.h
++lib/ocaml/site-lib/core/core_field.annot
++lib/ocaml/site-lib/core/core_field.cmt
 +lib/ocaml/site-lib/core/core_field.ml
++lib/ocaml/site-lib/core/core_filename.annot
++lib/ocaml/site-lib/core/core_filename.cmt
++lib/ocaml/site-lib/core/core_filename.cmti
 +lib/ocaml/site-lib/core/core_filename.mli
-+lib/ocaml/site-lib/core/core_gc.mli
++lib/ocaml/site-lib/core/core_hashtbl.annot
++lib/ocaml/site-lib/core/core_hashtbl.cmt
 +lib/ocaml/site-lib/core/core_hashtbl.ml
++lib/ocaml/site-lib/core/core_hashtbl_intf.annot
++lib/ocaml/site-lib/core/core_hashtbl_intf.cmt
 +lib/ocaml/site-lib/core/core_hashtbl_intf.ml
++lib/ocaml/site-lib/core/core_install_printers.annot
 +lib/ocaml/site-lib/core/core_install_printers.cmi
-+${PLIST.opt}lib/ocaml/site-lib/core/core_install_printers.cmx
++lib/ocaml/site-lib/core/core_install_printers.cmt
++lib/ocaml/site-lib/core/core_install_printers.cmx
 +lib/ocaml/site-lib/core/core_install_printers.ml
++lib/ocaml/site-lib/core/core_int.annot
++lib/ocaml/site-lib/core/core_int.cmt
 +lib/ocaml/site-lib/core/core_int.ml
++lib/ocaml/site-lib/core/core_int32.annot
++lib/ocaml/site-lib/core/core_int32.cmt
 +lib/ocaml/site-lib/core/core_int32.ml
++lib/ocaml/site-lib/core/core_int63.annot
++lib/ocaml/site-lib/core/core_int63.cmt
 +lib/ocaml/site-lib/core/core_int63.ml
++lib/ocaml/site-lib/core/core_int64.annot
++lib/ocaml/site-lib/core/core_int64.cmt
 +lib/ocaml/site-lib/core/core_int64.ml
++lib/ocaml/site-lib/core/core_lazy.annot
++lib/ocaml/site-lib/core/core_lazy.cmt
 +lib/ocaml/site-lib/core/core_lazy.ml
++lib/ocaml/site-lib/core/core_list.annot
++lib/ocaml/site-lib/core/core_list.cmt
 +lib/ocaml/site-lib/core/core_list.ml
++lib/ocaml/site-lib/core/core_map.annot
++lib/ocaml/site-lib/core/core_map.cmt
 +lib/ocaml/site-lib/core/core_map.ml
++lib/ocaml/site-lib/core/core_map_intf.annot
++lib/ocaml/site-lib/core/core_map_intf.cmt
 +lib/ocaml/site-lib/core/core_map_intf.ml
++lib/ocaml/site-lib/core/core_map_unit_tests.annot
++lib/ocaml/site-lib/core/core_map_unit_tests.cmt
 +lib/ocaml/site-lib/core/core_map_unit_tests.ml
++lib/ocaml/site-lib/core/core_mutex.annot
++lib/ocaml/site-lib/core/core_mutex.cmt
++lib/ocaml/site-lib/core/core_mutex.cmti
 +lib/ocaml/site-lib/core/core_mutex.mli
++lib/ocaml/site-lib/core/core_nativeint.annot
++lib/ocaml/site-lib/core/core_nativeint.cmt
 +lib/ocaml/site-lib/core/core_nativeint.ml
++lib/ocaml/site-lib/core/core_printexc.annot
++lib/ocaml/site-lib/core/core_printexc.cmt
 +lib/ocaml/site-lib/core/core_printexc.ml
++lib/ocaml/site-lib/core/core_printf.annot
++lib/ocaml/site-lib/core/core_printf.cmt
 +lib/ocaml/site-lib/core/core_printf.ml
-+lib/ocaml/site-lib/core/core_queue.ml
++lib/ocaml/site-lib/core/core_random.annot
++lib/ocaml/site-lib/core/core_random.cmt
 +lib/ocaml/site-lib/core/core_random.ml
++lib/ocaml/site-lib/core/core_set.annot
++lib/ocaml/site-lib/core/core_set.cmt
 +lib/ocaml/site-lib/core/core_set.ml
++lib/ocaml/site-lib/core/core_set_intf.annot
++lib/ocaml/site-lib/core/core_set_intf.cmt
 +lib/ocaml/site-lib/core/core_set_intf.ml
++lib/ocaml/site-lib/core/core_set_unit_tests.annot
++lib/ocaml/site-lib/core/core_set_unit_tests.cmt
 +lib/ocaml/site-lib/core/core_set_unit_tests.ml
++lib/ocaml/site-lib/core/core_sexp.annot
++lib/ocaml/site-lib/core/core_sexp.cmt
 +lib/ocaml/site-lib/core/core_sexp.ml
++lib/ocaml/site-lib/core/core_stack.annot
++lib/ocaml/site-lib/core/core_stack.cmt
 +lib/ocaml/site-lib/core/core_stack.ml
++lib/ocaml/site-lib/core/core_string.annot
++lib/ocaml/site-lib/core/core_string.cmt
 +lib/ocaml/site-lib/core/core_string.ml
++lib/ocaml/site-lib/core/core_sys.annot
++lib/ocaml/site-lib/core/core_sys.cmt
++lib/ocaml/site-lib/core/core_sys.cmti
 +lib/ocaml/site-lib/core/core_sys.mli
++lib/ocaml/site-lib/core/core_thread.annot
++lib/ocaml/site-lib/core/core_thread.cmt
++lib/ocaml/site-lib/core/core_thread.cmti
 +lib/ocaml/site-lib/core/core_thread.mli
-+${PLIST.opt}lib/ocaml/site-lib/core/core_top.a
++lib/ocaml/site-lib/core/core_top.a
 +lib/ocaml/site-lib/core/core_top.cma
-+${PLIST.opt}lib/ocaml/site-lib/core/core_top.cmxa
-+${PLIST.opt}lib/ocaml/site-lib/core/core_top.cmxs
++lib/ocaml/site-lib/core/core_top.cmxa
++lib/ocaml/site-lib/core/core_top.cmxs
++lib/ocaml/site-lib/core/core_unix.annot
++lib/ocaml/site-lib/core/core_unix.cmt
++lib/ocaml/site-lib/core/core_unix.cmti
 +lib/ocaml/site-lib/core/core_unix.mli
-+lib/ocaml/site-lib/core/core_weak.ml
++lib/ocaml/site-lib/core/crc.annot
++lib/ocaml/site-lib/core/crc.cmt
++lib/ocaml/site-lib/core/crc.cmti
 +lib/ocaml/site-lib/core/crc.mli
++lib/ocaml/site-lib/core/daemon.annot
++lib/ocaml/site-lib/core/daemon.cmt
++lib/ocaml/site-lib/core/daemon.cmti
 +lib/ocaml/site-lib/core/daemon.mli
++lib/ocaml/site-lib/core/date.annot
++lib/ocaml/site-lib/core/date.cmt
++lib/ocaml/site-lib/core/date.cmti
 +lib/ocaml/site-lib/core/date.mli
++lib/ocaml/site-lib/core/date0.annot
++lib/ocaml/site-lib/core/date0.cmt
++lib/ocaml/site-lib/core/date0.cmti
 +lib/ocaml/site-lib/core/date0.mli
++lib/ocaml/site-lib/core/day_of_week.annot
++lib/ocaml/site-lib/core/day_of_week.cmt
 +lib/ocaml/site-lib/core/day_of_week.ml
++lib/ocaml/site-lib/core/debug.annot
++lib/ocaml/site-lib/core/debug.cmt
++lib/ocaml/site-lib/core/debug.cmti
++lib/ocaml/site-lib/core/debug.mli
++lib/ocaml/site-lib/core/dequeue.annot
++lib/ocaml/site-lib/core/dequeue.cmt
 +lib/ocaml/site-lib/core/dequeue.ml
 +lib/ocaml/site-lib/core/dllcore_stubs.so
++lib/ocaml/site-lib/core/doubly_linked.annot
++lib/ocaml/site-lib/core/doubly_linked.cmt
 +lib/ocaml/site-lib/core/doubly_linked.ml
++lib/ocaml/site-lib/core/equal.annot
++lib/ocaml/site-lib/core/equal.cmt
 +lib/ocaml/site-lib/core/equal.ml
++lib/ocaml/site-lib/core/error.annot
++lib/ocaml/site-lib/core/error.cmt
 +lib/ocaml/site-lib/core/error.ml
++lib/ocaml/site-lib/core/exn.annot
++lib/ocaml/site-lib/core/exn.cmt
 +lib/ocaml/site-lib/core/exn.ml
++lib/ocaml/site-lib/core/flags.annot
++lib/ocaml/site-lib/core/flags.cmt
 +lib/ocaml/site-lib/core/flags.ml
++lib/ocaml/site-lib/core/flags_intf.annot
++lib/ocaml/site-lib/core/flags_intf.cmt
 +lib/ocaml/site-lib/core/flags_intf.ml
++lib/ocaml/site-lib/core/float.annot
++lib/ocaml/site-lib/core/float.cmt
 +lib/ocaml/site-lib/core/float.ml
++lib/ocaml/site-lib/core/float_intf.annot
++lib/ocaml/site-lib/core/float_intf.cmt
 +lib/ocaml/site-lib/core/float_intf.ml
++lib/ocaml/site-lib/core/float_robust_compare.annot
++lib/ocaml/site-lib/core/float_robust_compare.cmt
 +lib/ocaml/site-lib/core/float_robust_compare.ml
++lib/ocaml/site-lib/core/floatable.annot
++lib/ocaml/site-lib/core/floatable.cmt
 +lib/ocaml/site-lib/core/floatable.ml
++lib/ocaml/site-lib/core/fn.annot
++lib/ocaml/site-lib/core/fn.cmt
 +lib/ocaml/site-lib/core/fn.ml
++lib/ocaml/site-lib/core/force_once.annot
++lib/ocaml/site-lib/core/force_once.cmt
 +lib/ocaml/site-lib/core/force_once.ml
++lib/ocaml/site-lib/core/fqueue.annot
++lib/ocaml/site-lib/core/fqueue.cmt
 +lib/ocaml/site-lib/core/fqueue.ml
++lib/ocaml/site-lib/core/hash_heap.annot
++lib/ocaml/site-lib/core/hash_heap.cmt
 +lib/ocaml/site-lib/core/hash_heap.ml
++lib/ocaml/site-lib/core/hash_queue.annot
++lib/ocaml/site-lib/core/hash_queue.cmt
 +lib/ocaml/site-lib/core/hash_queue.ml
++lib/ocaml/site-lib/core/hash_set.annot
++lib/ocaml/site-lib/core/hash_set.cmt
 +lib/ocaml/site-lib/core/hash_set.ml
++lib/ocaml/site-lib/core/hash_set_intf.annot
++lib/ocaml/site-lib/core/hash_set_intf.cmt
 +lib/ocaml/site-lib/core/hash_set_intf.ml
++lib/ocaml/site-lib/core/hashable.annot
++lib/ocaml/site-lib/core/hashable.cmt
 +lib/ocaml/site-lib/core/hashable.ml
++lib/ocaml/site-lib/core/heap.annot
++lib/ocaml/site-lib/core/heap.cmt
 +lib/ocaml/site-lib/core/heap.ml
++lib/ocaml/site-lib/core/heap_block.annot
++lib/ocaml/site-lib/core/heap_block.cmt
 +lib/ocaml/site-lib/core/heap_block.ml
++lib/ocaml/site-lib/core/host_and_port.annot
++lib/ocaml/site-lib/core/host_and_port.cmt
 +lib/ocaml/site-lib/core/host_and_port.ml
++lib/ocaml/site-lib/core/identifiable.annot
++lib/ocaml/site-lib/core/identifiable.cmt
 +lib/ocaml/site-lib/core/identifiable.ml
++lib/ocaml/site-lib/core/in_channel.annot
++lib/ocaml/site-lib/core/in_channel.cmt
 +lib/ocaml/site-lib/core/in_channel.ml
++lib/ocaml/site-lib/core/info.annot
++lib/ocaml/site-lib/core/info.cmt
 +lib/ocaml/site-lib/core/info.ml
++lib/ocaml/site-lib/core/int_conversions.annot
++lib/ocaml/site-lib/core/int_conversions.cmt
 +lib/ocaml/site-lib/core/int_conversions.ml
++lib/ocaml/site-lib/core/int_intf.annot
++lib/ocaml/site-lib/core/int_intf.cmt
 +lib/ocaml/site-lib/core/int_intf.ml
-+lib/ocaml/site-lib/core/int_math.ml
++lib/ocaml/site-lib/core/int_replace_polymorphic_compare.annot
++lib/ocaml/site-lib/core/int_replace_polymorphic_compare.cmt
 +lib/ocaml/site-lib/core/int_replace_polymorphic_compare.ml
++lib/ocaml/site-lib/core/int_set.annot
++lib/ocaml/site-lib/core/int_set.cmt
 +lib/ocaml/site-lib/core/int_set.ml
++lib/ocaml/site-lib/core/intable.annot
++lib/ocaml/site-lib/core/intable.cmt
 +lib/ocaml/site-lib/core/intable.ml
++lib/ocaml/site-lib/core/interfaces.annot
++lib/ocaml/site-lib/core/interfaces.cmt
 +lib/ocaml/site-lib/core/interfaces.ml
++lib/ocaml/site-lib/core/interned_string.annot
++lib/ocaml/site-lib/core/interned_string.cmt
 +lib/ocaml/site-lib/core/interned_string.ml
++lib/ocaml/site-lib/core/interval.annot
++lib/ocaml/site-lib/core/interval.cmt
++lib/ocaml/site-lib/core/interval.cmti
 +lib/ocaml/site-lib/core/interval.mli
++lib/ocaml/site-lib/core/interval_intf.annot
++lib/ocaml/site-lib/core/interval_intf.cmt
 +lib/ocaml/site-lib/core/interval_intf.ml
++lib/ocaml/site-lib/core/invariant.annot
++lib/ocaml/site-lib/core/invariant.cmt
 +lib/ocaml/site-lib/core/invariant.ml
++lib/ocaml/site-lib/core/iobuf.annot
++lib/ocaml/site-lib/core/iobuf.cmt
++lib/ocaml/site-lib/core/iobuf.cmti
 +lib/ocaml/site-lib/core/iobuf.mli
++lib/ocaml/site-lib/core/iobuf_debug.annot
++lib/ocaml/site-lib/core/iobuf_debug.cmt
++lib/ocaml/site-lib/core/iobuf_debug.cmti
 +lib/ocaml/site-lib/core/iobuf_debug.mli
++lib/ocaml/site-lib/core/iobuf_intf.annot
++lib/ocaml/site-lib/core/iobuf_intf.cmt
 +lib/ocaml/site-lib/core/iobuf_intf.ml
++lib/ocaml/site-lib/core/iobuf_tests.annot
++lib/ocaml/site-lib/core/iobuf_tests.cmt
++lib/ocaml/site-lib/core/iobuf_tests.cmti
 +lib/ocaml/site-lib/core/iobuf_tests.mli
 +lib/ocaml/site-lib/core/jane_common.h
-+${PLIST.opt}lib/ocaml/site-lib/core/libcore_stubs.a
++lib/ocaml/site-lib/core/libcore_stubs.a
++lib/ocaml/site-lib/core/linux_ext.annot
++lib/ocaml/site-lib/core/linux_ext.cmt
++lib/ocaml/site-lib/core/linux_ext.cmti
 +lib/ocaml/site-lib/core/linux_ext.mli
++lib/ocaml/site-lib/core/lock_file.annot
++lib/ocaml/site-lib/core/lock_file.cmt
++lib/ocaml/site-lib/core/lock_file.cmti
 +lib/ocaml/site-lib/core/lock_file.mli
++lib/ocaml/site-lib/core/make_substring.annot
++lib/ocaml/site-lib/core/make_substring.cmt
 +lib/ocaml/site-lib/core/make_substring.ml
++lib/ocaml/site-lib/core/memo.annot
++lib/ocaml/site-lib/core/memo.cmt
 +lib/ocaml/site-lib/core/memo.ml
++lib/ocaml/site-lib/core/monad.annot
++lib/ocaml/site-lib/core/monad.cmt
 +lib/ocaml/site-lib/core/monad.ml
++lib/ocaml/site-lib/core/month.annot
++lib/ocaml/site-lib/core/month.cmt
 +lib/ocaml/site-lib/core/month.ml
++lib/ocaml/site-lib/core/mutex0.annot
++lib/ocaml/site-lib/core/mutex0.cmt
 +lib/ocaml/site-lib/core/mutex0.ml
++lib/ocaml/site-lib/core/nano_mutex.annot
++lib/ocaml/site-lib/core/nano_mutex.cmt
++lib/ocaml/site-lib/core/nano_mutex.cmti
 +lib/ocaml/site-lib/core/nano_mutex.mli
++lib/ocaml/site-lib/core/never_returns.annot
++lib/ocaml/site-lib/core/never_returns.cmt
 +lib/ocaml/site-lib/core/never_returns.ml
++lib/ocaml/site-lib/core/no_polymorphic_compare.annot
++lib/ocaml/site-lib/core/no_polymorphic_compare.cmt
 +lib/ocaml/site-lib/core/no_polymorphic_compare.ml
++lib/ocaml/site-lib/core/nothing.annot
++lib/ocaml/site-lib/core/nothing.cmt
 +lib/ocaml/site-lib/core/nothing.ml
++lib/ocaml/site-lib/core/nothing0.annot
++lib/ocaml/site-lib/core/nothing0.cmt
 +lib/ocaml/site-lib/core/nothing0.ml
 +lib/ocaml/site-lib/core/ocaml_utils.h
 +lib/ocaml/site-lib/core/ocaml_utils_macros.h
++lib/ocaml/site-lib/core/ofday.annot
++lib/ocaml/site-lib/core/ofday.cmt
++lib/ocaml/site-lib/core/ofday.cmti
 +lib/ocaml/site-lib/core/ofday.mli
++lib/ocaml/site-lib/core/only_in_test.annot
++lib/ocaml/site-lib/core/only_in_test.cmt
 +lib/ocaml/site-lib/core/only_in_test.ml
++lib/ocaml/site-lib/core/option.annot
++lib/ocaml/site-lib/core/option.cmt
 +lib/ocaml/site-lib/core/option.ml
++lib/ocaml/site-lib/core/or_error.annot
++lib/ocaml/site-lib/core/or_error.cmt
 +lib/ocaml/site-lib/core/or_error.ml
++lib/ocaml/site-lib/core/ordered_collection_common.annot
++lib/ocaml/site-lib/core/ordered_collection_common.cmt
 +lib/ocaml/site-lib/core/ordered_collection_common.ml
++lib/ocaml/site-lib/core/ordering.annot
++lib/ocaml/site-lib/core/ordering.cmt
 +lib/ocaml/site-lib/core/ordering.ml
++lib/ocaml/site-lib/core/out_channel.annot
++lib/ocaml/site-lib/core/out_channel.cmt
 +lib/ocaml/site-lib/core/out_channel.ml
++lib/ocaml/site-lib/core/pid.annot
++lib/ocaml/site-lib/core/pid.cmt
 +lib/ocaml/site-lib/core/pid.ml
++lib/ocaml/site-lib/core/piecewise_linear.annot
++lib/ocaml/site-lib/core/piecewise_linear.cmt
++lib/ocaml/site-lib/core/piecewise_linear.cmti
 +lib/ocaml/site-lib/core/piecewise_linear.mli
++lib/ocaml/site-lib/core/piecewise_linear_intf.annot
++lib/ocaml/site-lib/core/piecewise_linear_intf.cmt
 +lib/ocaml/site-lib/core/piecewise_linear_intf.ml
++lib/ocaml/site-lib/core/polymorphic_compare.annot
++lib/ocaml/site-lib/core/polymorphic_compare.cmt
 +lib/ocaml/site-lib/core/polymorphic_compare.ml
++lib/ocaml/site-lib/core/polymorphic_compare_intf.annot
++lib/ocaml/site-lib/core/polymorphic_compare_intf.cmt
 +lib/ocaml/site-lib/core/polymorphic_compare_intf.ml
++lib/ocaml/site-lib/core/pretty_printer.annot
++lib/ocaml/site-lib/core/pretty_printer.cmt
 +lib/ocaml/site-lib/core/pretty_printer.ml
++lib/ocaml/site-lib/core/process_env.annot
++lib/ocaml/site-lib/core/process_env.cmt
++lib/ocaml/site-lib/core/process_env.cmti
 +lib/ocaml/site-lib/core/process_env.mli
-+lib/ocaml/site-lib/core/quickcheck.ml
++lib/ocaml/site-lib/core/ref.annot
++lib/ocaml/site-lib/core/ref.cmt
 +lib/ocaml/site-lib/core/ref.ml
++lib/ocaml/site-lib/core/result.annot
++lib/ocaml/site-lib/core/result.cmt
 +lib/ocaml/site-lib/core/result.ml
++lib/ocaml/site-lib/core/robustly_comparable.annot
++lib/ocaml/site-lib/core/robustly_comparable.cmt
 +lib/ocaml/site-lib/core/robustly_comparable.ml
++lib/ocaml/site-lib/core/set_once.annot
++lib/ocaml/site-lib/core/set_once.cmt
 +lib/ocaml/site-lib/core/set_once.ml
++lib/ocaml/site-lib/core/sexpable.annot
++lib/ocaml/site-lib/core/sexpable.cmt
 +lib/ocaml/site-lib/core/sexpable.ml
++lib/ocaml/site-lib/core/signal.annot
++lib/ocaml/site-lib/core/signal.cmt
++lib/ocaml/site-lib/core/signal.cmti
 +lib/ocaml/site-lib/core/signal.mli
++lib/ocaml/site-lib/core/source_code_position.annot
++lib/ocaml/site-lib/core/source_code_position.cmt
 +lib/ocaml/site-lib/core/source_code_position.ml
++lib/ocaml/site-lib/core/source_code_position0.annot
++lib/ocaml/site-lib/core/source_code_position0.cmt
 +lib/ocaml/site-lib/core/source_code_position0.ml
++lib/ocaml/site-lib/core/span.annot
++lib/ocaml/site-lib/core/span.cmt
++lib/ocaml/site-lib/core/span.cmti
 +lib/ocaml/site-lib/core/span.mli
++lib/ocaml/site-lib/core/squeue.annot
++lib/ocaml/site-lib/core/squeue.cmt
++lib/ocaml/site-lib/core/squeue.cmti
 +lib/ocaml/site-lib/core/squeue.mli
++lib/ocaml/site-lib/core/stable.annot
++lib/ocaml/site-lib/core/stable.cmt
 +lib/ocaml/site-lib/core/stable.ml
++lib/ocaml/site-lib/core/stable_containers.annot
++lib/ocaml/site-lib/core/stable_containers.cmt
 +lib/ocaml/site-lib/core/stable_containers.ml
++lib/ocaml/site-lib/core/stable_internal.annot
++lib/ocaml/site-lib/core/stable_internal.cmt
 +lib/ocaml/site-lib/core/stable_internal.ml
++lib/ocaml/site-lib/core/stable_unit_test.annot
++lib/ocaml/site-lib/core/stable_unit_test.cmt
 +lib/ocaml/site-lib/core/stable_unit_test.ml
++lib/ocaml/site-lib/core/stable_unit_test_intf.annot
++lib/ocaml/site-lib/core/stable_unit_test_intf.cmt
 +lib/ocaml/site-lib/core/stable_unit_test_intf.ml
++lib/ocaml/site-lib/core/staged.annot
++lib/ocaml/site-lib/core/staged.cmt
 +lib/ocaml/site-lib/core/staged.ml
++lib/ocaml/site-lib/core/std.annot
++lib/ocaml/site-lib/core/std.cmt
 +lib/ocaml/site-lib/core/std.ml
++lib/ocaml/site-lib/core/std_common.annot
++lib/ocaml/site-lib/core/std_common.cmt
 +lib/ocaml/site-lib/core/std_common.ml
++lib/ocaml/site-lib/core/std_internal.annot
++lib/ocaml/site-lib/core/std_internal.cmt
 +lib/ocaml/site-lib/core/std_internal.ml
++lib/ocaml/site-lib/core/std_kernel.annot
++lib/ocaml/site-lib/core/std_kernel.cmt
 +lib/ocaml/site-lib/core/std_kernel.ml
++lib/ocaml/site-lib/core/string_id.annot
++lib/ocaml/site-lib/core/string_id.cmt
 +lib/ocaml/site-lib/core/string_id.ml
++lib/ocaml/site-lib/core/stringable.annot
++lib/ocaml/site-lib/core/stringable.cmt
 +lib/ocaml/site-lib/core/stringable.ml
++lib/ocaml/site-lib/core/substring.annot
++lib/ocaml/site-lib/core/substring.cmt
 +lib/ocaml/site-lib/core/substring.ml
++lib/ocaml/site-lib/core/substring_intf.annot
++lib/ocaml/site-lib/core/substring_intf.cmt
 +lib/ocaml/site-lib/core/substring_intf.ml
++lib/ocaml/site-lib/core/syslog.annot
++lib/ocaml/site-lib/core/syslog.cmt
++lib/ocaml/site-lib/core/syslog.cmti
++lib/ocaml/site-lib/core/syslog.mli
++lib/ocaml/site-lib/core/t.annot
++lib/ocaml/site-lib/core/t.cmt
 +lib/ocaml/site-lib/core/t.ml
-+lib/ocaml/site-lib/core/thread_safe_queue.ml
++lib/ocaml/site-lib/core/thread_safe_queue_unit_tests.annot
++lib/ocaml/site-lib/core/thread_safe_queue_unit_tests.cmt
++lib/ocaml/site-lib/core/thread_safe_queue_unit_tests.cmti
++lib/ocaml/site-lib/core/thread_safe_queue_unit_tests.mli
++lib/ocaml/site-lib/core/time.annot
++lib/ocaml/site-lib/core/time.cmt
++lib/ocaml/site-lib/core/time.cmti
 +lib/ocaml/site-lib/core/time.mli
++lib/ocaml/site-lib/core/time0.annot
++lib/ocaml/site-lib/core/time0.cmt
 +lib/ocaml/site-lib/core/time0.ml
++lib/ocaml/site-lib/core/time_internal.annot
++lib/ocaml/site-lib/core/time_internal.cmt
 +lib/ocaml/site-lib/core/time_internal.ml
++lib/ocaml/site-lib/core/time_ns.annot
++lib/ocaml/site-lib/core/time_ns.cmt
++lib/ocaml/site-lib/core/time_ns.cmti
++lib/ocaml/site-lib/core/time_ns.mli
++lib/ocaml/site-lib/core/time_ns_benchmarks.annot
++lib/ocaml/site-lib/core/time_ns_benchmarks.cmt
++lib/ocaml/site-lib/core/time_ns_benchmarks.ml
++lib/ocaml/site-lib/core/time_stamp_counter.annot
++lib/ocaml/site-lib/core/time_stamp_counter.cmt
++lib/ocaml/site-lib/core/time_stamp_counter.cmti
 +lib/ocaml/site-lib/core/time_stamp_counter.mli
++lib/ocaml/site-lib/core/timing_wheel.annot
++lib/ocaml/site-lib/core/timing_wheel.cmt
++lib/ocaml/site-lib/core/timing_wheel.cmti
 +lib/ocaml/site-lib/core/timing_wheel.mli
++lib/ocaml/site-lib/core/timing_wheel_intf.annot
++lib/ocaml/site-lib/core/timing_wheel_intf.cmt
 +lib/ocaml/site-lib/core/timing_wheel_intf.ml
++lib/ocaml/site-lib/core/timing_wheel_unit_tests.annot
++lib/ocaml/site-lib/core/timing_wheel_unit_tests.cmt
++lib/ocaml/site-lib/core/timing_wheel_unit_tests.cmti
 +lib/ocaml/site-lib/core/timing_wheel_unit_tests.mli
++lib/ocaml/site-lib/core/tuple.annot
++lib/ocaml/site-lib/core/tuple.cmt
 +lib/ocaml/site-lib/core/tuple.ml
++lib/ocaml/site-lib/core/type_equal.annot
++lib/ocaml/site-lib/core/type_equal.cmt
 +lib/ocaml/site-lib/core/type_equal.ml
++lib/ocaml/site-lib/core/union_find.annot
++lib/ocaml/site-lib/core/union_find.cmt
 +lib/ocaml/site-lib/core/union_find.ml
++lib/ocaml/site-lib/core/unique_id.annot
++lib/ocaml/site-lib/core/unique_id.cmt
 +lib/ocaml/site-lib/core/unique_id.ml
++lib/ocaml/site-lib/core/unique_id_intf.annot
++lib/ocaml/site-lib/core/unique_id_intf.cmt
 +lib/ocaml/site-lib/core/unique_id_intf.ml
++lib/ocaml/site-lib/core/unit.annot
++lib/ocaml/site-lib/core/unit.cmt
 +lib/ocaml/site-lib/core/unit.ml
++lib/ocaml/site-lib/core/univ.annot
++lib/ocaml/site-lib/core/univ.cmt
 +lib/ocaml/site-lib/core/univ.ml
++lib/ocaml/site-lib/core/univ_map.annot
++lib/ocaml/site-lib/core/univ_map.cmt
 +lib/ocaml/site-lib/core/univ_map.ml
 +lib/ocaml/site-lib/core/unix_utils.h
++lib/ocaml/site-lib/core/unpack_buffer.annot
++lib/ocaml/site-lib/core/unpack_buffer.cmt
 +lib/ocaml/site-lib/core/unpack_buffer.ml
++lib/ocaml/site-lib/core/user_and_group.annot
++lib/ocaml/site-lib/core/user_and_group.cmt
++lib/ocaml/site-lib/core/user_and_group.cmti
 +lib/ocaml/site-lib/core/user_and_group.mli
++lib/ocaml/site-lib/core/uuid.annot
++lib/ocaml/site-lib/core/uuid.cmt
++lib/ocaml/site-lib/core/uuid.cmti
 +lib/ocaml/site-lib/core/uuid.mli
++lib/ocaml/site-lib/core/validate.annot
++lib/ocaml/site-lib/core/validate.cmt
 +lib/ocaml/site-lib/core/validate.ml
-+lib/ocaml/site-lib/core/with_return.ml
++lib/ocaml/site-lib/core/weak_hashtbl.annot
++lib/ocaml/site-lib/core/weak_hashtbl.cmt
++lib/ocaml/site-lib/core/weak_hashtbl.cmti
++lib/ocaml/site-lib/core/weak_hashtbl.mli
++lib/ocaml/site-lib/core/word_size.annot
++lib/ocaml/site-lib/core/word_size.cmt
 +lib/ocaml/site-lib/core/word_size.ml
++lib/ocaml/site-lib/core/zone.annot
++lib/ocaml/site-lib/core/zone.cmt
++lib/ocaml/site-lib/core/zone.cmti
 +lib/ocaml/site-lib/core/zone.mli
-+@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/core
-diff -r 22b82cfc29e3 devel/ocaml-core/buildlink3.mk
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/buildlink3.mk	Mon Nov 18 18:46:12 2013 +0900
+diff --git a/wip/ocaml-core/buildlink3.mk b/wip/ocaml-core/buildlink3.mk
+new file mode 100755
+--- /dev/null
++++ b/wip/ocaml-core/buildlink3.mk
 @@ -0,0 +1,14 @@
 +# $NetBSD$
 +
-+BUILDLINK_TREE+=	ocaml-core
++BUILDLINK_TREE+=	ocaml-variantslib
 +
-+.if !defined(OCAML_CORE_BUILDLINK3_MK)
-+OCAML_CORE_BUILDLINK3_MK:=
++.if !defined(OCAML_VARIANTSLIB_BUILDLINK3_MK)
++OCAML_VARIANTSLIB_BUILDLINK3_MK:=
 +
-+BUILDLINK_API_DEPENDS.ocaml-core+=	ocaml-core>=109.47.00
-+BUILDLINK_PKGSRCDIR.ocaml-core?=	../../devel/ocaml-core
++BUILDLINK_API_DEPENDS.ocaml-variantslib+=	ocaml-variantslib>=109.15.03
++BUILDLINK_PKGSRCDIR.ocaml-variantslib?=	../../wip/ocaml-variantslib
 +
-+.include "../../devel/ocaml-core_kernel/buildlink3.mk"
-+.endif	# OCAML_CORE_BUILDLINK3_MK
++.include "../../devel/ocaml-type_conv/buildlink3.mk"
++.endif	# OCAML_VARIANTSLIB_BUILDLINK3_MK
 +
-+BUILDLINK_TREE+=	-ocaml-core
-diff -r 22b82cfc29e3 devel/ocaml-core/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-core/distinfo	Mon Nov 18 18:46:12 2013 +0900
++BUILDLINK_TREE+=	-ocaml-variantslib
+diff --git a/wip/ocaml-core/distinfo b/wip/ocaml-core/distinfo
+new file mode 100644
+--- /dev/null
++++ b/wip/ocaml-core/distinfo
 @@ -0,0 +1,5 @@
-+$NetBSD$
++$NetBSD: distinfo,v 1.2 2014/10/21 06:28:09 jgoamakf Exp $
 +
-+SHA1 (core-109.47.00.tar.gz) = ae5b6d6e1c142f67ba0972ac764603e20e5fe64a
-+RMD160 (core-109.47.00.tar.gz) = f26e07aeb3e19c2731599f05e2d49731b664da0c
-+Size (core-109.47.00.tar.gz) = 689203 bytes
++SHA1 (ocaml-core/112.06.01.tar.gz) = c2a545538d1b73a6a3f04c827e8325d7d93e6bab
++RMD160 (ocaml-core/112.06.01.tar.gz) = 9ef93af9768a45d951598781203e9bbb766e6a19
++Size (ocaml-core/112.06.01.tar.gz) = 757672 bytes

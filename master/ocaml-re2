@@ -1,9 +1,10 @@
 # HG changeset patch
-# Parent 513c1822193046aca2c539984010f5a9ed544c8f
+# Parent 2663790d5ef1229a1ea2a47198a1bdd21c7b24ce
 
-diff -r 513c18221930 devel/ocaml-re2/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-re2/DESCR	Wed Nov 27 12:38:13 2013 +0900
+diff --git a/devel/ocaml-re2/DESCR b/devel/ocaml-re2/DESCR
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-re2/DESCR
 @@ -0,0 +1,11 @@
 +We export a library Re2 with one module Regex which binds the Google re2 regex
 +library.  Binaries which link to the OCaml Re2 library get the underlying
@@ -16,18 +17,20 @@ diff -r 513c18221930 devel/ocaml-re2/DESCR
 +current as the C source was when OMake was first invoked.  If you call OMake
 +with -P and then modify the C source, you will need to restart OMake in order
 +to get those modifications.
-diff -r 513c18221930 devel/ocaml-re2/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-re2/Makefile	Wed Nov 27 12:38:13 2013 +0900
+diff --git a/devel/ocaml-re2/Makefile b/devel/ocaml-re2/Makefile
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-re2/Makefile
 @@ -0,0 +1,28 @@
 +# $NetBSD$
 +#
 +
-+PKGNAME=	ocaml-${DISTNAME}
-+DISTNAME=	re2-${VERSION}
-+VERSION=	109.45.02
++DISTNAME=	re2-${VERS}
++VERS=		111.08.00
 +CATEGORIES=	devel
-+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.45.00/individual/
++MASTER_SITES=	https://github.com/janestreet/re2/archive/
++DISTFILES=	${VERS}${EXTRACT_SUFX}
++DIST_SUBDIR=	ocaml-re2
 +FETCH_USING=	curl
 +
 +MAINTAINER=	pkgsrc-users@NetBSD.org
@@ -38,38 +41,43 @@ diff -r 513c18221930 devel/ocaml-re2/Makefile
 +USE_LANGUAGES+=	c c++
 +USE_TOOLS+=	gmake rsync
 +
-+DEPENDS+=	ocaml-bin_prot>=109.45.00:../../devel/ocaml-bin_prot
-+DEPENDS+=	ocaml-comparelib>=109.15.00:../../devel/ocaml-comparelib
-+DEPENDS+=	ocaml-core>=109.45.00:../../devel/ocaml-core
-+DEPENDS+=	ocaml-pa_ounit>=109.18.00:../../devel/ocaml-pa_ounit
-+DEPENDS+=	ocaml-sexplib>=109.20.00:../../devel/ocaml-sexplib
-+DEPENDS+=	rsync-[0-9]*:../../net/rsync
++OCAML_USE_OASIS=yes
 +
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/oasis.mk"
++.include "../../wip/ocaml-bin_prot/buildlink3.mk"
++.include "../../wip/ocaml-comparelib/buildlink3.mk"
++.include "../../wip/ocaml-core/buildlink3.mk"
++.include "../../wip/ocaml-pa_ounit/buildlink3.mk"
++.include "../../devel/ocaml-sexplib/buildlink3.mk"
++.include "../../mk/ocaml.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 513c18221930 devel/ocaml-re2/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-re2/PLIST	Wed Nov 27 12:38:13 2013 +0900
-@@ -0,0 +1,12 @@
+diff --git a/devel/ocaml-re2/PLIST b/devel/ocaml-re2/PLIST
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-re2/PLIST
+@@ -0,0 +1,16 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/re2
 +lib/ocaml/site-lib/re2/META
 +lib/ocaml/site-lib/re2/dllre2_stubs.so
-+${PLIST.opt}lib/ocaml/site-lib/re2/libre2_stubs.a
-+${PLIST.opt}lib/ocaml/site-lib/re2/re2.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/re2/libre2_stubs.a
++${PLIST.ocaml-opt}lib/ocaml/site-lib/re2/re2.a
 +lib/ocaml/site-lib/re2/re2.cma
 +lib/ocaml/site-lib/re2/re2.cmi
-+${PLIST.opt}lib/ocaml/site-lib/re2/re2.cmxa
-+${PLIST.opt}lib/ocaml/site-lib/re2/re2.cmxs
++${PLIST.ocaml-opt}lib/ocaml/site-lib/re2/re2.cmxa
++${PLIST.ocaml-opt}lib/ocaml/site-lib/re2/re2.cmxs
++${PLIST.ocaml-opt}lib/ocaml/site-lib/re2/re2.cmxs
++lib/ocaml/site-lib/re2/re2_internal.mli
++lib/ocaml/site-lib/re2/re2_internal_intf.ml
 +lib/ocaml/site-lib/re2/regex.mli
++lib/ocaml/site-lib/re2/std.ml
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/re2
-diff -r 513c18221930 devel/ocaml-re2/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/devel/ocaml-re2/distinfo	Wed Nov 27 12:38:13 2013 +0900
+diff --git a/devel/ocaml-re2/distinfo b/devel/ocaml-re2/distinfo
+new file mode 100644
+--- /dev/null
++++ b/devel/ocaml-re2/distinfo
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
-+SHA1 (re2-109.45.02.tar.gz) = ffd963a72899a48ce312af1fc5ba596e26cf568c
-+RMD160 (re2-109.45.02.tar.gz) = 7e7e5fc45c05afc7b98dbb5519d24d05d766e691
-+Size (re2-109.45.02.tar.gz) = 467003 bytes
++SHA1 (ocaml-re2/111.08.00.tar.gz) = 2a32cdd403c55ba7868a55ef7ab424356ced1a18
++RMD160 (ocaml-re2/111.08.00.tar.gz) = ef2c10d0e61cbfa72e4c21b9a6cf33014c3d53a8
++Size (ocaml-re2/111.08.00.tar.gz) = 480459 bytes

@@ -1,13 +1,16 @@
 # HG changeset patch
-# Parent b93f175abc6175361796e53c59f70270fb83f2b6
-diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/graphics/ocaml-gnuplot/DESCR	Sun Dec 01 21:07:18 2013 +0900
+# Parent ba43907f224535dbce35afd08f90771f84484240
+
+diff --git a/graphics/ocaml-gnuplot/DESCR b/graphics/ocaml-gnuplot/DESCR
+new file mode 100644
+--- /dev/null
++++ b/graphics/ocaml-gnuplot/DESCR
 @@ -0,0 +1,1 @@
 +OCaml Gnuplot Interface
-diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/graphics/ocaml-gnuplot/Makefile	Sun Dec 01 21:07:18 2013 +0900
+diff --git a/graphics/ocaml-gnuplot/Makefile b/graphics/ocaml-gnuplot/Makefile
+new file mode 100644
+--- /dev/null
++++ b/graphics/ocaml-gnuplot/Makefile
 @@ -0,0 +1,21 @@
 +# $NetBSD$
 +#
@@ -24,15 +27,16 @@ diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/Makefile
 +
 +USE_TOOLS+=	gmake gsed
 +
++OCAML_USE_FINDLIB=yes
++
 +DEPENDS+=	gnuplot>=4.0:../../graphics/gnuplot
 +
-+.include "../../lang/ocaml/buildlink3.mk"
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../devel/ocaml-findlib/buildlink3.mk"
++.include "../../mk/ocaml.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/graphics/ocaml-gnuplot/PLIST	Sun Dec 01 21:07:18 2013 +0900
+diff --git a/graphics/ocaml-gnuplot/PLIST b/graphics/ocaml-gnuplot/PLIST
+new file mode 100644
+--- /dev/null
++++ b/graphics/ocaml-gnuplot/PLIST
 @@ -0,0 +1,12 @@
 +@comment $NetBSD$
 +@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/gnuplot
@@ -46,9 +50,10 @@ diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/PLIST
 +lib/ocaml/site-lib/gnuplot/gnuplot_common.cmi
 +lib/ocaml/site-lib/gnuplot/gnuplot_common.mli
 +@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/gnuplot
-diff -r b93f175abc61 -r 9ec1196672f9 graphics/ocaml-gnuplot/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/graphics/ocaml-gnuplot/distinfo	Sun Dec 01 21:07:18 2013 +0900
+diff --git a/graphics/ocaml-gnuplot/distinfo b/graphics/ocaml-gnuplot/distinfo
+new file mode 100644
+--- /dev/null
++++ b/graphics/ocaml-gnuplot/distinfo
 @@ -0,0 +1,5 @@
 +$NetBSD$
 +
