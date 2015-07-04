@@ -1,0 +1,29 @@
+# HG changeset patch
+# User INAJIMA Daisuke <inajima@sopht.jp>
+# Parent  6a28de725f09d03f97b89d89c86f4beaf7de09e5
+
+diff --git a/patches/comms/asterisk/util.c.patch b/patches/comms/asterisk/util.c.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/comms/asterisk/util.c.patch
+@@ -0,0 +1,20 @@
++--- main/utils.c.orig	2015-07-01 00:05:39.000000000 +0900
+++++ main/utils.c	2015-07-01 08:54:44.000000000 +0900
++@@ -40,6 +40,8 @@
++ #include <mach/mach.h>
++ #elif defined(HAVE_SYS_THR_H)
++ #include <sys/thr.h>
+++#elif defined(__NetBSD__)
+++#include <lwp.h>
++ #endif
++ 
++ #ifdef HAVE_DEV_URANDOM
++@@ -2441,6 +2443,8 @@
++ 	long lwpid;
++ 	thr_self(&lwpid); /* available since sys/thr.h creation 2003 */
++ 	ret = lwpid;
+++#elif defined(__NetBSD__)
+++	ret = _lwp_self();
++ #endif
++ 	return ret;
++ }

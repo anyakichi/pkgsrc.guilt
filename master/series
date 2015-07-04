@@ -36,6 +36,8 @@ ocaml-re2
 ocaml-stringext
 ocaml-core_kernel
 ocaml-core
+asterisk-tid
+asterisk-kqueue
 omake-macosx
 skkserv-lite2
 mlterm-use-languages
