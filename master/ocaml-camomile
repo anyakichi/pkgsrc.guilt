@@ -1,6 +1,8 @@
 # HG changeset patch
 # Parent c8d26bc56b7dd22a1ab3d765ca885de395e17356
 # User INAJIMA Daisuke <inajima@sopht.jp>
+# Parent  f1cfd0691d08f2c960e394ed1dec45d7a53a96e4
+
 diff --git a/wip/ocaml-camomile/Makefile b/wip/ocaml-camomile/Makefile
 --- a/wip/ocaml-camomile/Makefile
 +++ b/wip/ocaml-camomile/Makefile
@@ -17,7 +19,7 @@ diff --git a/wip/ocaml-camomile/Makefile b/wip/ocaml-camomile/Makefile
  EXTRACT_SUFX=   .tar.bz2
  
  MAINTAINER=	pkgsrc-users@NetBSD.org
-@@ -11,7 +12,8 @@ HOMEPAGE=	https://github.com/yoriyuki/Ca
+@@ -11,10 +12,13 @@ HOMEPAGE=	https://github.com/yoriyuki/Ca
  COMMENT=	Unicode library for ocaml
  LICENSE=	gnu-lgpl-v2.1
  
@@ -26,7 +28,13 @@ diff --git a/wip/ocaml-camomile/Makefile b/wip/ocaml-camomile/Makefile
 +USE_TOOLS+=	gmake
  
  GNU_CONFIGURE=	yes
- CONFIGURE_ARGS=	--datadir="${DESTDIR}${PREFIX}/lib/ocaml/site-lib"
+-CONFIGURE_ARGS=	--datadir="${DESTDIR}${PREFIX}/lib/ocaml/site-lib"
++CONFIGURE_ARGS+=	--datadir="${PREFIX}/${OCAML_SITELIBDIR}"
++
++INSTALL_MAKE_FLAGS+=	DATADIR=${DESTDIR}${PREFIX}/${OCAML_SITELIBDIR}
+ 
+ OCAML_USE_FINDLIB=yes
+ 
 diff --git a/wip/ocaml-camomile/distinfo b/wip/ocaml-camomile/distinfo
 old mode 100755
 new mode 100644
