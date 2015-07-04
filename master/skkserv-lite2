@@ -1,16 +1,20 @@
 # HG changeset patch
 # Parent 07a388bbaeae94a47786d79dd2f7b50006db37d1
-diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/DESCR
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/inputmethod/skkserv-lite2/DESCR	Fri May 31 10:17:11 2013 +0900
+# Parent  5747324c0df46460f18f4620266e28ee1341a400
+
+diff --git a/inputmethod/skkserv-lite2/DESCR b/inputmethod/skkserv-lite2/DESCR
+new file mode 100644
+--- /dev/null
++++ b/inputmethod/skkserv-lite2/DESCR
 @@ -0,0 +1,3 @@
 +skkserv-lite is a skk server using sqlite3 dictionaries.
 +This server can use multiple dictionaries and respond to server
 +completion request.
-diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/Makefile
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/inputmethod/skkserv-lite2/Makefile	Fri May 31 10:17:11 2013 +0900
-@@ -0,0 +1,45 @@
+diff --git a/inputmethod/skkserv-lite2/Makefile b/inputmethod/skkserv-lite2/Makefile
+new file mode 100644
+--- /dev/null
++++ b/inputmethod/skkserv-lite2/Makefile
+@@ -0,0 +1,43 @@
 +# $NetBSD$
 +
 +VERSION=		2.0b
@@ -31,11 +35,7 @@ diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/Makefile
 +COMMENT=		SKK server using sqlite3 dictionaries
 +LICENSE=		mit
 +
-+PKG_DESTDIR_SUPPORT=	user-destdir
-+
 +CONFLICTS+=		skkserv-lite2-[0-9]*
-+
-+DEPENDS+=		ocaml-camomile>=0.8.3:../../converters/ocaml-camomile
 +
 +RCD_SCRIPTS=		skkserv_lite
 +
@@ -52,21 +52,25 @@ diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/Makefile
 +	${INSTALL_DATA} ${WRKDIR}/${SKK_JISYO_L_SQLITE} \
 +		${DESTDIR}${PREFIX}/share/skk/${SKK_JISYO_L_SQLITE}
 +
-+.include "../../lang/ocaml/opt.mk"
-+.include "../../lang/ocaml/oasis.mk"
++OCAML_USE_OASIS=	yes
++
++.include "../../mk/ocaml.mk"
 +.include "../../databases/ocaml-sqlite3/buildlink3.mk"
++.include "../../wip/ocaml-camomile/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/PLIST
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/inputmethod/skkserv-lite2/PLIST	Fri May 31 10:17:11 2013 +0900
+diff --git a/inputmethod/skkserv-lite2/PLIST b/inputmethod/skkserv-lite2/PLIST
+new file mode 100644
+--- /dev/null
++++ b/inputmethod/skkserv-lite2/PLIST
 @@ -0,0 +1,4 @@
 +@comment $NetBSD$
 +bin/skkserv-lite
 +share/examples/rc.d/skkserv_lite
 +share/skk/SKK-JISYO.L.sqlite
-diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/distinfo
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/inputmethod/skkserv-lite2/distinfo	Fri May 31 10:17:11 2013 +0900
+diff --git a/inputmethod/skkserv-lite2/distinfo b/inputmethod/skkserv-lite2/distinfo
+new file mode 100644
+--- /dev/null
++++ b/inputmethod/skkserv-lite2/distinfo
 @@ -0,0 +1,8 @@
 +$NetBSD$
 +
@@ -76,9 +80,10 @@ diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/distinfo
 +SHA1 (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 5ec3eb68ad3fcb763b12a016190ca641276439ef
 +RMD160 (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 098968704d3e44deca3050216008dc05a6d14008
 +Size (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 1694148 bytes
-diff -r 07a388bbaeae -r ce897bd4fe26 inputmethod/skkserv-lite2/files/skkserv_lite.sh
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/inputmethod/skkserv-lite2/files/skkserv_lite.sh	Fri May 31 10:17:11 2013 +0900
+diff --git a/inputmethod/skkserv-lite2/files/skkserv_lite.sh b/inputmethod/skkserv-lite2/files/skkserv_lite.sh
+new file mode 100644
+--- /dev/null
++++ b/inputmethod/skkserv-lite2/files/skkserv_lite.sh
 @@ -0,0 +1,26 @@
 +#!@RCD_SCRIPTS_SHELL@
 +#
