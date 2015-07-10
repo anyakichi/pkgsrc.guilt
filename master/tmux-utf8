@@ -1,45 +1,37 @@
 # HG changeset patch
 # Parent 1e92f388bca866be91d88369e7dec6a588de2fb6
-# Parent  c2aa6afc67ccfa9d18c4392bd9564cfadf9ffb86
+# Parent  a9e47bb8189c6a81986d7e408d80402ddde5b570
 aa
 
 diff --git a/patches/misc/tmux/utf8.c.patch b/patches/misc/tmux/utf8.c.patch
 new file mode 100644
 --- /dev/null
 +++ b/patches/misc/tmux/utf8.c.patch
-@@ -0,0 +1,752 @@
-+--- utf8.c.orig	2015-07-02 00:30:20.000000000 +0900
-++++ utf8.c	2015-07-02 00:21:43.000000000 +0900
-+@@ -18,188 +18,510 @@
-+ 
-+ #include <sys/types.h>
-+ 
-++#include <stdlib.h>
-+ #include <string.h>
+@@ -0,0 +1,747 @@
++--- utf8.c.orig	2015-05-06 05:21:51.000000000 +0900
+++++ utf8.c	2015-07-08 12:48:50.000000000 +0900
++@@ -23,184 +23,505 @@
 + 
 + #include "tmux.h"
 + 
 +-struct utf8_width_entry {
 +-	u_int	first;
 +-	u_int	last;
++-
++-	int	width;
++-
++-	struct utf8_width_entry	*left;
++-	struct utf8_width_entry	*right;
 ++struct wcwidth_entry {
 ++	wchar_t first;
 ++	wchar_t last;
 ++	uint8_t flags;
-++};
-+ 
-+-	int	width;
 ++#define WCF_COMB	(1 << 0)
 ++#define WCF_WIDE	(1 << 1)
 ++#define WCF_AMBI	(1 << 2)
++ };
 + 
-+-	struct utf8_width_entry	*left;
-+-	struct utf8_width_entry	*right;
-+-};
-++/* Ambiguous character's width */
-++int ambiwidth = 2;
-+ 
-+ /* Random order. Not optimal but it'll do for now... */
++-/* Random order. Not optimal but it'll do for now... */
 +-struct utf8_width_entry utf8_width_table[] = {
 +-	{ 0x00951, 0x00954, 0, NULL, NULL },
 +-	{ 0x00ccc, 0x00ccd, 0, NULL, NULL },
@@ -199,6 +191,9 @@ new file mode 100644
 +-	{ 0x02060, 0x02063, 0, NULL, NULL },
 +-	{ 0x00c3e, 0x00c40, 0, NULL, NULL },
 +-	{ 0x10a05, 0x10a06, 0, NULL, NULL },
+++/* Ambiguous character's width */
+++int ambiwidth = 2;
+++
 ++struct wcwidth_entry wcwidth_table[] = {
 ++	{ 0x0000a1, 0x0000a1, WCF_AMBI },
 ++	{ 0x0000a4, 0x0000a4, WCF_AMBI },
@@ -616,8 +611,8 @@ new file mode 100644
 ++	{ 0x100000, 0x10fffd, WCF_AMBI },
 + };
 + 
-+-struct utf8_width_entry	*utf8_width_root = NULL;
-+-
++ struct utf8_width_entry	*utf8_width_root = NULL;
++ 
 +-int	utf8_overlap(struct utf8_width_entry *, struct utf8_width_entry *);
 + u_int	utf8_combine(const struct utf8_data *);
 + u_int	utf8_width(const struct utf8_data *);
@@ -687,17 +682,16 @@ new file mode 100644
 ++	return width;
 ++}
 ++
-+ /*
-+  * Open UTF-8 sequence.
-+  *
-+@@ -246,47 +568,11 @@
++ /* Set a single character. */
++ void
++ utf8_set(struct utf8_data *utf8data, u_char ch)
++@@ -257,46 +578,10 @@
 + 	return (0);
 + }
 + 
 +-/* Check if two width tree entries overlap. */
 +-int
-+-utf8_overlap(
-+-    struct utf8_width_entry *item1, struct utf8_width_entry *item2)
++-utf8_overlap(struct utf8_width_entry *item1, struct utf8_width_entry *item2)
 +-{
 +-	if (item1->first >= item2->first && item1->first <= item2->last)
 +-		return (1);
@@ -735,11 +729,10 @@ new file mode 100644
 +-		}
 +-		*ptr = item;
 +-	}
-++	return;
 + }
 + 
 + /* Combine UTF-8 into 32-bit Unicode. */
-+@@ -336,19 +622,5 @@
++@@ -346,21 +631,7 @@
 + u_int
 + utf8_width(const struct utf8_data *utf8data)
 + {
@@ -760,3 +753,5 @@ new file mode 100644
 +-	return (1);
 ++	return my_wcwidth(utf8_combine(utf8data));
 + }
++ 
++ /*

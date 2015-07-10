@@ -1,17 +1,19 @@
 # HG changeset patch
 # Parent 48c68ebfe610d69f9629458944e7808565026b5c
+# Parent  128ef49f36010a2406c6b8e732b4b6ffcb815f2e
 
-diff -r 48c68ebfe610 patches/misc/tmux/tmux-use-acs.patch
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/misc/tmux/tmux-use-acs.patch	Sat Apr 20 12:59:36 2013 +0900
+diff --git a/patches/misc/tmux/tmux-use-acs.patch b/patches/misc/tmux/tmux-use-acs.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/misc/tmux/tmux-use-acs.patch
 @@ -0,0 +1,22 @@
-+--- tty-acs.c.orig	2012-06-20 14:52:17.000000000 +0900
-++++ tty-acs.c	2012-06-20 14:52:28.000000000 +0900
++--- tty-acs.c.orig	2015-01-17 04:29:10.000000000 +0900
+++++ tty-acs.c	2015-07-08 12:56:16.000000000 +0900
 +@@ -81,7 +81,7 @@
 + 	struct tty_acs_entry *entry;
 + 
 + 	/* If not a UTF-8 terminal, use the ACS set. */
-+-	if (!(tty->flags & TTY_UTF8)) {
++-	if (tty != NULL && !(tty->flags & TTY_UTF8)) {
 ++	if (1) {
 + 		if (tty->term->acs[ch][0] == '\0')
 + 			return (NULL);
