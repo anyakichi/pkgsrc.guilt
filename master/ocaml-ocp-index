@@ -1,5 +1,6 @@
 # HG changeset patch
 # Parent 336975a2c3cbd60d55f0c9b6bffa7802cca0ba13
+# Parent  fda3bd35eb59258493ce56af3ab804051b8c294d
 
 diff --git a/devel/ocaml-ocp-index/DESCR b/devel/ocaml-ocp-index/DESCR
 new file mode 100644
@@ -20,7 +21,7 @@ diff --git a/devel/ocaml-ocp-index/Makefile b/devel/ocaml-ocp-index/Makefile
 new file mode 100644
 --- /dev/null
 +++ b/devel/ocaml-ocp-index/Makefile
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,37 @@
 +# $NetBSD$
 +#
 +
@@ -47,8 +48,7 @@ new file mode 100644
 +
 +WRKSRC=		${WRKDIR}/ocp-index-${DISTNAME}/
 +
-+CONFIGURE_ARGS+=--datarootdir=${PREFIX}/share/ocp-index
-+MAKE_FLAGS+=	LIBDIR=${BUILDLINK_PREFIX.ocaml-findlib}/lib/ocaml/site-lib
++MAKE_FLAGS+=	LIBDIR=${PREFIX}/${OCAML_SITELIBDIR}
 +
 +DEPENDS+=	ocaml-ocp-build-[0-9]*:../../devel/ocaml-ocp-build
 +DEPENDS+=	ocaml-ocp-indent-[0-9]*:../../devel/ocaml-ocp-indent
