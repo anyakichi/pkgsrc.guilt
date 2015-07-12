@@ -1,5 +1,6 @@
 # HG changeset patch
 # Parent c031c61e2725d415a17fbb04da0cd42c1a5649c6
+# Parent  ef0c32e324fee66c920f7c7bd86ebf7652dbd989
 temp
 
 diff --git a/devel/ocaml-ocp-indent/DESCR b/devel/ocaml-ocp-indent/DESCR
@@ -12,13 +13,13 @@ diff --git a/devel/ocaml-ocp-indent/Makefile b/devel/ocaml-ocp-indent/Makefile
 new file mode 100644
 --- /dev/null
 +++ b/devel/ocaml-ocp-indent/Makefile
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,32 @@
 +# $NetBSD$
 +#
 +
 +PKGNAME=	ocaml-ocp-indent-${VERSION}
 +DISTNAME=	${VERSION}
-+VERSION=	1.4.2b
++VERSION=	1.5
 +DIST_SUBDIR=	${PKGNAME_NOREV}
 +
 +CATEGORIES=	devel
@@ -37,8 +38,7 @@ new file mode 100644
 +
 +WRKSRC=		${WRKDIR}/ocp-indent-${DISTNAME}/
 +
-+CONFIGURE_ARGS+=--datarootdir=${PREFIX}/share/ocp-indent
-+MAKE_FLAGS+=	LIBDIR=${BUILDLINK_PREFIX.ocaml-findlib}/lib/ocaml/site-lib
++MAKE_FLAGS+=	LIBDIR=${PREFIX}/${OCAML_SITELIBDIR}
 +
 +DEPENDS+=	ocaml-ocp-build-[0-9]*:../../devel/ocaml-ocp-build
 +DEPENDS+=	ocaml-opam-[0-9]*:../../misc/ocaml-opam
@@ -52,36 +52,36 @@ new file mode 100644
 +++ b/devel/ocaml-ocp-indent/PLIST
 @@ -0,0 +1,31 @@
 +@comment $NetBSD$
-+@unexec %D/libexec/ocaml-findlib-register del %D/lib/ocaml/site-lib/ocp-indent
++@unexec %D/libexec/ocaml-findlib-register del %D/${OCAML_SITELIB}/ocp-indent
 +bin/ocp-indent
-+lib/ocaml/site-lib/ocp-indent/META
-+lib/ocaml/site-lib/ocp-indent/lexer/approx_lexer.cmi
-+lib/ocaml/site-lib/ocp-indent/lexer/approx_lexer.cmt
-+lib/ocaml/site-lib/ocp-indent/lexer/approx_tokens.cmi
-+lib/ocaml/site-lib/ocp-indent/lexer/approx_tokens.cmt
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.a
-+lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.cma
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lexer/ocp-indent.lexer.cmxa
-+lib/ocaml/site-lib/ocp-indent/lib/indentBlock.cmi
-+lib/ocaml/site-lib/ocp-indent/lib/indentBlock.cmti
-+lib/ocaml/site-lib/ocp-indent/lib/indentConfig.cmi
-+lib/ocaml/site-lib/ocp-indent/lib/indentConfig.cmti
-+lib/ocaml/site-lib/ocp-indent/lib/indentPrinter.cmi
-+lib/ocaml/site-lib/ocp-indent/lib/indentPrinter.cmti
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.a
-+lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.cma
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/lib/ocp-indent.lib.cmxa
-+lib/ocaml/site-lib/ocp-indent/utils/nstream.cmi
-+lib/ocaml/site-lib/ocp-indent/utils/nstream.cmti
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.a
-+lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.cma
-+${PLIST.ocaml-opt}lib/ocaml/site-lib/ocp-indent/utils/ocp-indent.utils.cmxa
-+lib/ocaml/site-lib/ocp-indent/utils/pos.cmi
-+lib/ocaml/site-lib/ocp-indent/utils/pos.cmti
++${OCAML_SITELIB}/ocp-indent/META
++${OCAML_SITELIB}/ocp-indent/lexer/approx_lexer.cmi
++${OCAML_SITELIB}/ocp-indent/lexer/approx_lexer.cmt
++${OCAML_SITELIB}/ocp-indent/lexer/approx_tokens.cmi
++${OCAML_SITELIB}/ocp-indent/lexer/approx_tokens.cmt
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/lexer/ocp-indent.lexer.a
++${OCAML_SITELIB}/ocp-indent/lexer/ocp-indent.lexer.cma
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/lexer/ocp-indent.lexer.cmxa
++${OCAML_SITELIB}/ocp-indent/lib/indentBlock.cmi
++${OCAML_SITELIB}/ocp-indent/lib/indentBlock.cmti
++${OCAML_SITELIB}/ocp-indent/lib/indentConfig.cmi
++${OCAML_SITELIB}/ocp-indent/lib/indentConfig.cmti
++${OCAML_SITELIB}/ocp-indent/lib/indentPrinter.cmi
++${OCAML_SITELIB}/ocp-indent/lib/indentPrinter.cmti
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/lib/ocp-indent.lib.a
++${OCAML_SITELIB}/ocp-indent/lib/ocp-indent.lib.cma
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/lib/ocp-indent.lib.cmxa
++${OCAML_SITELIB}/ocp-indent/utils/nstream.cmi
++${OCAML_SITELIB}/ocp-indent/utils/nstream.cmti
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/utils/ocp-indent.utils.a
++${OCAML_SITELIB}/ocp-indent/utils/ocp-indent.utils.cma
++${PLIST.ocaml-opt}${OCAML_SITELIB}/ocp-indent/utils/ocp-indent.utils.cmxa
++${OCAML_SITELIB}/ocp-indent/utils/pos.cmi
++${OCAML_SITELIB}/ocp-indent/utils/pos.cmti
 +man/man1/ocp-indent.1
 +share/ocp-indent/emacs/site-lisp/ocp-indent.el
 +share/ocp-indent/vim/syntax/ocp-indent.vim
-+@exec %D/libexec/ocaml-findlib-register add %D/lib/ocaml/site-lib/ocp-indent
++@exec %D/libexec/ocaml-findlib-register add %D/${OCAML_SITELIB}/ocp-indent
 diff --git a/devel/ocaml-ocp-indent/distinfo b/devel/ocaml-ocp-indent/distinfo
 new file mode 100644
 --- /dev/null
@@ -89,11 +89,11 @@ new file mode 100644
 @@ -0,0 +1,7 @@
 +$NetBSD$
 +
-+SHA1 (ocaml-ocp-indent-1.4.2b/1.4.2b.tar.gz) = 7a2ae7eacf4943545a810e0c9f0c65d1439e7728
-+RMD160 (ocaml-ocp-indent-1.4.2b/1.4.2b.tar.gz) = 6348ac6d9472bdcf0c1da65b1615c1437450d1b7
-+Size (ocaml-ocp-indent-1.4.2b/1.4.2b.tar.gz) = 139321 bytes
++SHA1 (ocaml-ocp-indent-1.5/1.5.tar.gz) = 6b1d95b825cac5cf10cff6a157d236adf8356770
++RMD160 (ocaml-ocp-indent-1.5/1.5.tar.gz) = 441cee3d9b13f1fe5241b48a479a434fb6982a34
++Size (ocaml-ocp-indent-1.5/1.5.tar.gz) = 132375 bytes
 +SHA1 (patch-Makefile) = 4585421e3ead94f474e639a5dd72bee1b06314c2
-+SHA1 (patch-ocp-indent.install) = a26ab10718710e077e9feab45096845c32bbb599
++SHA1 (patch-ocp-indent.install) = f07800b2000f5d16f72c44802d80a913746913e1
 diff --git a/devel/ocaml-ocp-indent/patches/patch-Makefile b/devel/ocaml-ocp-indent/patches/patch-Makefile
 new file mode 100644
 --- /dev/null
@@ -115,14 +115,14 @@ new file mode 100644
 --- /dev/null
 +++ b/devel/ocaml-ocp-indent/patches/patch-ocp-indent.install
 @@ -0,0 +1,11 @@
-+--- ocp-indent.install.orig	2015-01-12 15:59:27.000000000 +0900
-++++ ocp-indent.install	2015-01-12 15:59:36.000000000 +0900
-+@@ -35,6 +35,6 @@
++--- ocp-indent.install.orig	2015-07-12 15:31:19.000000000 +0900
+++++ ocp-indent.install	2015-07-12 15:29:55.000000000 +0900
++@@ -34,7 +34,7 @@
++ man: [
 +   "man/man1/ocp-indent.1" {"man1/ocp-indent.1"}
 + ]
-+ share: [
-+-  "tools/ocp-indent.el" {"../emacs/site-lisp/ocp-indent.el"}
-+-  "tools/ocp-indent.vim" {"../vim/syntax/ocp-indent.vim"}
-++  "tools/ocp-indent.el" {"emacs/site-lisp/ocp-indent.el"}
-++  "tools/ocp-indent.vim" {"vim/syntax/ocp-indent.vim"}
++-share_root: [
+++share: [
++   "tools/ocp-indent.el" {"emacs/site-lisp/ocp-indent.el"}
++   "tools/ocp-indent.vim" {"vim/syntax/ocp-indent.vim"}
 + ]
