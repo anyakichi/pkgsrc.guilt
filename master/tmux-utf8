@@ -1,37 +1,52 @@
 # HG changeset patch
 # Parent 1e92f388bca866be91d88369e7dec6a588de2fb6
-# Parent  a9e47bb8189c6a81986d7e408d80402ddde5b570
+# Parent  086fd2fbb679a49ce27f5e6a81d336ebbbecb0aa
 aa
 
-diff --git a/patches/misc/tmux/utf8.c.patch b/patches/misc/tmux/utf8.c.patch
+diff --git a/patches/misc/tmux/wcwidth.patch b/patches/misc/tmux/wcwidth.patch
 new file mode 100644
 --- /dev/null
-+++ b/patches/misc/tmux/utf8.c.patch
-@@ -0,0 +1,747 @@
-+--- utf8.c.orig	2015-05-06 05:21:51.000000000 +0900
-++++ utf8.c	2015-07-08 12:48:50.000000000 +0900
-+@@ -23,184 +23,505 @@
++++ b/patches/misc/tmux/wcwidth.patch
+@@ -0,0 +1,527 @@
++--- tmux.c.orig	2015-09-15 14:54:36.000000000 +0000
+++++ tmux.c
++@@ -215,6 +215,7 @@ main(int argc, char **argv)
++ 	malloc_options = (char *) "AFGJPX";
++ #endif
++ 
+++	setlocale(LC_CTYPE, "");
++ 	setlocale(LC_TIME, "");
++ 
++ 	flags = 0;
++--- utf8.c.orig	2015-09-20 11:00:56.000000000 +0900
+++++ utf8.c	2015-09-20 11:07:17.000000000 +0900
++@@ -20,184 +20,275 @@
++ 
++ #include <stdlib.h>
++ #include <string.h>
+++#include <wchar.h>
 + 
 + #include "tmux.h"
 + 
 +-struct utf8_width_entry {
 +-	u_int	first;
 +-	u_int	last;
-+-
+++#define AMBIWIDTH	2
++ 
 +-	int	width;
 +-
 +-	struct utf8_width_entry	*left;
 +-	struct utf8_width_entry	*right;
-++struct wcwidth_entry {
+++#ifdef AMBIWIDTH
+++struct ambiwidth_entry {
 ++	wchar_t first;
 ++	wchar_t last;
-++	uint8_t flags;
-++#define WCF_COMB	(1 << 0)
-++#define WCF_WIDE	(1 << 1)
-++#define WCF_AMBI	(1 << 2)
 + };
 + 
-+-/* Random order. Not optimal but it'll do for now... */
+++/* Ambiguous character's width */
+++int ambiwidth = AMBIWIDTH;
+++
++ /* Random order. Not optimal but it'll do for now... */
 +-struct utf8_width_entry utf8_width_table[] = {
 +-	{ 0x00951, 0x00954, 0, NULL, NULL },
 +-	{ 0x00ccc, 0x00ccd, 0, NULL, NULL },
@@ -191,437 +206,188 @@ new file mode 100644
 +-	{ 0x02060, 0x02063, 0, NULL, NULL },
 +-	{ 0x00c3e, 0x00c40, 0, NULL, NULL },
 +-	{ 0x10a05, 0x10a06, 0, NULL, NULL },
-++/* Ambiguous character's width */
-++int ambiwidth = 2;
-++
-++struct wcwidth_entry wcwidth_table[] = {
-++	{ 0x0000a1, 0x0000a1, WCF_AMBI },
-++	{ 0x0000a4, 0x0000a4, WCF_AMBI },
-++	{ 0x0000a7, 0x0000a8, WCF_AMBI },
-++	{ 0x0000aa, 0x0000aa, WCF_AMBI },
-++	{ 0x0000ad, 0x0000ae, WCF_AMBI },
-++	{ 0x0000b0, 0x0000b4, WCF_AMBI },
-++	{ 0x0000b6, 0x0000ba, WCF_AMBI },
-++	{ 0x0000bc, 0x0000bf, WCF_AMBI },
-++	{ 0x0000c6, 0x0000c6, WCF_AMBI },
-++	{ 0x0000d0, 0x0000d0, WCF_AMBI },
-++	{ 0x0000d7, 0x0000d8, WCF_AMBI },
-++	{ 0x0000de, 0x0000e1, WCF_AMBI },
-++	{ 0x0000e6, 0x0000e6, WCF_AMBI },
-++	{ 0x0000e8, 0x0000ea, WCF_AMBI },
-++	{ 0x0000ec, 0x0000ed, WCF_AMBI },
-++	{ 0x0000f0, 0x0000f0, WCF_AMBI },
-++	{ 0x0000f2, 0x0000f3, WCF_AMBI },
-++	{ 0x0000f7, 0x0000fa, WCF_AMBI },
-++	{ 0x0000fc, 0x0000fc, WCF_AMBI },
-++	{ 0x0000fe, 0x0000fe, WCF_AMBI },
-++	{ 0x000101, 0x000101, WCF_AMBI },
-++	{ 0x000111, 0x000111, WCF_AMBI },
-++	{ 0x000113, 0x000113, WCF_AMBI },
-++	{ 0x00011b, 0x00011b, WCF_AMBI },
-++	{ 0x000126, 0x000127, WCF_AMBI },
-++	{ 0x00012b, 0x00012b, WCF_AMBI },
-++	{ 0x000131, 0x000133, WCF_AMBI },
-++	{ 0x000138, 0x000138, WCF_AMBI },
-++	{ 0x00013f, 0x000142, WCF_AMBI },
-++	{ 0x000144, 0x000144, WCF_AMBI },
-++	{ 0x000148, 0x00014b, WCF_AMBI },
-++	{ 0x00014d, 0x00014d, WCF_AMBI },
-++	{ 0x000152, 0x000153, WCF_AMBI },
-++	{ 0x000166, 0x000167, WCF_AMBI },
-++	{ 0x00016b, 0x00016b, WCF_AMBI },
-++	{ 0x0001ce, 0x0001ce, WCF_AMBI },
-++	{ 0x0001d0, 0x0001d0, WCF_AMBI },
-++	{ 0x0001d2, 0x0001d2, WCF_AMBI },
-++	{ 0x0001d4, 0x0001d4, WCF_AMBI },
-++	{ 0x0001d6, 0x0001d6, WCF_AMBI },
-++	{ 0x0001d8, 0x0001d8, WCF_AMBI },
-++	{ 0x0001da, 0x0001da, WCF_AMBI },
-++	{ 0x0001dc, 0x0001dc, WCF_AMBI },
-++	{ 0x000251, 0x000251, WCF_AMBI },
-++	{ 0x000261, 0x000261, WCF_AMBI },
-++	{ 0x0002c4, 0x0002c4, WCF_AMBI },
-++	{ 0x0002c7, 0x0002c7, WCF_AMBI },
-++	{ 0x0002c9, 0x0002cb, WCF_AMBI },
-++	{ 0x0002cd, 0x0002cd, WCF_AMBI },
-++	{ 0x0002d0, 0x0002d0, WCF_AMBI },
-++	{ 0x0002d8, 0x0002db, WCF_AMBI },
-++	{ 0x0002dd, 0x0002dd, WCF_AMBI },
-++	{ 0x0002df, 0x0002df, WCF_AMBI },
-++	{ 0x000300, 0x00036f, WCF_AMBI | WCF_COMB},
-++	{ 0x000391, 0x0003a1, WCF_AMBI },
-++	{ 0x0003a3, 0x0003a9, WCF_AMBI },
-++	{ 0x0003b1, 0x0003c1, WCF_AMBI },
-++	{ 0x0003c3, 0x0003c9, WCF_AMBI },
-++	{ 0x000401, 0x000401, WCF_AMBI },
-++	{ 0x000410, 0x00044f, WCF_AMBI },
-++	{ 0x000451, 0x000451, WCF_AMBI },
-++	{ 0x000483, 0x000489, WCF_COMB },
-++	{ 0x000591, 0x0005bd, WCF_COMB },
-++	{ 0x0005bf, 0x0005bf, WCF_COMB },
-++	{ 0x0005c1, 0x0005c2, WCF_COMB },
-++	{ 0x0005c4, 0x0005c5, WCF_COMB },
-++	{ 0x0005c7, 0x0005c7, WCF_COMB },
-++	{ 0x000610, 0x00061a, WCF_COMB },
-++	{ 0x00064b, 0x00065f, WCF_COMB },
-++	{ 0x000670, 0x000670, WCF_COMB },
-++	{ 0x0006d6, 0x0006dc, WCF_COMB },
-++	{ 0x0006df, 0x0006e4, WCF_COMB },
-++	{ 0x0006e7, 0x0006e8, WCF_COMB },
-++	{ 0x0006ea, 0x0006ed, WCF_COMB },
-++	{ 0x000711, 0x000711, WCF_COMB },
-++	{ 0x000730, 0x00074a, WCF_COMB },
-++	{ 0x0007a6, 0x0007b0, WCF_COMB },
-++	{ 0x0007eb, 0x0007f3, WCF_COMB },
-++	{ 0x000816, 0x000819, WCF_COMB },
-++	{ 0x00081b, 0x000823, WCF_COMB },
-++	{ 0x000825, 0x000827, WCF_COMB },
-++	{ 0x000829, 0x00082d, WCF_COMB },
-++	{ 0x000859, 0x00085b, WCF_COMB },
-++	{ 0x000900, 0x000903, WCF_COMB },
-++	{ 0x00093a, 0x00093c, WCF_COMB },
-++	{ 0x00093e, 0x00094f, WCF_COMB },
-++	{ 0x000951, 0x000957, WCF_COMB },
-++	{ 0x000962, 0x000963, WCF_COMB },
-++	{ 0x000981, 0x000983, WCF_COMB },
-++	{ 0x0009bc, 0x0009bc, WCF_COMB },
-++	{ 0x0009be, 0x0009c4, WCF_COMB },
-++	{ 0x0009c7, 0x0009c8, WCF_COMB },
-++	{ 0x0009cb, 0x0009cd, WCF_COMB },
-++	{ 0x0009d7, 0x0009d7, WCF_COMB },
-++	{ 0x0009e2, 0x0009e3, WCF_COMB },
-++	{ 0x000a01, 0x000a03, WCF_COMB },
-++	{ 0x000a3c, 0x000a3c, WCF_COMB },
-++	{ 0x000a3e, 0x000a42, WCF_COMB },
-++	{ 0x000a47, 0x000a48, WCF_COMB },
-++	{ 0x000a4b, 0x000a4d, WCF_COMB },
-++	{ 0x000a51, 0x000a51, WCF_COMB },
-++	{ 0x000a70, 0x000a71, WCF_COMB },
-++	{ 0x000a75, 0x000a75, WCF_COMB },
-++	{ 0x000a81, 0x000a83, WCF_COMB },
-++	{ 0x000abc, 0x000abc, WCF_COMB },
-++	{ 0x000abe, 0x000ac5, WCF_COMB },
-++	{ 0x000ac7, 0x000ac9, WCF_COMB },
-++	{ 0x000acb, 0x000acd, WCF_COMB },
-++	{ 0x000ae2, 0x000ae3, WCF_COMB },
-++	{ 0x000b01, 0x000b03, WCF_COMB },
-++	{ 0x000b3c, 0x000b3c, WCF_COMB },
-++	{ 0x000b3e, 0x000b44, WCF_COMB },
-++	{ 0x000b47, 0x000b48, WCF_COMB },
-++	{ 0x000b4b, 0x000b4d, WCF_COMB },
-++	{ 0x000b56, 0x000b57, WCF_COMB },
-++	{ 0x000b62, 0x000b63, WCF_COMB },
-++	{ 0x000b82, 0x000b82, WCF_COMB },
-++	{ 0x000bbe, 0x000bc2, WCF_COMB },
-++	{ 0x000bc6, 0x000bc8, WCF_COMB },
-++	{ 0x000bca, 0x000bcd, WCF_COMB },
-++	{ 0x000bd7, 0x000bd7, WCF_COMB },
-++	{ 0x000c01, 0x000c03, WCF_COMB },
-++	{ 0x000c3e, 0x000c44, WCF_COMB },
-++	{ 0x000c46, 0x000c48, WCF_COMB },
-++	{ 0x000c4a, 0x000c4d, WCF_COMB },
-++	{ 0x000c55, 0x000c56, WCF_COMB },
-++	{ 0x000c62, 0x000c63, WCF_COMB },
-++	{ 0x000c82, 0x000c83, WCF_COMB },
-++	{ 0x000cbc, 0x000cbc, WCF_COMB },
-++	{ 0x000cbe, 0x000cc4, WCF_COMB },
-++	{ 0x000cc6, 0x000cc8, WCF_COMB },
-++	{ 0x000cca, 0x000ccd, WCF_COMB },
-++	{ 0x000cd5, 0x000cd6, WCF_COMB },
-++	{ 0x000ce2, 0x000ce3, WCF_COMB },
-++	{ 0x000d02, 0x000d03, WCF_COMB },
-++	{ 0x000d3e, 0x000d44, WCF_COMB },
-++	{ 0x000d46, 0x000d48, WCF_COMB },
-++	{ 0x000d4a, 0x000d4d, WCF_COMB },
-++	{ 0x000d57, 0x000d57, WCF_COMB },
-++	{ 0x000d62, 0x000d63, WCF_COMB },
-++	{ 0x000d82, 0x000d83, WCF_COMB },
-++	{ 0x000dca, 0x000dca, WCF_COMB },
-++	{ 0x000dcf, 0x000dd4, WCF_COMB },
-++	{ 0x000dd6, 0x000dd6, WCF_COMB },
-++	{ 0x000dd8, 0x000ddf, WCF_COMB },
-++	{ 0x000df2, 0x000df3, WCF_COMB },
-++	{ 0x000e31, 0x000e31, WCF_COMB },
-++	{ 0x000e34, 0x000e3a, WCF_COMB },
-++	{ 0x000e47, 0x000e4e, WCF_COMB },
-++	{ 0x000eb1, 0x000eb1, WCF_COMB },
-++	{ 0x000eb4, 0x000eb9, WCF_COMB },
-++	{ 0x000ebb, 0x000ebc, WCF_COMB },
-++	{ 0x000ec8, 0x000ecd, WCF_COMB },
-++	{ 0x000f18, 0x000f19, WCF_COMB },
-++	{ 0x000f35, 0x000f35, WCF_COMB },
-++	{ 0x000f37, 0x000f37, WCF_COMB },
-++	{ 0x000f39, 0x000f39, WCF_COMB },
-++	{ 0x000f3e, 0x000f3f, WCF_COMB },
-++	{ 0x000f71, 0x000f84, WCF_COMB },
-++	{ 0x000f86, 0x000f87, WCF_COMB },
-++	{ 0x000f8d, 0x000f97, WCF_COMB },
-++	{ 0x000f99, 0x000fbc, WCF_COMB },
-++	{ 0x000fc6, 0x000fc6, WCF_COMB },
-++	{ 0x00102b, 0x00103e, WCF_COMB },
-++	{ 0x001056, 0x001059, WCF_COMB },
-++	{ 0x00105e, 0x001060, WCF_COMB },
-++	{ 0x001062, 0x001064, WCF_COMB },
-++	{ 0x001067, 0x00106d, WCF_COMB },
-++	{ 0x001071, 0x001074, WCF_COMB },
-++	{ 0x001082, 0x00108d, WCF_COMB },
-++	{ 0x00108f, 0x00108f, WCF_COMB },
-++	{ 0x00109a, 0x00109d, WCF_COMB },
-++	{ 0x001100, 0x00115f, WCF_WIDE },
-++	{ 0x0011a3, 0x0011a7, WCF_WIDE },
-++	{ 0x0011fa, 0x0011ff, WCF_WIDE },
-++	{ 0x00135d, 0x00135f, WCF_COMB },
-++	{ 0x001712, 0x001714, WCF_COMB },
-++	{ 0x001732, 0x001734, WCF_COMB },
-++	{ 0x001752, 0x001753, WCF_COMB },
-++	{ 0x001772, 0x001773, WCF_COMB },
-++	{ 0x0017b6, 0x0017d3, WCF_COMB },
-++	{ 0x0017dd, 0x0017dd, WCF_COMB },
-++	{ 0x00180b, 0x00180d, WCF_COMB },
-++	{ 0x0018a9, 0x0018a9, WCF_COMB },
-++	{ 0x001920, 0x00192b, WCF_COMB },
-++	{ 0x001930, 0x00193b, WCF_COMB },
-++	{ 0x0019b0, 0x0019c0, WCF_COMB },
-++	{ 0x0019c8, 0x0019c9, WCF_COMB },
-++	{ 0x001a17, 0x001a1b, WCF_COMB },
-++	{ 0x001a55, 0x001a5e, WCF_COMB },
-++	{ 0x001a60, 0x001a7c, WCF_COMB },
-++	{ 0x001a7f, 0x001a7f, WCF_COMB },
-++	{ 0x001b00, 0x001b04, WCF_COMB },
-++	{ 0x001b34, 0x001b44, WCF_COMB },
-++	{ 0x001b6b, 0x001b73, WCF_COMB },
-++	{ 0x001b80, 0x001b82, WCF_COMB },
-++	{ 0x001ba1, 0x001baa, WCF_COMB },
-++	{ 0x001be6, 0x001bf3, WCF_COMB },
-++	{ 0x001c24, 0x001c37, WCF_COMB },
-++	{ 0x001cd0, 0x001cd2, WCF_COMB },
-++	{ 0x001cd4, 0x001ce8, WCF_COMB },
-++	{ 0x001ced, 0x001ced, WCF_COMB },
-++	{ 0x001cf2, 0x001cf2, WCF_COMB },
-++	{ 0x001dc0, 0x001de6, WCF_COMB },
-++	{ 0x001dfc, 0x001dff, WCF_COMB },
-++	{ 0x002010, 0x002010, WCF_AMBI },
-++	{ 0x002013, 0x002016, WCF_AMBI },
-++	{ 0x002018, 0x002019, WCF_AMBI },
-++	{ 0x00201c, 0x00201d, WCF_AMBI },
-++	{ 0x002020, 0x002022, WCF_AMBI },
-++	{ 0x002024, 0x002027, WCF_AMBI },
-++	{ 0x002030, 0x002030, WCF_AMBI },
-++	{ 0x002032, 0x002033, WCF_AMBI },
-++	{ 0x002035, 0x002035, WCF_AMBI },
-++	{ 0x00203b, 0x00203b, WCF_AMBI },
-++	{ 0x00203e, 0x00203e, WCF_AMBI },
-++	{ 0x002074, 0x002074, WCF_AMBI },
-++	{ 0x00207f, 0x00207f, WCF_AMBI },
-++	{ 0x002081, 0x002084, WCF_AMBI },
-++	{ 0x0020ac, 0x0020ac, WCF_AMBI },
-++	{ 0x0020d0, 0x0020f0, WCF_COMB },
-++	{ 0x002103, 0x002103, WCF_AMBI },
-++	{ 0x002105, 0x002105, WCF_AMBI },
-++	{ 0x002109, 0x002109, WCF_AMBI },
-++	{ 0x002113, 0x002113, WCF_AMBI },
-++	{ 0x002116, 0x002116, WCF_AMBI },
-++	{ 0x002121, 0x002122, WCF_AMBI },
-++	{ 0x002126, 0x002126, WCF_AMBI },
-++	{ 0x00212b, 0x00212b, WCF_AMBI },
-++	{ 0x002153, 0x002154, WCF_AMBI },
-++	{ 0x00215b, 0x00215e, WCF_AMBI },
-++	{ 0x002160, 0x00216b, WCF_AMBI },
-++	{ 0x002170, 0x002179, WCF_AMBI },
-++	{ 0x002189, 0x002189, WCF_AMBI },
-++	{ 0x002190, 0x002199, WCF_AMBI },
-++	{ 0x0021b8, 0x0021b9, WCF_AMBI },
-++	{ 0x0021d2, 0x0021d2, WCF_AMBI },
-++	{ 0x0021d4, 0x0021d4, WCF_AMBI },
-++	{ 0x0021e7, 0x0021e7, WCF_AMBI },
-++	{ 0x002200, 0x002200, WCF_AMBI },
-++	{ 0x002202, 0x002203, WCF_AMBI },
-++	{ 0x002207, 0x002208, WCF_AMBI },
-++	{ 0x00220b, 0x00220b, WCF_AMBI },
-++	{ 0x00220f, 0x00220f, WCF_AMBI },
-++	{ 0x002211, 0x002211, WCF_AMBI },
-++	{ 0x002215, 0x002215, WCF_AMBI },
-++	{ 0x00221a, 0x00221a, WCF_AMBI },
-++	{ 0x00221d, 0x002220, WCF_AMBI },
-++	{ 0x002223, 0x002223, WCF_AMBI },
-++	{ 0x002225, 0x002225, WCF_AMBI },
-++	{ 0x002227, 0x00222c, WCF_AMBI },
-++	{ 0x00222e, 0x00222e, WCF_AMBI },
-++	{ 0x002234, 0x002237, WCF_AMBI },
-++	{ 0x00223c, 0x00223d, WCF_AMBI },
-++	{ 0x002248, 0x002248, WCF_AMBI },
-++	{ 0x00224c, 0x00224c, WCF_AMBI },
-++	{ 0x002252, 0x002252, WCF_AMBI },
-++	{ 0x002260, 0x002261, WCF_AMBI },
-++	{ 0x002264, 0x002267, WCF_AMBI },
-++	{ 0x00226a, 0x00226b, WCF_AMBI },
-++	{ 0x00226e, 0x00226f, WCF_AMBI },
-++	{ 0x002282, 0x002283, WCF_AMBI },
-++	{ 0x002286, 0x002287, WCF_AMBI },
-++	{ 0x002295, 0x002295, WCF_AMBI },
-++	{ 0x002299, 0x002299, WCF_AMBI },
-++	{ 0x0022a5, 0x0022a5, WCF_AMBI },
-++	{ 0x0022bf, 0x0022bf, WCF_AMBI },
-++	{ 0x002312, 0x002312, WCF_AMBI },
-++	{ 0x002329, 0x00232a, WCF_WIDE },
-++	{ 0x002460, 0x0024e9, WCF_AMBI },
-++	{ 0x0024eb, 0x00254b, WCF_AMBI },
-++	{ 0x002550, 0x002573, WCF_AMBI },
-++	{ 0x002580, 0x00258f, WCF_AMBI },
-++	{ 0x002592, 0x002595, WCF_AMBI },
-++	{ 0x0025a0, 0x0025a1, WCF_AMBI },
-++	{ 0x0025a3, 0x0025a9, WCF_AMBI },
-++	{ 0x0025b2, 0x0025b3, WCF_AMBI },
-++	{ 0x0025b6, 0x0025b7, WCF_AMBI },
-++	{ 0x0025bc, 0x0025bd, WCF_AMBI },
-++	{ 0x0025c0, 0x0025c1, WCF_AMBI },
-++	{ 0x0025c6, 0x0025c8, WCF_AMBI },
-++	{ 0x0025cb, 0x0025cb, WCF_AMBI },
-++	{ 0x0025ce, 0x0025d1, WCF_AMBI },
-++	{ 0x0025e2, 0x0025e5, WCF_AMBI },
-++	{ 0x0025ef, 0x0025ef, WCF_AMBI },
-++	{ 0x002605, 0x002606, WCF_AMBI },
-++	{ 0x002609, 0x002609, WCF_AMBI },
-++	{ 0x00260e, 0x00260f, WCF_AMBI },
-++	{ 0x002614, 0x002615, WCF_AMBI },
-++	{ 0x00261c, 0x00261c, WCF_AMBI },
-++	{ 0x00261e, 0x00261e, WCF_AMBI },
-++	{ 0x002640, 0x002640, WCF_AMBI },
-++	{ 0x002642, 0x002642, WCF_AMBI },
-++	{ 0x002660, 0x002661, WCF_AMBI },
-++	{ 0x002663, 0x002665, WCF_AMBI },
-++	{ 0x002667, 0x00266a, WCF_AMBI },
-++	{ 0x00266c, 0x00266d, WCF_AMBI },
-++	{ 0x00266f, 0x00266f, WCF_AMBI },
-++	{ 0x00269e, 0x00269f, WCF_AMBI },
-++	{ 0x0026be, 0x0026bf, WCF_AMBI },
-++	{ 0x0026c4, 0x0026cd, WCF_AMBI },
-++	{ 0x0026cf, 0x0026e1, WCF_AMBI },
-++	{ 0x0026e3, 0x0026e3, WCF_AMBI },
-++	{ 0x0026e8, 0x0026ff, WCF_AMBI },
-++	{ 0x00273d, 0x00273d, WCF_AMBI },
-++	{ 0x002757, 0x002757, WCF_AMBI },
-++	{ 0x002776, 0x00277f, WCF_AMBI },
-++	{ 0x002b55, 0x002b59, WCF_AMBI },
-++	{ 0x002cef, 0x002cf1, WCF_COMB },
-++	{ 0x002d7f, 0x002d7f, WCF_COMB },
-++	{ 0x002de0, 0x002dff, WCF_COMB },
-++	{ 0x002e80, 0x002e99, WCF_WIDE },
-++	{ 0x002e9b, 0x002ef3, WCF_WIDE },
-++	{ 0x002f00, 0x002fd5, WCF_WIDE },
-++	{ 0x002ff0, 0x002ffb, WCF_WIDE },
-++	{ 0x003000, 0x003029, WCF_WIDE },
-++	{ 0x00302a, 0x00302f, WCF_WIDE | WCF_COMB },
-++	{ 0x003030, 0x00303e, WCF_WIDE },
-++	{ 0x003041, 0x003096, WCF_WIDE },
-++	{ 0x003099, 0x00309a, WCF_COMB },
-++	{ 0x003099, 0x0030ff, WCF_WIDE },
-++	{ 0x003105, 0x00312d, WCF_WIDE },
-++	{ 0x003131, 0x00318e, WCF_WIDE },
-++	{ 0x003190, 0x0031ba, WCF_WIDE },
-++	{ 0x0031c0, 0x0031e3, WCF_WIDE },
-++	{ 0x0031f0, 0x00321e, WCF_WIDE },
-++	{ 0x003220, 0x003247, WCF_WIDE },
-++	{ 0x003248, 0x00324f, WCF_AMBI },
-++	{ 0x003250, 0x0032fe, WCF_WIDE },
-++	{ 0x003300, 0x004dbf, WCF_WIDE },
-++	{ 0x004e00, 0x00a48c, WCF_WIDE },
-++	{ 0x00a490, 0x00a4c6, WCF_WIDE },
-++	{ 0x00a66f, 0x00a672, WCF_COMB },
-++	{ 0x00a67c, 0x00a67d, WCF_COMB },
-++	{ 0x00a6f0, 0x00a6f1, WCF_COMB },
-++	{ 0x00a802, 0x00a802, WCF_COMB },
-++	{ 0x00a806, 0x00a806, WCF_COMB },
-++	{ 0x00a80b, 0x00a80b, WCF_COMB },
-++	{ 0x00a823, 0x00a827, WCF_COMB },
-++	{ 0x00a880, 0x00a881, WCF_COMB },
-++	{ 0x00a8b4, 0x00a8c4, WCF_COMB },
-++	{ 0x00a8e0, 0x00a8f1, WCF_COMB },
-++	{ 0x00a926, 0x00a92d, WCF_COMB },
-++	{ 0x00a947, 0x00a953, WCF_COMB },
-++	{ 0x00a960, 0x00a97c, WCF_WIDE },
-++	{ 0x00a980, 0x00a983, WCF_COMB },
-++	{ 0x00a9b3, 0x00a9c0, WCF_COMB },
-++	{ 0x00aa29, 0x00aa36, WCF_COMB },
-++	{ 0x00aa43, 0x00aa43, WCF_COMB },
-++	{ 0x00aa4c, 0x00aa4d, WCF_COMB },
-++	{ 0x00aa7b, 0x00aa7b, WCF_COMB },
-++	{ 0x00aab0, 0x00aab0, WCF_COMB },
-++	{ 0x00aab2, 0x00aab4, WCF_COMB },
-++	{ 0x00aab7, 0x00aab8, WCF_COMB },
-++	{ 0x00aabe, 0x00aabf, WCF_COMB },
-++	{ 0x00aac1, 0x00aac1, WCF_COMB },
-++	{ 0x00abe3, 0x00abea, WCF_COMB },
-++	{ 0x00abec, 0x00abed, WCF_COMB },
-++	{ 0x00ac00, 0x00d7a3, WCF_WIDE },
-++	{ 0x00d7b0, 0x00d7c6, WCF_WIDE },
-++	{ 0x00d7cb, 0x00d7fb, WCF_WIDE },
-++	{ 0x00e000, 0x00f8ff, WCF_AMBI },
-++	{ 0x00f900, 0x00faff, WCF_WIDE },
-++	{ 0x00fb1e, 0x00fb1e, WCF_COMB },
-++	{ 0x00fe00, 0x00fe0f, WCF_AMBI | WCF_COMB },
-++	{ 0x00fe10, 0x00fe19, WCF_WIDE },
-++	{ 0x00fe20, 0x00fe26, WCF_COMB },
-++	{ 0x00fe30, 0x00fe52, WCF_WIDE },
-++	{ 0x00fe54, 0x00fe66, WCF_WIDE },
-++	{ 0x00fe68, 0x00fe6b, WCF_WIDE },
-++	{ 0x00ff01, 0x00ff60, WCF_WIDE },
-++	{ 0x00ffe0, 0x00ffe6, WCF_WIDE },
-++	{ 0x00fffd, 0x00fffd, WCF_AMBI },
-++	{ 0x0101fd, 0x0101fd, WCF_COMB },
-++	{ 0x010a01, 0x010a03, WCF_COMB },
-++	{ 0x010a05, 0x010a06, WCF_COMB },
-++	{ 0x010a0c, 0x010a0f, WCF_COMB },
-++	{ 0x010a38, 0x010a3a, WCF_COMB },
-++	{ 0x010a3f, 0x010a3f, WCF_COMB },
-++	{ 0x011000, 0x011002, WCF_COMB },
-++	{ 0x011038, 0x011046, WCF_COMB },
-++	{ 0x011080, 0x011082, WCF_COMB },
-++	{ 0x0110b0, 0x0110ba, WCF_COMB },
-++	{ 0x01b000, 0x01b001, WCF_WIDE },
-++	{ 0x01d165, 0x01d169, WCF_COMB },
-++	{ 0x01d16d, 0x01d172, WCF_COMB },
-++	{ 0x01d17b, 0x01d182, WCF_COMB },
-++	{ 0x01d185, 0x01d18b, WCF_COMB },
-++	{ 0x01d1aa, 0x01d1ad, WCF_COMB },
-++	{ 0x01d242, 0x01d244, WCF_COMB },
-++	{ 0x01f100, 0x01f10a, WCF_AMBI },
-++	{ 0x01f110, 0x01f12d, WCF_AMBI },
-++	{ 0x01f131, 0x01f131, WCF_AMBI },
-++	{ 0x01f13d, 0x01f13d, WCF_AMBI },
-++	{ 0x01f13f, 0x01f13f, WCF_AMBI },
-++	{ 0x01f142, 0x01f142, WCF_AMBI },
-++	{ 0x01f146, 0x01f146, WCF_AMBI },
-++	{ 0x01f14a, 0x01f14e, WCF_AMBI },
-++	{ 0x01f157, 0x01f157, WCF_AMBI },
-++	{ 0x01f15f, 0x01f15f, WCF_AMBI },
-++	{ 0x01f179, 0x01f179, WCF_AMBI },
-++	{ 0x01f17b, 0x01f17c, WCF_AMBI },
-++	{ 0x01f17f, 0x01f17f, WCF_AMBI },
-++	{ 0x01f18a, 0x01f18d, WCF_AMBI },
-++	{ 0x01f190, 0x01f190, WCF_AMBI },
-++	{ 0x01f200, 0x01f202, WCF_WIDE },
-++	{ 0x01f210, 0x01f23a, WCF_WIDE },
-++	{ 0x01f240, 0x01f248, WCF_WIDE },
-++	{ 0x01f250, 0x01f251, WCF_WIDE },
-++	{ 0x020000, 0x02fffd, WCF_WIDE },
-++	{ 0x030000, 0x03fffd, WCF_WIDE },
-++	{ 0x0e0100, 0x0e01ef, WCF_AMBI | WCF_COMB },
-++	{ 0x0f0000, 0x0ffffd, WCF_AMBI },
-++	{ 0x100000, 0x10fffd, WCF_AMBI },
+++struct ambiwidth_entry ambiwidth_table[] = {
+++	{ 0x0000a1, 0x0000a1 },
+++	{ 0x0000a4, 0x0000a4 },
+++	{ 0x0000a7, 0x0000a8 },
+++	{ 0x0000aa, 0x0000aa },
+++	{ 0x0000ad, 0x0000ae },
+++	{ 0x0000b0, 0x0000b4 },
+++	{ 0x0000b6, 0x0000ba },
+++	{ 0x0000bc, 0x0000bf },
+++	{ 0x0000c6, 0x0000c6 },
+++	{ 0x0000d0, 0x0000d0 },
+++	{ 0x0000d7, 0x0000d8 },
+++	{ 0x0000de, 0x0000e1 },
+++	{ 0x0000e6, 0x0000e6 },
+++	{ 0x0000e8, 0x0000ea },
+++	{ 0x0000ec, 0x0000ed },
+++	{ 0x0000f0, 0x0000f0 },
+++	{ 0x0000f2, 0x0000f3 },
+++	{ 0x0000f7, 0x0000fa },
+++	{ 0x0000fc, 0x0000fc },
+++	{ 0x0000fe, 0x0000fe },
+++	{ 0x000101, 0x000101 },
+++	{ 0x000111, 0x000111 },
+++	{ 0x000113, 0x000113 },
+++	{ 0x00011b, 0x00011b },
+++	{ 0x000126, 0x000127 },
+++	{ 0x00012b, 0x00012b },
+++	{ 0x000131, 0x000133 },
+++	{ 0x000138, 0x000138 },
+++	{ 0x00013f, 0x000142 },
+++	{ 0x000144, 0x000144 },
+++	{ 0x000148, 0x00014b },
+++	{ 0x00014d, 0x00014d },
+++	{ 0x000152, 0x000153 },
+++	{ 0x000166, 0x000167 },
+++	{ 0x00016b, 0x00016b },
+++	{ 0x0001ce, 0x0001ce },
+++	{ 0x0001d0, 0x0001d0 },
+++	{ 0x0001d2, 0x0001d2 },
+++	{ 0x0001d4, 0x0001d4 },
+++	{ 0x0001d6, 0x0001d6 },
+++	{ 0x0001d8, 0x0001d8 },
+++	{ 0x0001da, 0x0001da },
+++	{ 0x0001dc, 0x0001dc },
+++	{ 0x000251, 0x000251 },
+++	{ 0x000261, 0x000261 },
+++	{ 0x0002c4, 0x0002c4 },
+++	{ 0x0002c7, 0x0002c7 },
+++	{ 0x0002c9, 0x0002cb },
+++	{ 0x0002cd, 0x0002cd },
+++	{ 0x0002d0, 0x0002d0 },
+++	{ 0x0002d8, 0x0002db },
+++	{ 0x0002dd, 0x0002dd },
+++	{ 0x0002df, 0x0002df },
+++	{ 0x000300, 0x00036f },
+++	{ 0x000391, 0x0003a1 },
+++	{ 0x0003a3, 0x0003a9 },
+++	{ 0x0003b1, 0x0003c1 },
+++	{ 0x0003c3, 0x0003c9 },
+++	{ 0x000401, 0x000401 },
+++	{ 0x000410, 0x00044f },
+++	{ 0x000451, 0x000451 },
+++	{ 0x002010, 0x002010 },
+++	{ 0x002013, 0x002016 },
+++	{ 0x002018, 0x002019 },
+++	{ 0x00201c, 0x00201d },
+++	{ 0x002020, 0x002022 },
+++	{ 0x002024, 0x002027 },
+++	{ 0x002030, 0x002030 },
+++	{ 0x002032, 0x002033 },
+++	{ 0x002035, 0x002035 },
+++	{ 0x00203b, 0x00203b },
+++	{ 0x00203e, 0x00203e },
+++	{ 0x002074, 0x002074 },
+++	{ 0x00207f, 0x00207f },
+++	{ 0x002081, 0x002084 },
+++	{ 0x0020ac, 0x0020ac },
+++	{ 0x002103, 0x002103 },
+++	{ 0x002105, 0x002105 },
+++	{ 0x002109, 0x002109 },
+++	{ 0x002113, 0x002113 },
+++	{ 0x002116, 0x002116 },
+++	{ 0x002121, 0x002122 },
+++	{ 0x002126, 0x002126 },
+++	{ 0x00212b, 0x00212b },
+++	{ 0x002153, 0x002154 },
+++	{ 0x00215b, 0x00215e },
+++	{ 0x002160, 0x00216b },
+++	{ 0x002170, 0x002179 },
+++	{ 0x002189, 0x002189 },
+++	{ 0x002190, 0x002199 },
+++	{ 0x0021b8, 0x0021b9 },
+++	{ 0x0021d2, 0x0021d2 },
+++	{ 0x0021d4, 0x0021d4 },
+++	{ 0x0021e7, 0x0021e7 },
+++	{ 0x002200, 0x002200 },
+++	{ 0x002202, 0x002203 },
+++	{ 0x002207, 0x002208 },
+++	{ 0x00220b, 0x00220b },
+++	{ 0x00220f, 0x00220f },
+++	{ 0x002211, 0x002211 },
+++	{ 0x002215, 0x002215 },
+++	{ 0x00221a, 0x00221a },
+++	{ 0x00221d, 0x002220 },
+++	{ 0x002223, 0x002223 },
+++	{ 0x002225, 0x002225 },
+++	{ 0x002227, 0x00222c },
+++	{ 0x00222e, 0x00222e },
+++	{ 0x002234, 0x002237 },
+++	{ 0x00223c, 0x00223d },
+++	{ 0x002248, 0x002248 },
+++	{ 0x00224c, 0x00224c },
+++	{ 0x002252, 0x002252 },
+++	{ 0x002260, 0x002261 },
+++	{ 0x002264, 0x002267 },
+++	{ 0x00226a, 0x00226b },
+++	{ 0x00226e, 0x00226f },
+++	{ 0x002282, 0x002283 },
+++	{ 0x002286, 0x002287 },
+++	{ 0x002295, 0x002295 },
+++	{ 0x002299, 0x002299 },
+++	{ 0x0022a5, 0x0022a5 },
+++	{ 0x0022bf, 0x0022bf },
+++	{ 0x002312, 0x002312 },
+++	{ 0x002460, 0x0024e9 },
+++	{ 0x0024eb, 0x00254b },
+++	{ 0x002550, 0x002573 },
+++	{ 0x002580, 0x00258f },
+++	{ 0x002592, 0x002595 },
+++	{ 0x0025a0, 0x0025a1 },
+++	{ 0x0025a3, 0x0025a9 },
+++	{ 0x0025b2, 0x0025b3 },
+++	{ 0x0025b6, 0x0025b7 },
+++	{ 0x0025bc, 0x0025bd },
+++	{ 0x0025c0, 0x0025c1 },
+++	{ 0x0025c6, 0x0025c8 },
+++	{ 0x0025cb, 0x0025cb },
+++	{ 0x0025ce, 0x0025d1 },
+++	{ 0x0025e2, 0x0025e5 },
+++	{ 0x0025ef, 0x0025ef },
+++	{ 0x002605, 0x002606 },
+++	{ 0x002609, 0x002609 },
+++	{ 0x00260e, 0x00260f },
+++	{ 0x002614, 0x002615 },
+++	{ 0x00261c, 0x00261c },
+++	{ 0x00261e, 0x00261e },
+++	{ 0x002640, 0x002640 },
+++	{ 0x002642, 0x002642 },
+++	{ 0x002660, 0x002661 },
+++	{ 0x002663, 0x002665 },
+++	{ 0x002667, 0x00266a },
+++	{ 0x00266c, 0x00266d },
+++	{ 0x00266f, 0x00266f },
+++	{ 0x00269e, 0x00269f },
+++	{ 0x0026be, 0x0026bf },
+++	{ 0x0026c4, 0x0026cd },
+++	{ 0x0026cf, 0x0026e1 },
+++	{ 0x0026e3, 0x0026e3 },
+++	{ 0x0026e8, 0x0026ff },
+++	{ 0x00273d, 0x00273d },
+++	{ 0x002757, 0x002757 },
+++	{ 0x002776, 0x00277f },
+++	{ 0x002b55, 0x002b59 },
+++	{ 0x003248, 0x00324f },
+++	{ 0x00e000, 0x00f8ff },
+++	{ 0x00fe00, 0x00fe0f },
+++	{ 0x00fffd, 0x00fffd },
+++	{ 0x01f100, 0x01f10a },
+++	{ 0x01f110, 0x01f12d },
+++	{ 0x01f130, 0x01f169 },
+++	{ 0x01f170, 0x01f19a },
+++	{ 0x0e0100, 0x0e01ef },
+++	{ 0x0f0000, 0x0ffffd },
+++	{ 0x100000, 0x10fffd },
 + };
-+ 
-+ struct utf8_width_entry	*utf8_width_root = NULL;
-+ 
-+-int	utf8_overlap(struct utf8_width_entry *, struct utf8_width_entry *);
-+ u_int	utf8_combine(const struct utf8_data *);
-+ u_int	utf8_width(const struct utf8_data *);
 + 
 ++static int
 ++comp(const void *vkey, const void *vent)
 ++{
 ++	wchar_t key = *(wchar_t *)vkey;
-++	const struct wcwidth_entry *ent = (const struct wcwidth_entry *)vent;
+++	const struct ambiwidth_entry *ent =
+++	    (const struct ambiwidth_entry *)vent;
 ++
 ++	if (key < ent->first)
 ++		return -1;
@@ -630,11 +396,13 @@ new file mode 100644
 ++	else
 ++		return 0;
 ++}
+++#endif
 ++
-++int
+++static int
 ++my_wcwidth(wchar_t wc)
 ++{
-++	struct wcwidth_entry *item;
+++	struct ambiwidth_entry *item;
+++	int width;
 ++
 ++	/* C0 control codes */
 ++	if (wc == L'\0')
@@ -648,18 +416,25 @@ new file mode 100644
 ++	if (wc < 0xa0)
 ++		return -1;
 ++
-++	item = bsearch(&wc, (const void *)wcwidth_table,
-++		       sizeof(wcwidth_table) / sizeof(wcwidth_table[0]),
-++		       sizeof(wcwidth_table[0]), comp);
+++#ifdef __APPLE__
+++	if (0x03099 <= wc && wc <= 0x0309a)
+++		return 1;
+++#endif
 ++
-++	if (item != NULL) {
-++		if (item->flags & WCF_COMB)
-++			return 0;
-++		else if (item->flags & WCF_WIDE)
-++			return 2;
-++		else if (item->flags & WCF_AMBI)
-++			return ambiwidth;
-++	}
+++	width = wcwidth(wc);
+++
+++	if (width != 1)
+++		return width;
+++
+++#ifdef AMBIWIDTH
+++	item = (struct ambiwidth_entry *)
+++	    bsearch(&wc, (const void *)ambiwidth_table,
+++		    sizeof(ambiwidth_table) / sizeof(ambiwidth_table[0]),
+++		    sizeof(ambiwidth_table[0]), comp);
+++
+++	if (item != NULL)
+++		return 2;
+++#endif
 ++
 ++	return 1;
 ++}
@@ -682,10 +457,13 @@ new file mode 100644
 ++	return width;
 ++}
 ++
-+ /* Set a single character. */
-+ void
-+ utf8_set(struct utf8_data *utf8data, u_char ch)
-+@@ -257,46 +578,10 @@
++ struct utf8_width_entry	*utf8_width_root = NULL;
++ 
++-int	utf8_overlap(struct utf8_width_entry *, struct utf8_width_entry *);
++ u_int	utf8_combine(const struct utf8_data *);
++ u_int	utf8_width(const struct utf8_data *);
++ 
++@@ -257,46 +348,10 @@
 + 	return (0);
 + }
 + 
@@ -732,7 +510,7 @@ new file mode 100644
 + }
 + 
 + /* Combine UTF-8 into 32-bit Unicode. */
-+@@ -346,21 +631,7 @@
++@@ -346,21 +401,10 @@
 + u_int
 + utf8_width(const struct utf8_data *utf8data)
 + {
@@ -740,7 +518,8 @@ new file mode 100644
 +-	u_int			 value;
 +-
 +-	value = utf8_combine(utf8data);
-+-
+++	int width;
++ 
 +-	item = utf8_width_root;
 +-	while (item != NULL) {
 +-		if (value < item->first)
@@ -751,7 +530,8 @@ new file mode 100644
 +-			return (item->width);
 +-	}
 +-	return (1);
-++	return my_wcwidth(utf8_combine(utf8data));
+++	width = my_wcwidth(utf8_combine(utf8data));
+++	return (width < 0) ? 1 : width;
 + }
 + 
 + /*
