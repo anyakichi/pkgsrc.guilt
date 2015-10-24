@@ -1,14 +1,14 @@
 # HG changeset patch
 # User INAJIMA Daisuke <inajima@sopht.jp>
-# Parent  1955249163878621911e34e77de4bce6282a3e12
+# Parent  dae4a903aec3bdf04396906940b6dc7f2ad5bf86
 
 diff --git a/patches/comms/asterisk/res_timing_kqueue.c.patch b/patches/comms/asterisk/res_timing_kqueue.c.patch
 new file mode 100644
 --- /dev/null
 +++ b/patches/comms/asterisk/res_timing_kqueue.c.patch
-@@ -0,0 +1,452 @@
-+--- res/res_timing_kqueue.c.orig	2013-04-16 00:18:54.000000000 +0900
-++++ res/res_timing_kqueue.c	2015-07-01 08:56:15.000000000 +0900
+@@ -0,0 +1,453 @@
++--- res/res_timing_kqueue.c.orig	2015-10-08 01:01:17.000000000 +0900
+++++ res/res_timing_kqueue.c	2015-10-08 00:54:20.000000000 +0900
 +@@ -71,12 +71,87 @@
 + static struct ao2_container *kqueue_timers;
 + 
@@ -99,20 +99,22 @@ new file mode 100644
 + static int kqueue_timer_hash(const void *obj, const int flags)
 + {
 + 	const struct kqueue_timer *timer = obj;
-+@@ -90,12 +165,6 @@
++@@ -90,14 +165,6 @@
 + 	return timer1->handle == timer2->handle ? CMP_MATCH | CMP_STOP : 0;
 + }
 + 
 +-static void timer_destroy(void *obj)
 +-{
 +-	struct kqueue_timer *timer = obj;
-+-	close(timer->handle);
++-	if (timer->handle > -1) {
++-		close(timer->handle);
++-	}
 +-}
 +-
 + #define lookup_timer(a)	_lookup_timer(a, __FILE__, __LINE__, __PRETTY_FUNCTION__)
 + static struct kqueue_timer *_lookup_timer(int handle, const char *file, int line, const char *func)
 + {
-+@@ -112,170 +181,262 @@
++@@ -114,17 +181,33 @@
 + 	return our_timer;
 + }
 + 
@@ -132,17 +134,17 @@ new file mode 100644
 + 	if (!(timer = ao2_alloc(sizeof(*timer), timer_destroy))) {
 +-		ast_log(LOG_ERROR, "Could not allocate memory for kqueue_timer structure\n");
 ++		ast_log(LOG_ERROR, "Alloc failed for kqueue_timer structure\n");
-+ 		return -1;
-+ 	}
-+-	if ((handle = kqueue()) < 0) {
-+-		ast_log(LOG_ERROR, "Failed to create kqueue timer: %s\n", strerror(errno));
+++		return -1;
+++	}
 ++
 ++	if ((timer->handle = kqueue()) < 0) {
 ++		ast_log(LOG_ERROR, "Failed to create kqueue fd: %s\n",
 ++			strerror(errno));
 ++		ao2_ref(timer, -1);
-++		return -1;
-++	}
++ 		return -1;
++ 	}
++-	if ((timer->handle = handle = kqueue()) < 0) {
++-		ast_log(LOG_ERROR, "Failed to create kqueue timer: %s\n", strerror(errno));
 ++
 ++	if (kqueue_timer_init_continuous_event(timer) != 0) {
 ++		ast_log(LOG_ERROR, "Failed to create continuous event: %s\n",
@@ -150,8 +152,7 @@ new file mode 100644
 + 		ao2_ref(timer, -1);
 + 		return -1;
 + 	}
-+ 
-+-	timer->handle = handle;
++@@ -132,151 +215,228 @@
 + 	ao2_link(kqueue_timers, timer);
 + 	/* Get rid of the reference from the allocation */
 + 	ao2_ref(timer, -1);
