@@ -1,26 +1,26 @@
 # HG changeset patch
 # Parent 07a388bbaeae94a47786d79dd2f7b50006db37d1
-# Parent  5747324c0df46460f18f4620266e28ee1341a400
+# Parent  d2f2efb70489b8b4c2504482ca2135a25814c505
 
-diff --git a/inputmethod/skkserv-lite2/DESCR b/inputmethod/skkserv-lite2/DESCR
+diff --git a/inputmethod/ocaml-skkserv-lite/DESCR b/inputmethod/ocaml-skkserv-lite/DESCR
 new file mode 100644
 --- /dev/null
-+++ b/inputmethod/skkserv-lite2/DESCR
++++ b/inputmethod/ocaml-skkserv-lite/DESCR
 @@ -0,0 +1,3 @@
 +skkserv-lite is a skk server using sqlite3 dictionaries.
 +This server can use multiple dictionaries and respond to server
 +completion request.
-diff --git a/inputmethod/skkserv-lite2/Makefile b/inputmethod/skkserv-lite2/Makefile
+diff --git a/inputmethod/ocaml-skkserv-lite/Makefile b/inputmethod/ocaml-skkserv-lite/Makefile
 new file mode 100644
 --- /dev/null
-+++ b/inputmethod/skkserv-lite2/Makefile
-@@ -0,0 +1,43 @@
++++ b/inputmethod/ocaml-skkserv-lite/Makefile
+@@ -0,0 +1,41 @@
 +# $NetBSD$
 +
-+VERSION=		2.0b
++VERSION=		2.0.1
 +PKGNAME=		skkserv-lite-${VERSION}
 +CATEGORIES=		inputmethod
-+MASTER_SITES=		https://bitbucket.org/anyakichi/skkserv-lite2/get/
++MASTER_SITES=		https://github.com/anyakichi/ocaml-skkserv-lite/archive/
 +DISTNAME=		${VERSION}
 +DIST_SUBDIR=		${PKGNAME_NOREV}
 +
@@ -28,21 +28,18 @@ new file mode 100644
 +MASTER_SITES+=		${MASTER_SITE_FREEBSD_LOCAL:=matusita/skk-jisyo/}
 +
 +DISTFILES=		${DEFAULT_DISTFILES} ${SKK_JISYO_L}.bz2
-+FETCH_USING=		curl
 +
 +MAINTAINER=		pkgsrc-users@NetBSD.org
-+HOMEPAGE=		https://bitbucket.org/anyakichi/skkserv-lite2
++HOMEPAGE=		https://github.com/anyakichi/ocaml-skkserv-lite
 +COMMENT=		SKK server using sqlite3 dictionaries
 +LICENSE=		mit
-+
-+CONFLICTS+=		skkserv-lite2-[0-9]*
 +
 +RCD_SCRIPTS=		skkserv_lite
 +
 +INSTALLATION_DIRS+=	${PREFIX}/share/skk
 +SKK_JISYO_L_SQLITE=	SKK-JISYO.L.sqlite
 +
-+WRKSRC=			${WRKDIR}/anyakichi-skkserv-lite2-6f3d062c71f7
++WRKSRC=			${WRKDIR}/ocaml-skkserv-lite-${VERSION}
 +
 +post-build:
 +	${WRKSRC}/main.native -C -o ${WRKDIR}/${SKK_JISYO_L_SQLITE} \
@@ -56,34 +53,35 @@ new file mode 100644
 +
 +.include "../../mk/ocaml.mk"
 +.include "../../databases/ocaml-sqlite3/buildlink3.mk"
++.include "../../devel/ocaml-lwt/buildlink3.mk"
 +.include "../../wip/ocaml-camomile/buildlink3.mk"
 +.include "../../mk/bsd.pkg.mk"
-diff --git a/inputmethod/skkserv-lite2/PLIST b/inputmethod/skkserv-lite2/PLIST
+diff --git a/inputmethod/ocaml-skkserv-lite/PLIST b/inputmethod/ocaml-skkserv-lite/PLIST
 new file mode 100644
 --- /dev/null
-+++ b/inputmethod/skkserv-lite2/PLIST
++++ b/inputmethod/ocaml-skkserv-lite/PLIST
 @@ -0,0 +1,4 @@
 +@comment $NetBSD$
 +bin/skkserv-lite
 +share/examples/rc.d/skkserv_lite
 +share/skk/SKK-JISYO.L.sqlite
-diff --git a/inputmethod/skkserv-lite2/distinfo b/inputmethod/skkserv-lite2/distinfo
+diff --git a/inputmethod/ocaml-skkserv-lite/distinfo b/inputmethod/ocaml-skkserv-lite/distinfo
 new file mode 100644
 --- /dev/null
-+++ b/inputmethod/skkserv-lite2/distinfo
++++ b/inputmethod/ocaml-skkserv-lite/distinfo
 @@ -0,0 +1,8 @@
 +$NetBSD$
 +
-+SHA1 (skkserv-lite-2.0b/2.0b.tar.gz) = 0c595936d6285bd6dcf32cf9ad79d660bc473950
-+RMD160 (skkserv-lite-2.0b/2.0b.tar.gz) = acc19f2fb3d5eaa40effa7b508a1bc27e28e83b0
-+Size (skkserv-lite-2.0b/2.0b.tar.gz) = 43069 bytes
-+SHA1 (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 5ec3eb68ad3fcb763b12a016190ca641276439ef
-+RMD160 (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 098968704d3e44deca3050216008dc05a6d14008
-+Size (skkserv-lite-2.0b/SKK-JISYO.L.201305.bz2) = 1694148 bytes
-diff --git a/inputmethod/skkserv-lite2/files/skkserv_lite.sh b/inputmethod/skkserv-lite2/files/skkserv_lite.sh
++SHA1 (skkserv-lite-2.0.1/2.0.1.tar.gz) = 3c1783e55e682734a0d9dd571b9c1074f7636b28
++RMD160 (skkserv-lite-2.0.1/2.0.1.tar.gz) = 4615e3658985316c469b689e2c2f57e697e79a48
++Size (skkserv-lite-2.0.1/2.0.1.tar.gz) = 48639 bytes
++SHA1 (skkserv-lite-2.0.1/SKK-JISYO.L.201305.bz2) = 5ec3eb68ad3fcb763b12a016190ca641276439ef
++RMD160 (skkserv-lite-2.0.1/SKK-JISYO.L.201305.bz2) = 098968704d3e44deca3050216008dc05a6d14008
++Size (skkserv-lite-2.0.1/SKK-JISYO.L.201305.bz2) = 1694148 bytes
+diff --git a/inputmethod/ocaml-skkserv-lite/files/skkserv_lite.sh b/inputmethod/ocaml-skkserv-lite/files/skkserv_lite.sh
 new file mode 100644
 --- /dev/null
-+++ b/inputmethod/skkserv-lite2/files/skkserv_lite.sh
++++ b/inputmethod/ocaml-skkserv-lite/files/skkserv_lite.sh
 @@ -0,0 +1,26 @@
 +#!@RCD_SCRIPTS_SHELL@
 +#

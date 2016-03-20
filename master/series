@@ -37,7 +37,7 @@ ocaml-core
 asterisk-tid
 asterisk-kqueue
 omake-macosx
-skkserv-lite2
+ocaml-skkserv-lite
 mlterm-use-languages
 rxvt-unicode-wcwidth
 rxvt-unicode-codeset
