@@ -13,7 +13,6 @@ python27-sqlite3
 screen-cjkwidth
 screen-256color
 tmux-solaris
-tmux-no-utf8-acs
 tmux-utf8
 mercurial-cvsps
 py-docutils-ambi

@@ -1,8 +1,63 @@
 # HG changeset patch
-# Parent 1e92f388bca866be91d88369e7dec6a588de2fb6
+# Parent b02e199dd4511ab3bb6fa4b9583145d745014469
 # Parent  086fd2fbb679a49ce27f5e6a81d336ebbbecb0aa
 aa
 
+diff --git a/patches/misc/tmux/no-utf8-acs.patch b/patches/misc/tmux/no-utf8-acs.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/misc/tmux/no-utf8-acs.patch
+@@ -0,0 +1,50 @@
++--- server-client.c.orig	2015-09-27 18:42:08.000000000 +0900
+++++ server-client.c	2015-10-24 13:48:25.795601674 +0900
++@@ -1235,10 +1235,14 @@
++ 		return;
++ 	}
++ 	if (c->flags & CLIENT_UTF8)
++-		c->tty.flags |= TTY_UTF8;
+++		c->tty.flags |= TTY_UTF8 | TTY_UTF8_ACS;
++ 	if (c->flags & CLIENT_256COLOURS)
++ 		c->tty.term_flags |= TERM_256COLOURS;
++ 
+++	char *env = getenv("TMUX_NO_UTF8_ACS");
+++	if (env && strcmp("0", env) != 0)
+++		c->tty.flags &= ~TTY_UTF8_ACS;
+++
++ 	tty_resize(&c->tty);
++ 
++ 	if (!(c->flags & CLIENT_CONTROL))
++--- tmux.h.orig	2015-09-27 18:51:49.000000000 +0900
+++++ tmux.h	2015-10-24 13:26:39.745796432 +0900
++@@ -1118,6 +1118,7 @@
++ #define TTY_STARTED 0x10
++ #define TTY_OPENED 0x20
++ #define TTY_FOCUS 0x40
+++#define TTY_UTF8_ACS 0x8000
++ 	int		 flags;
++ 
++ 	int		 term_flags;
++--- tty-acs.c.orig	2014-11-21 05:44:57.000000000 +0900
+++++ tty-acs.c	2015-10-22 21:23:38.934933019 +0900
++@@ -81,7 +81,7 @@
++ 	struct tty_acs_entry *entry;
++ 
++ 	/* If not a UTF-8 terminal, use the ACS set. */
++-	if (tty != NULL && !(tty->flags & TTY_UTF8)) {
+++	if (tty != NULL && !(tty->flags & TTY_UTF8_ACS)) {
++ 		if (tty->term->acs[ch][0] == '\0')
++ 			return (NULL);
++ 		return (&tty->term->acs[ch][0]);
++--- tty.c.orig	2015-09-27 18:51:49.000000000 +0900
+++++ tty.c	2015-10-24 13:40:22.733122271 +0900
++@@ -54,7 +54,7 @@
++ void	tty_default_colours(struct grid_cell *, const struct window_pane *);
++ 
++ #define tty_use_acs(tty) \
++-	(tty_term_has((tty)->term, TTYC_ACSC) && !((tty)->flags & TTY_UTF8))
+++	(tty_term_has((tty)->term, TTYC_ACSC) && !((tty)->flags & TTY_UTF8_ACS))
++ 
++ #define tty_pane_full_width(tty, ctx) \
++ 	((ctx)->xoff == 0 && screen_size_x((ctx)->wp->screen) >= (tty)->sx)
 diff --git a/patches/misc/tmux/wcwidth.patch b/patches/misc/tmux/wcwidth.patch
 new file mode 100644
 --- /dev/null
@@ -16,8 +71,8 @@ new file mode 100644
 + 
 ++	setlocale(LC_CTYPE, "");
 + 	setlocale(LC_TIME, "");
++ 	tzset();
 + 
-+ 	flags = 0;
 +--- utf8.c.orig	2015-09-20 11:00:56.000000000 +0900
 ++++ utf8.c	2015-09-20 11:07:17.000000000 +0900
 +@@ -20,184 +20,275 @@
@@ -501,9 +556,9 @@ new file mode 100644
 +-		while (*ptr != NULL) {
 +-			node = *ptr;
 +-			if (item->last < node->first)
-+-				ptr = &(node->left);
++-				ptr = &node->left;
 +-			else if (item->first > node->last)
-+-				ptr = &(node->right);
++-				ptr = &node->right;
 +-		}
 +-		*ptr = item;
 +-	}
