@@ -1,10 +1,10 @@
 # HG changeset patch
-# Parent c6b10283d9342248712598aefb7fc999756e0670
+# Parent 2064ee9cf2739e471c8798366f17c74850c3283e
 
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
 --- a/mail/mutt/distinfo
 +++ b/mail/mutt/distinfo
-@@ -6,6 +6,12 @@ Size (mutt-1.5.24.tar.gz) = 3897115 byte
+@@ -7,6 +7,12 @@ Size (mutt-1.5.24.tar.gz) = 3897115 byte
  SHA1 (patch-1.5.24.rr.compressed.gz) = 8da54323dfc9c1049bf0411db2f552593793e99f
  RMD160 (patch-1.5.24.rr.compressed.gz) = 2bf71a26de195ce11ed4ffa25403363cab7c9b72
  Size (patch-1.5.24.rr.compressed.gz) = 10019 bytes
@@ -17,11 +17,12 @@ diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -20,3 +26,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
+@@ -21,4 +27,5 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
  SHA1 (patch-ao) = a5dddb01d30f28337ca825c6461139c2d9f288d5
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
+ SHA1 (patch-crypt.c) = 05cc74fe4ff2543029d82cbeedc27302db9ec4a7
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
@@ -30,10 +31,10 @@ diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
  PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
  PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
 +PKG_SUPPORTED_OPTIONS+=	mutt-wcwidth
- PKG_SUGGESTED_OPTIONS=	ssl smime curses
+ PKG_SUGGESTED_OPTIONS=	curses gpgme mutt-hcache mutt-smtp smime ssl
  # un-comment out the following lines whenever updating distinfo
  # and patches are up-to-date
-@@ -186,3 +187,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
+@@ -185,3 +186,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
