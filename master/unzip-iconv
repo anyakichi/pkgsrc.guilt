@@ -1,0 +1,39 @@
+# HG changeset patch
+# Parent  512fc2d733638541c50c3875d0af221f8386f3e8
+
+diff --git a/archivers/unzip/Makefile b/archivers/unzip/Makefile
+--- a/archivers/unzip/Makefile
++++ b/archivers/unzip/Makefile
+@@ -42,6 +42,13 @@ CPPFLAGS+=	-DUNIX -Dunix -DUSE_UNSHRINK 
+ CPPFLAGS+=	-DLARGE_FILE_SUPPORT
+ .endif
+ 
++# unzip-iconv
++PATCH_SITES+=           http://www.conostix.com/pub/adv/
++PATCHFILES+=            06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch
++PATCH_DIST_STRIP=       -p1
++PATCH_FUZZ_FACTOR=      -F1
++CPPFLAGS+=		-DUNICODE_SUPPORT -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE -DNO_WORKING_ISPRINT
++
+ MAKE_FLAGS+=	CF=${CPPFLAGS:Q}\ ${CFLAGS:Q}
+ MAKE_FLAGS+=	LF2=${_STRIPFLAG_CC:Q}\ ${LDFLAGS:Q}\ -lz
+ 
+@@ -60,5 +67,6 @@ do-install:
+ 	cd ${WRKSRC} && ${INSTALL_DATA} COPYING.OLD \
+ 		${DESTDIR}${PREFIX}/share/doc/unzip
+ 
++.include "../../converters/libiconv/buildlink3.mk"
+ .include "../../devel/zlib/buildlink3.mk"
+ .include "../../mk/bsd.pkg.mk"
+diff --git a/archivers/unzip/distinfo b/archivers/unzip/distinfo
+--- a/archivers/unzip/distinfo
++++ b/archivers/unzip/distinfo
+@@ -1,5 +1,8 @@
+ $NetBSD: distinfo,v 1.29 2015/11/11 12:47:26 wiz Exp $
+ 
++SHA1 (06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch) = 9b5d552cc6ab1f9e8b74fbbbcebfee84d46218c2
++RMD160 (06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch) = 2d91d71670f09ce278411407bb712b42c4d83499
++Size (06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch) = 14356 bytes
+ SHA1 (unzip60.tgz) = abf7de8a4018a983590ed6f5cbd990d4740f8a22
+ RMD160 (unzip60.tgz) = 48af66606e9472e45fbb94bc4e285da23d1b89ba
+ SHA512 (unzip60.tgz) = 0694e403ebc57b37218e00ec1a406cae5cc9c5b52b6798e0d4590840b6cdbf9ddc0d9471f67af783e960f8fa2e620394d51384257dca23d06bcd90224a80ce5d
