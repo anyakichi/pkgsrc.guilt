@@ -1,9 +1,18 @@
 # HG changeset patch
-# Parent  512fc2d733638541c50c3875d0af221f8386f3e8
+# Parent  940c10078243fbfb598cb6528d8d777bfedcfb12
 
 diff --git a/archivers/unzip/Makefile b/archivers/unzip/Makefile
 --- a/archivers/unzip/Makefile
 +++ b/archivers/unzip/Makefile
+@@ -21,7 +21,7 @@ CONFLICTS=	fcrackzip<1.0nb1
+ .include "../../mk/bsd.prefs.mk"
+ 
+ MAKE_FILE=	unix/Makefile
+-BUILD_TARGET=	generic_zlib unzipsfx
++BUILD_TARGET=	unzips
+ 
+ .if ${OPSYS:M*BSD} != "" || ${OPSYS} == "Darwin"
+ CPPFLAGS+=	-DBSD
 @@ -42,6 +42,13 @@ CPPFLAGS+=	-DUNIX -Dunix -DUSE_UNSHRINK 
  CPPFLAGS+=	-DLARGE_FILE_SUPPORT
  .endif
