@@ -1,13 +1,13 @@
 # HG changeset patch
-# Parent 2064ee9cf2739e471c8798366f17c74850c3283e
+# Parent 2d32efe9b85d13ee0737960926a2c8019d144f77
 
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
 --- a/mail/mutt/distinfo
 +++ b/mail/mutt/distinfo
-@@ -7,6 +7,12 @@ Size (mutt-1.5.24.tar.gz) = 3897115 byte
- SHA1 (patch-1.5.24.rr.compressed.gz) = 8da54323dfc9c1049bf0411db2f552593793e99f
- RMD160 (patch-1.5.24.rr.compressed.gz) = 2bf71a26de195ce11ed4ffa25403363cab7c9b72
- Size (patch-1.5.24.rr.compressed.gz) = 10019 bytes
+@@ -8,6 +8,12 @@ SHA1 (patch-1.6.0.rr.compressed.gz) = 9a
+ RMD160 (patch-1.6.0.rr.compressed.gz) = f648b17a84b48c3e8529f45df48ff8bce908dc08
+ SHA512 (patch-1.6.0.rr.compressed.gz) = 2b37b84cb930bcc3809910c400298e798d293d7c351b58b59b44d76f48263af1c068a282c6a3baa7de8f42a23c0a86a4dabb11919be892356eff5bf303b199d9
+ Size (patch-1.6.0.rr.compressed.gz) = 9977 bytes
 +SHA1 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 8341017c0d12185b090f5b1151de12b174708bdc
 +RMD160 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 17e32afff173656fe974fcd00a1f035da1995ced
 +Size (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 1568 bytes
@@ -17,12 +17,11 @@ diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -21,4 +27,5 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
+@@ -22,3 +28,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
  SHA1 (patch-ao) = a5dddb01d30f28337ca825c6461139c2d9f288d5
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
- SHA1 (patch-crypt.c) = 05cc74fe4ff2543029d82cbeedc27302db9ec4a7
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
@@ -32,9 +31,9 @@ diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
  PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
 +PKG_SUPPORTED_OPTIONS+=	mutt-wcwidth
  PKG_SUGGESTED_OPTIONS=	curses gpgme mutt-hcache mutt-smtp smime ssl
+ PKG_SUGGESTED_OPTIONS+=	mutt-compressed-mbox
  # un-comment out the following lines whenever updating distinfo
- # and patches are up-to-date
-@@ -185,3 +186,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
+@@ -189,3 +190,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
