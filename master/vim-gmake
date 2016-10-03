@@ -1,13 +1,13 @@
 # HG changeset patch
-# Parent ad9fd8672a321b8e106ab1dc52bb8369871e1d72
+# Parent 5d530cfbf1e753ca750a330bdf7c6f9e87f71164
 
 diff --git a/editors/vim-share/Makefile.common b/editors/vim-share/Makefile.common
 --- a/editors/vim-share/Makefile.common
 +++ b/editors/vim-share/Makefile.common
-@@ -24,6 +24,7 @@ CONFLICTS+=		vim-kde-[0-9]*
- 
+@@ -25,6 +25,7 @@ CONFLICTS+=		vim-kde-[0-9]*
  WRKSRC=			${WRKDIR}/${VIM_SUBDIR}/src
  GNU_CONFIGURE=		yes
+ USE_LANGUAGES+=		c99
 +USE_TOOLS+=		gmake
  
  # http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=38710

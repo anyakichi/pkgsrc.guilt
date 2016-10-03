@@ -1,5 +1,5 @@
 # HG changeset patch
-# Parent 2d32efe9b85d13ee0737960926a2c8019d144f77
+# Parent 7e2ddc7d159b12564e0af14b5ed768391cce473f
 
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
 --- a/mail/mutt/distinfo
@@ -18,22 +18,22 @@ diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
 @@ -22,3 +28,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
- SHA1 (patch-ao) = a5dddb01d30f28337ca825c6461139c2d9f288d5
+ SHA1 (patch-ao) = 7c8f18ccb3dc6a6f40daf55b53e52b4722f60efd
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
-@@ -9,6 +9,7 @@ PKG_SUPPORTED_OPTIONS=	debug gpgme idn s
+@@ -8,6 +8,7 @@ PKG_OPTIONS_GROUP.display=	slang ncurses
+ PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
  PKG_SUPPORTED_OPTIONS+=	mutt-hcache tokyocabinet mutt-smtp
  PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
- PKG_SUPPORTED_OPTIONS+=	mutt-sidebar
 +PKG_SUPPORTED_OPTIONS+=	mutt-wcwidth
  PKG_SUGGESTED_OPTIONS=	curses gpgme mutt-hcache mutt-smtp smime ssl
- PKG_SUGGESTED_OPTIONS+=	mutt-compressed-mbox
- # un-comment out the following lines whenever updating distinfo
-@@ -189,3 +190,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
+ # patch does not apply
+ #PKG_SUGGESTED_OPTIONS+=	mutt-compressed-mbox
+@@ -176,3 +177,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
