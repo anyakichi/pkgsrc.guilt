@@ -1,10 +1,7 @@
-# HG changeset patch
-# Parent d3307f1ec7ef1ec94bdc0d05fd0ab136d2b82398
-# Parent  086fd2fbb679a49ce27f5e6a81d336ebbbecb0aa
-aa
-
+Ambiguous width characters support for tmux
 diff --git a/patches/misc/tmux/no-utf8-acs.patch b/patches/misc/tmux/no-utf8-acs.patch
 new file mode 100644
+index 0000000..3d73909
 --- /dev/null
 +++ b/patches/misc/tmux/no-utf8-acs.patch
 @@ -0,0 +1,50 @@
@@ -60,12 +57,13 @@ new file mode 100644
 + 	((ctx)->xoff == 0 && screen_size_x((ctx)->wp->screen) >= (tty)->sx)
 diff --git a/patches/misc/tmux/wcwidth.patch b/patches/misc/tmux/wcwidth.patch
 new file mode 100644
+index 0000000..abdff9c
 --- /dev/null
 +++ b/patches/misc/tmux/wcwidth.patch
 @@ -0,0 +1,280 @@
-+--- utf8.c.orig	2016-03-03 03:29:06.000000000 +0900
-++++ utf8.c	2016-08-08 11:51:35.000000000 +0900
-+@@ -26,6 +26,268 @@
++--- utf8.c.orig	2016-09-05 07:36:29.000000000 +0900
+++++ utf8.c	2017-01-11 00:10:01.000000000 +0900
++@@ -27,6 +27,268 @@
 + 
 + static int	utf8_width(wchar_t);
 + 
@@ -334,12 +332,12 @@ new file mode 100644
 + /* Set a single character. */
 + void
 + utf8_set(struct utf8_data *ud, u_char ch)
-+@@ -114,7 +376,7 @@
-+ {
-+ 	int	width;
-+ 
++@@ -112,7 +374,7 @@
++ #ifdef HAVE_UTF8PROC
++ 	width = utf8proc_wcwidth(wc);
++ #else
 +-	width = wcwidth(wc);
 ++	width = my_wcwidth(wc);
-+ 	if (width < 0 || width > 0xff)
-+ 		return (-1);
-+ 	return (width);
++ #endif
++ 	if (width < 0 || width > 0xff) {
++ 		log_debug("Unicode %04x, wcwidth() %d", wc, width);
