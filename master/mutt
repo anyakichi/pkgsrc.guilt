@@ -1,31 +1,37 @@
-# HG changeset patch
-# Parent 7e2ddc7d159b12564e0af14b5ed768391cce473f
-
+Mutt with ckjwidth support
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
+index 50fe7d7766..41dab8269c 100644
 --- a/mail/mutt/distinfo
 +++ b/mail/mutt/distinfo
-@@ -8,6 +8,12 @@ SHA1 (patch-1.6.0.rr.compressed.gz) = 9a
- RMD160 (patch-1.6.0.rr.compressed.gz) = f648b17a84b48c3e8529f45df48ff8bce908dc08
- SHA512 (patch-1.6.0.rr.compressed.gz) = 2b37b84cb930bcc3809910c400298e798d293d7c351b58b59b44d76f48263af1c068a282c6a3baa7de8f42a23c0a86a4dabb11919be892356eff5bf303b199d9
- Size (patch-1.6.0.rr.compressed.gz) = 9977 bytes
-+SHA1 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 8341017c0d12185b090f5b1151de12b174708bdc
-+RMD160 (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 17e32afff173656fe974fcd00a1f035da1995ced
-+Size (patch-1.5.23.tt.cjk_width_tree_chars.1.gz) = 1568 bytes
+@@ -4,10 +4,14 @@ SHA1 (mutt-1.7.2.tar.gz) = 39be2b552b99ed16f263487017c68cdbc1c7b384
+ RMD160 (mutt-1.7.2.tar.gz) = 85ce9a9dde6daefbfdc70b61f243433b0e304c14
+ SHA512 (mutt-1.7.2.tar.gz) = 5f13cbdf802bca80668b2f54bc66201d01bfe34c7f377b1bad88f8fa0e0c695264ff0bf6b64ae9bb6f5a3e22b6f096d2dd99fa36724937609f6f46e6a74da74e
+ Size (mutt-1.7.2.tar.gz) = 4025880 bytes
+-SHA1 (patch-1.7.1.rr.compressed.gz) = 76c494867b9cde2b51331a2a8c908fbc5dd8865d
+-RMD160 (patch-1.7.1.rr.compressed.gz) = f55e742717b74485ca6601c7f89aea4d8327bbfc
+-SHA512 (patch-1.7.1.rr.compressed.gz) = 6cf6b8e48f25aabe4c9f895143afd972e42ea7cfd995dfd247510ef4673928bf27c20a9a312735a79f98200638e746865ab9559c1b81901d025ed657b29ef19a
+-Size (patch-1.7.1.rr.compressed.gz) = 9985 bytes
 +SHA1 (patch-1.5.23.tt.wcwidth.1.gz) = 8a33bbc1c770e903144fb86771a4a187560ad4d8
 +RMD160 (patch-1.5.23.tt.wcwidth.1.gz) = 6b5826911de08322c63e33f90b65cd8a18790126
++SHA512 (patch-1.5.23.tt.wcwidth.1.gz) = a829082cba330fb978889645049986d6e2e3e4806f369622b1cb02951102c45e157a9b53e0d9aaf33730c7f94991d5179f11494e909793f494e320af0cbc669a
 +Size (patch-1.5.23.tt.wcwidth.1.gz) = 8587 bytes
++SHA1 (patch-1.7.2.rr.compressed.gz) = 355e8bed4c063e463a01cb4638b42346e2133be6
++RMD160 (patch-1.7.2.rr.compressed.gz) = 9c21fd884ce137060f4464bbe4368632e19d06e8
++SHA512 (patch-1.7.2.rr.compressed.gz) = cdb7926afece08c4edce6e820024779096c47541c4b7ed0ccd37b4bfa12dfd0c4b4b47a4c54c38eb82436b40a959df0e68a0c6e9d0aacd9cd5ce9dcc2bdd08f6
++Size (patch-1.7.2.rr.compressed.gz) = 9944 bytes
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -22,3 +28,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0
+@@ -22,3 +26,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0edf0ce112f769664a1
  SHA1 (patch-ao) = 7c8f18ccb3dc6a6f40daf55b53e52b4722f60efd
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
+index 8a623480bb..41eb3fa523 100644
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
-@@ -8,6 +8,7 @@ PKG_OPTIONS_GROUP.display=	slang ncurses
+@@ -8,6 +8,7 @@ PKG_OPTIONS_GROUP.display=	slang ncurses ncursesw curses
  PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
  PKG_SUPPORTED_OPTIONS+=	mutt-hcache tokyocabinet mutt-smtp
  PKG_SUPPORTED_OPTIONS+=	mutt-compressed-mbox
@@ -33,7 +39,7 @@ diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
  PKG_SUGGESTED_OPTIONS=	curses gpgme mutt-hcache mutt-smtp smime ssl
  # patch does not apply
  #PKG_SUGGESTED_OPTIONS+=	mutt-compressed-mbox
-@@ -176,3 +177,20 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${B
+@@ -173,3 +174,19 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${BUILDLINK_PREFIX.gpgme}
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
@@ -44,7 +50,6 @@ diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
 +.if !empty(PKG_OPTIONS:Mmutt-wcwidth)
 +PATCH_SITES+=		http://emaillab.jp/pub/mutt/1.5/
 +PATCHFILES+=		patch-1.5.23.tt.wcwidth.1.gz
-+PATCHFILES+=		patch-1.5.23.tt.cjk_width_tree_chars.1.gz
 +PATCH_DIST_STRIP=	-p1
 +PATCH_FUZZ_FACTOR=	-F1
 +CONFIGURE_ARGS+=	--enable-cjk-ambiguous-width
@@ -56,6 +61,7 @@ diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
 +.endif
 diff --git a/mail/mutt/patches/patch-configure.ac b/mail/mutt/patches/patch-configure.ac
 new file mode 100644
+index 0000000000..9c89fcb7ed
 --- /dev/null
 +++ b/mail/mutt/patches/patch-configure.ac
 @@ -0,0 +1,31 @@
