@@ -1,14 +1,13 @@
-# HG changeset patch
-# Parent a12a4e337e60b593168552b0e28c3724e18fd9fd
-
-diff -r a12a4e337e60 patches/lang/python27/py-sqlite3.patch
---- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/patches/lang/python27/py-sqlite3.patch	Wed Jan 21 17:27:41 2015 +0900
+diff --git a/patches/lang/python27/py-sqlite3.patch b/patches/lang/python27/py-sqlite3.patch
+new file mode 100644
+index 0000000000..8b904ea3b5
+--- /dev/null
++++ b/patches/lang/python27/py-sqlite3.patch
 @@ -0,0 +1,63 @@
 +diff -ur Modules/_sqlite/connection.c.orig Modules/_sqlite/connection.c
 +--- Modules/_sqlite/connection.c.orig	2012-07-10 12:54:11.000000000 +0900
 ++++ Modules/_sqlite/connection.c	2012-07-10 12:55:19.000000000 +0900
-+@@ -414,7 +414,7 @@
++@@ -424,7 +424,7 @@
 +     sqlite3_stmt* statement;
 + 
 +     Py_BEGIN_ALLOW_THREADS
@@ -17,8 +16,8 @@ diff -r a12a4e337e60 patches/lang/python27/py-sqlite3.patch
 +     Py_END_ALLOW_THREADS
 + 
 +     if (rc != SQLITE_OK) {
-+@@ -460,7 +460,7 @@
-+         pysqlite_do_all_statements(self, ACTION_RESET, 0);
++@@ -469,7 +469,7 @@
++     if (self->inTransaction) {
 + 
 +         Py_BEGIN_ALLOW_THREADS
 +-        rc = sqlite3_prepare(self->db, "COMMIT", -1, &statement, &tail);
@@ -26,7 +25,7 @@ diff -r a12a4e337e60 patches/lang/python27/py-sqlite3.patch
 +         Py_END_ALLOW_THREADS
 +         if (rc != SQLITE_OK) {
 +             _pysqlite_seterror(self->db, NULL);
-+@@ -506,7 +506,7 @@
++@@ -515,7 +515,7 @@
 +         pysqlite_do_all_statements(self, ACTION_RESET, 1);
 + 
 +         Py_BEGIN_ALLOW_THREADS

@@ -6,7 +6,6 @@ py-vim_bridge-0.5
 x11-links-xquarts
 py-sqlite3-localpatch
 ncursesw-ext-colors
-py-curses-ncursesw
 vim-share-nostrip
 py-sphinx-blockdiag-1.2.0
 python27-sqlite3
