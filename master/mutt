@@ -1,12 +1,12 @@
 Mutt with ckjwidth support
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
-index 311a24311e..94e29e377b 100644
+index ed051d3c9a..bc7b32958d 100644
 --- a/mail/mutt/distinfo
 +++ b/mail/mutt/distinfo
-@@ -4,6 +4,10 @@ SHA1 (mutt-1.8.0.tar.gz) = faddcf7b8044eb7f1887d61f5ffcc086fb2122ef
- RMD160 (mutt-1.8.0.tar.gz) = c3c4f716d100aff840c96c734208b24766430d24
- SHA512 (mutt-1.8.0.tar.gz) = 20120baa1d6c528281ba02faf8f19a3cbe3fce5bb5907a3513d3ec98592cd63db2b5f02884002c45dc18a4947d5cf2ac30e2ca4e059ad7a37ca0b22734e3bf1d
- Size (mutt-1.8.0.tar.gz) = 4116223 bytes
+@@ -4,6 +4,10 @@ SHA1 (mutt-1.9.1.tar.gz) = 1046bcb9d69dae36a888aeedd2568c09d63fa1e9
+ RMD160 (mutt-1.9.1.tar.gz) = cbad7580c187f72c34aa0fa0f5cc8b9bc010a3a1
+ SHA512 (mutt-1.9.1.tar.gz) = 1a6871eb8499c60ae18b03d56b81e64de1643c68f8fbe05bbe114085b20098be58175e5bd6d2515e8332a824cbed75640744a261d4f10654c56625f903224095
+ Size (mutt-1.9.1.tar.gz) = 4193868 bytes
 +SHA1 (patch-1.5.23.tt.wcwidth.1.gz) = 8a33bbc1c770e903144fb86771a4a187560ad4d8
 +RMD160 (patch-1.5.23.tt.wcwidth.1.gz) = 6b5826911de08322c63e33f90b65cd8a18790126
 +SHA512 (patch-1.5.23.tt.wcwidth.1.gz) = a829082cba330fb978889645049986d6e2e3e4806f369622b1cb02951102c45e157a9b53e0d9aaf33730c7f94991d5179f11494e909793f494e320af0cbc669a
@@ -14,24 +14,24 @@ index 311a24311e..94e29e377b 100644
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -18,3 +22,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0edf0ce112f769664a1
- SHA1 (patch-ao) = 7c8f18ccb3dc6a6f40daf55b53e52b4722f60efd
+@@ -17,3 +21,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0edf0ce112f769664a1
+ SHA1 (patch-ao) = 82b7ee877917d1ac5f8aea3e1b0fa8ea0b296325
  SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
-index d5d7622311..8ab45f3c96 100644
+index 6abf2baa7f..f643638a33 100644
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
 @@ -9,6 +9,7 @@ PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
  # TODO: add kyoto cabinet and lmdb backend options for header cache
- PKG_SUPPORTED_OPTIONS+=	mutt-hcache tokyocabinet mutt-smtp
+ PKG_SUPPORTED_OPTIONS+=	mutt-hcache mutt-compressed-mbox tokyocabinet mutt-smtp
  PKG_SUPPORTED_OPTIONS+=	gssapi
 +PKG_SUPPORTED_OPTIONS+=	mutt-wcwidth
  PKG_SUGGESTED_OPTIONS=	curses gpgme mutt-hcache mutt-smtp smime ssl
- PKG_SUGGESTED_OPTIONS+= gssapi
+ PKG_SUGGESTED_OPTIONS+= gssapi mutt-compressed-mbox
  PKG_OPTIONS_LEGACY_OPTS+=	ncurses:curses ncursesw:wide-curses
-@@ -141,3 +142,19 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${BUILDLINK_PREFIX.gpgme}
+@@ -150,3 +151,19 @@ CONFIGURE_ARGS+=	--with-gpgme-prefix=${BUILDLINK_PREFIX.gpgme}
  .else
  CONFIGURE_ARGS+=	--disable-gpgme
  .endif
