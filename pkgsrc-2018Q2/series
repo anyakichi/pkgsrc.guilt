@@ -1,6 +1,5 @@
 mutt
 skkserv-lite
-hgsubversion
 serendipity-1.6.2
 py-vim_bridge-0.5
 x11-links-xquarts
@@ -11,7 +10,6 @@ py-sphinx-blockdiag-1.2.0
 python27-sqlite3
 tmux-solaris
 tmux-utf8
-mercurial-cvsps
 py-docutils-ambi
 xfce4-panel-tray
 uim-macosx
