@@ -5,9 +5,10 @@ rxvt-unicode: Ambiguous width character support.
 
 diff --git a/patches/x11/rxvt-unicode/wcwidth.patch b/patches/x11/rxvt-unicode/wcwidth.patch
 new file mode 100644
+index 000000000..b0c8e93e7
 --- /dev/null
 +++ b/patches/x11/rxvt-unicode/wcwidth.patch
-@@ -0,0 +1,283 @@
+@@ -0,0 +1,287 @@
 +--- src/Makefile.in	2015-01-01 01:02:45.000000000 +0900
 ++++ src/Makefile.in	2015-07-01 20:51:29.000000000 +0900
 +@@ -40,7 +40,7 @@
@@ -175,9 +176,13 @@ new file mode 100644
 ++	{ 0x002312, 0x002312 },
 ++	{ 0x002460, 0x0024e9 },
 ++	{ 0x0024eb, 0x00254b },
-++	{ 0x002550, 0x002573 },
+++	{ 0x0024eb, 0x0024ff },
+++#if 0
+++	/* linedraw characters */
+++	{ 0x002500, 0x002573 },
 ++	{ 0x002580, 0x00258f },
 ++	{ 0x002592, 0x002595 },
+++#endif
 ++	{ 0x0025a0, 0x0025a1 },
 ++	{ 0x0025a3, 0x0025a9 },
 ++	{ 0x0025b2, 0x0025b3 },
