@@ -1,13 +1,7 @@
 mutt
 serendipity-1.6.2
-ncursesw-ext-colors
 tmux-utf8
-xfce4-panel-tray
-libiconv-japanese
-cocot
-mlterm-use-languages
 rxvt-unicode-wcwidth
 rxvt-unicode-codeset
 rxvt-unicode-im
 unzip-iconv
-vim-lua
