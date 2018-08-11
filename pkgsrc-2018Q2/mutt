@@ -1,12 +1,12 @@
 Mutt with ckjwidth support
 diff --git a/mail/mutt/distinfo b/mail/mutt/distinfo
-index ed051d3c9a..bc7b32958d 100644
+index 382936ab9..a57799aac 100644
 --- a/mail/mutt/distinfo
 +++ b/mail/mutt/distinfo
-@@ -4,6 +4,10 @@ SHA1 (mutt-1.9.1.tar.gz) = 1046bcb9d69dae36a888aeedd2568c09d63fa1e9
- RMD160 (mutt-1.9.1.tar.gz) = cbad7580c187f72c34aa0fa0f5cc8b9bc010a3a1
- SHA512 (mutt-1.9.1.tar.gz) = 1a6871eb8499c60ae18b03d56b81e64de1643c68f8fbe05bbe114085b20098be58175e5bd6d2515e8332a824cbed75640744a261d4f10654c56625f903224095
- Size (mutt-1.9.1.tar.gz) = 4193868 bytes
+@@ -4,6 +4,10 @@ SHA1 (mutt-1.10.1.tar.gz) = 584c3a5cd604813749da4d90c8c457a143ccd746
+ RMD160 (mutt-1.10.1.tar.gz) = aa86932d3d34fa8f57281fdf0abc8776ccbe595a
+ SHA512 (mutt-1.10.1.tar.gz) = 13509ff159c65e23614696967b4bd8baf7b8e16c0e85cfd89e2df8201de2dc97e6c4a426f5919f05051dee2b14f847c7203e0b236931d3cdf81dbbb221551726
+ Size (mutt-1.10.1.tar.gz) = 4255890 bytes
 +SHA1 (patch-1.5.23.tt.wcwidth.1.gz) = 8a33bbc1c770e903144fb86771a4a187560ad4d8
 +RMD160 (patch-1.5.23.tt.wcwidth.1.gz) = 6b5826911de08322c63e33f90b65cd8a18790126
 +SHA512 (patch-1.5.23.tt.wcwidth.1.gz) = a829082cba330fb978889645049986d6e2e3e4806f369622b1cb02951102c45e157a9b53e0d9aaf33730c7f94991d5179f11494e909793f494e320af0cbc669a
@@ -14,13 +14,13 @@ index ed051d3c9a..bc7b32958d 100644
  SHA1 (patch-aa) = 59d89dce24110be2927c8a1ea1fa5b780d644372
  SHA1 (patch-ab) = 7c307068e129eb71ba251d175186dc9c5b171681
  SHA1 (patch-ac) = 40d119b7efed1a4622c42badc9ee97349b504044
-@@ -17,3 +21,4 @@ SHA1 (patch-an) = b9cc3e957bb1650c8e22c0edf0ce112f769664a1
- SHA1 (patch-ao) = 82b7ee877917d1ac5f8aea3e1b0fa8ea0b296325
- SHA1 (patch-ap) = c6f79d5c4e19efdc15e9d5a59934da52b16b7a62
+@@ -14,3 +18,4 @@ SHA1 (patch-ah) = 047f167939367b2e0d29189348deb1c83d4b013a
+ SHA1 (patch-al) = 65f22d4ec1536f8eabbee4f6b0f825d725f56ed7
+ SHA1 (patch-ap) = b26c1cbc107831d075edf7ced54d34f10552b666
  SHA1 (patch-aq) = e363d8929ced9731a31af1137b111d3476a3d05d
 +SHA1 (patch-configure.ac) = 61b2451c1353183c539d134324a38de7d2084193
 diff --git a/mail/mutt/options.mk b/mail/mutt/options.mk
-index 6abf2baa7f..f643638a33 100644
+index 6abf2baa7..f643638a3 100644
 --- a/mail/mutt/options.mk
 +++ b/mail/mutt/options.mk
 @@ -9,6 +9,7 @@ PKG_SUPPORTED_OPTIONS=	debug gpgme idn ssl smime sasl
@@ -53,7 +53,7 @@ index 6abf2baa7f..f643638a33 100644
 +.endif
 diff --git a/mail/mutt/patches/patch-configure.ac b/mail/mutt/patches/patch-configure.ac
 new file mode 100644
-index 0000000000..9c89fcb7ed
+index 000000000..9c89fcb7e
 --- /dev/null
 +++ b/mail/mutt/patches/patch-configure.ac
 @@ -0,0 +1,31 @@
